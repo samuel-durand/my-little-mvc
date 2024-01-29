@@ -3,7 +3,7 @@
 namespace App\Model\Abstract;
 
 use App\Model\Category;
-
+use App\Model\DatabaseConnexion;
 abstract class AbstractProduct
 {
 
@@ -24,6 +24,7 @@ abstract class AbstractProduct
     protected ?\DateTime $createdAt = null;
 
     protected ?\DateTime $updatedAt = null;
+
 
     public function __construct(
         ?int       $id = null,
@@ -46,6 +47,7 @@ abstract class AbstractProduct
         $this->category_id = $category_id;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
 
     public function getId(): ?int
@@ -149,9 +151,8 @@ abstract class AbstractProduct
 
     public function getCategory(): Category|false
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "SELECT * FROM category WHERE id = :id";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':id', $this->category_id);
         $statement->execute();
         $category = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -170,9 +171,8 @@ abstract class AbstractProduct
 
     public function findOneById(int $id): static|false
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "SELECT * FROM product WHERE id = :id";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':id', $id);
         $statement->execute();
         $product = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -195,9 +195,8 @@ abstract class AbstractProduct
 
     public function findAll(): array
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "SELECT * FROM product";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->execute();
         $products = $statement->fetchAll(\PDO::FETCH_ASSOC);
         $results = [];
@@ -220,9 +219,8 @@ abstract class AbstractProduct
 
     public function create(): static
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "INSERT INTO product (name, photos, price, description, quantity, category_id, created_at, updated_at) VALUES (:name, :photos, :price, :description, :quantity, :category_id, :created_at, :updated_at)";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':name', $this->name);
         $statement->bindValue(':photos', json_encode($this->photos));
         $statement->bindValue(':price', $this->price);
@@ -238,9 +236,8 @@ abstract class AbstractProduct
 
     public function update(): static
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "UPDATE product SET name = :name, photos = :photos, price = :price, description = :description, quantity = :quantity, category_id = :category_id, updated_at = :updated_at WHERE id = :id";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':id', $this->id);
         $statement->bindValue(':name', $this->name);
         $statement->bindValue(':photos', json_encode($this->photos));
@@ -253,4 +250,18 @@ abstract class AbstractProduct
         return $this;
     }
 
+    public function hydrate(array $data): static
+    {
+        $this->id = $data['id'];
+        $this->name = $data['name'];
+        $this->photos = json_decode($data['photos'], true);
+        $this->price = $data['price'];
+        $this->description = $data['description'];
+        $this->quantity = $data['quantity'];
+        $this->createdAt = new \DateTime($data['created_at']);
+        $this->updatedAt = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->category_id = $data['category_id'];
+
+        return $this;
+    }
 }

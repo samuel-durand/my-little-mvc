@@ -7,14 +7,11 @@ use App\Model\Interface\StockableInterface;
 
 class Clothing extends AbstractProduct implements StockableInterface
 {
-
     private ?string $size = null;
-
     private ?string $color = null;
-
     private ?string $type = null;
-
     private ?int $material_fee = null;
+    private \PDO $pdo;
 
     public function __construct(?int $id = null, ?string $name = null, ?array $photos = null, ?int $price = null, ?string $description = null, ?int $quantity = null, ?int $category_id = null, ?\DateTime $createdAt = null, ?\DateTime $updatedAt = null, ?string $size = null, ?string $color = null, ?string $type = null, ?int $material_fee = null)
     {
@@ -23,6 +20,7 @@ class Clothing extends AbstractProduct implements StockableInterface
         $this->color = $color;
         $this->type = $type;
         $this->material_fee = $material_fee;
+        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
 
     public function addStock(int $quantity): static
@@ -87,61 +85,37 @@ class Clothing extends AbstractProduct implements StockableInterface
 
     public function findOneById(int $id): static|false
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $statement = $pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id WHERE clothing.product_id = :id');
+        $statement = $this->pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id WHERE clothing.product_id = :id');
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
         if (!$result) {
             return false;
+        } else {
+            $newClothing = new Clothing();
+            $newClothing->hydrate($result);
+            return $newClothing;
         }
-        return new static(
-            $result['id'],
-            $result['name'],
-            json_decode($result['photos']),
-            $result['price'],
-            $result['description'],
-            $result['quantity'],
-            $result['category_id'],
-            new \DateTime($result['created_at']),
-            $result['updated_at'] ? (new \DateTime($result['updated_at'])) : null,
-            $result['size'],
-            $result['color'],
-            $result['type'],
-        );
     }
 
     public function findAll(): array
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $statement = $pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id');
+        $statement = $this->pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id');
         $statement->execute();
         $results = $statement->fetchAll(\PDO::FETCH_ASSOC);
         $products = [];
         foreach ($results as $result) {
-            $products[] = new static(
-                $result['id'],
-                $result['name'],
-                json_decode($result['photos']),
-                $result['price'],
-                $result['description'],
-                $result['quantity'],
-                $result['category_id'],
-                new \DateTime($result['created_at']),
-                $result['updated_at'] ? (new \DateTime($result['updated_at'])) : null,
-                $result['size'],
-                $result['color'],
-                $result['type'],
-            );
+            $clothing = new Clothing();
+            $clothing->hydrate($result);
+            $products[] = $clothing;
         }
         return $products;
     }
 
     public function create(): static
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "INSERT INTO product (name, photos, price, description, quantity, category_id, created_at, updated_at) VALUES (:name, :photos, :price, :description, :quantity, :category_id, :created_at, :updated_at)";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':name', $this->getName());
         $statement->bindValue(':photos', json_encode($this->getPhotos()));
         $statement->bindValue(':price', $this->getPrice());
@@ -151,7 +125,7 @@ class Clothing extends AbstractProduct implements StockableInterface
         $statement->bindValue(':created_at', $this->getCreatedAt()->format('Y-m-d H:i:s'));
         $statement->bindValue(':updated_at', $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d H:i:s') : null);
         $statement->execute();
-        $this->setId((int)$pdo->lastInsertId());
+        $this->setId((int)$this->pdo->lastInsertId());
         $sql = "INSERT INTO clothing (product_id, size, color, type, material_fee) VALUES (:product_id, :size, :color, :type, :material_fee)";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(':product_id', $this->getId());
@@ -165,9 +139,8 @@ class Clothing extends AbstractProduct implements StockableInterface
 
     public function update(): static
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $sql = "UPDATE product SET name = :name, photos = :photos, price = :price, description = :description, quantity = :quantity, category_id = :category_id, updated_at = :updated_at WHERE id = :id";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':id', $this->getId());
         $statement->bindValue(':name', $this->getName());
         $statement->bindValue(':photos', json_encode($this->getPhotos()));
@@ -178,13 +151,24 @@ class Clothing extends AbstractProduct implements StockableInterface
         $statement->bindValue(':updated_at', (new \DateTime())->format('Y-m-d H:i:s'));
         $statement->execute();
         $sql = "UPDATE clothing SET size = :size, color = :color, type = :type, material_fee = :material_fee WHERE product_id = :product_id";
-        $statement = $pdo->prepare($sql);
+        $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':product_id', $this->getId());
         $statement->bindValue(':size', $this->getSize());
         $statement->bindValue(':color', $this->getColor());
         $statement->bindValue(':type', $this->getType());
         $statement->bindValue(':material_fee', $this->getMaterialFee());
         $statement->execute();
+        return $this;
+    }
+
+    public function hydrate(array $data): static
+    {
+        parent::hydrate($data);
+        $this->setSize($data['size']);
+        $this->setColor($data['color']);
+        $this->setType($data['type']);
+        $this->setMaterialFee($data['material_fee']);
+
         return $this;
     }
 }
