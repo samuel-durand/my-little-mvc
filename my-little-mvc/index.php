@@ -7,6 +7,9 @@ use App\Model\Clothing;
 $category = new Clothing();
 
 
+
+
+
 //test
 
 var_dump($category);
