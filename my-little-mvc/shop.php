@@ -11,8 +11,9 @@
 </head>
 <body>
     <?php
-        $product = new AbstractProduct;
-        var_dump($product->findAll());
+
+        $product = new AbstractProduct(1, 'name', ['photo1', 'photo2'], 100, 'description', 10, 1, new \DateTime(), new \DateTime());
+
     ?>
 </body>
 </html>
