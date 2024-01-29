@@ -2,13 +2,10 @@
 
 require_once 'vendor/autoload.php';
 
-use App\Clothing;
+use App\Model\Clothing;
 
 $category = new Clothing();
-
-
-//test
-
+$category->setName('T-shirt');
 var_dump($category);
 
 
