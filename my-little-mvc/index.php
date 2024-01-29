@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-use App\Clothing;
+use App\Model\Clothing;
 
 $category = new Clothing();
 
