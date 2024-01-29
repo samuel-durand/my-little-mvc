@@ -11,6 +11,7 @@ class User
     private ?array $role;
     private ?\DateTime $created_at;
     private ?\DateTime $updated_at;
+    private \PDO $pdo;
 
     public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null)
     {
@@ -21,6 +22,7 @@ class User
         $this->role = $role;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
+        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
 
     public function getId(): ?int
@@ -93,15 +95,32 @@ class User
         $this->updated_at = $updated_at;
     }
 
-    public function findOneByEmail(string $email): ?User
+    public function findOneById(int $id): ?User
     {
-        $query = $this->pdo->prepare('SELECT * FROM user WHERE email = :email');
-        $query->execute(['email' => $email]);
+        $query = $this->pdo->prepare('SELECT * FROM user WHERE id = :id');
+        $query->execute(['id' => $id]);
         $user = $query->fetchObject(User::class);
         if ($user === false) {
             return null;
         }
         return $user;
+    }
+    public function findAll(): array
+    {
+        $query = $this->pdo->query('SELECT * FROM user');
+        $users = $query->fetchAll(\PDO::FETCH_CLASS, User::class);
+        return $users;
+    }
+    public function findOneByEmail(string $email): bool
+    {
+        $query = $this->pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        $user = $query->fetchAll(\PDO::FETCH_CLASS);
+        if (empty($user)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function create(): User
@@ -111,7 +130,7 @@ class User
             'fullname' => $this->fullname,
             'email' => $this->email,
             'password' => $this->password,
-            'role' => $this->role,
+            'role' => json_encode($this->role),
             'created_at' => $this->created_at->format('Y-m-d H:i:s')
         ]);
         $this->id = $this->pdo->lastInsertId();

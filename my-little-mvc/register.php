@@ -3,10 +3,19 @@
 require 'vendor/autoload.php';
 
 use App\Model\User;
+use App\Controller\AuthenticationController;
+
+$auth = new AuthenticationController();
 
 if (isset($_POST['submit'])) {
-
+    $reg = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
+    if ($reg != User::class) {
+        var_dump($reg);
+    } else {
+        echo 'User created';
+    }
 }
+
 
 
 ?>
