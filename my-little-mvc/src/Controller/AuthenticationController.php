@@ -117,4 +117,40 @@ class AuthenticationController
             return false;
         }
     }
+    public function update(string $email, string $password, string $fullname): array
+    {
+        $errors = [];
+
+        $user = new User();
+        if (!empty($email)) {
+            if ($this->validateEmail($email) === false) {
+                $errors['email'] = 'L\'email n\'est pas valide';
+            } else {
+                if ($user->findOneByEmail($email) === true) {
+                    $errors['email'] = 'Cet email existe déjà';
+                } else {
+                    $user->updateField('email', $email);
+                }
+            }
+        }
+        if (!empty($password)) {
+            if ($this->validatePassword($password) === false) {
+                $errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères';
+
+            } else {
+                $user->updateField('password', password_hash($password, PASSWORD_DEFAULT));
+            }
+        }
+        if (!empty($fullname)) {
+            $user->updateField('fullname', $fullname);
+            $errors['success'] = 'Votre nom a bien été modifié';
+        }
+
+        if (empty($errors)) {
+            $errors['success'] = 'Aucune modification n\'a été effectuée';
+            return $errors;
+        } else {
+            return $errors;
+        }
+    }
 }

@@ -160,4 +160,13 @@ class User
         $this->pdo = null;
         return $this;
     }
+
+    public function updateField(string $field, $value): void
+    {
+        $query = $this->pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");
+        $query->execute([
+            'value' => $value,
+            'id' => $this->id
+        ]);
+    }
 }
