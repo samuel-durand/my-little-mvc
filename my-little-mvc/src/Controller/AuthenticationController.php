@@ -79,7 +79,6 @@ class AuthenticationController
                 $errors['errors'] = 'Les identifiants fournis ne correspondent à aucun utilisateur.';
             } else {
                 $users = $user->getOneByEmail($email);
-                var_dump($users->getRole());
                 if (password_verify($password, $users->getPassword())) {
                     $_SESSION['user'] = $users;
                     $errors['success'] = 'Vous êtes connecté';
@@ -121,7 +120,9 @@ class AuthenticationController
     {
         $errors = [];
 
-        $user = new User();
+        $user = $_SESSION['user'];
+
+
         if (!empty($email)) {
             if ($this->validateEmail($email) === false) {
                 $errors['email'] = 'L\'email n\'est pas valide';
@@ -129,22 +130,27 @@ class AuthenticationController
                 if ($user->findOneByEmail($email) === true) {
                     $errors['email'] = 'Cet email existe déjà';
                 } else {
-                    $user->updateField('email', $email);
+                    $user->updateData('email', $email);
+                    $user->setEmail($email);
+                    $errors['success'] = 'Votre email a bien été modifié';
                 }
             }
         }
         if (!empty($password)) {
             if ($this->validatePassword($password) === false) {
                 $errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères';
-
             } else {
-                $user->updateField('password', password_hash($password, PASSWORD_DEFAULT));
+                $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+                $user->updateData('password', password_hash($password, PASSWORD_DEFAULT));
+                $errors['success'] = 'Votre mot de passe a bien été modifié';
             }
         }
         if (!empty($fullname)) {
-            $user->updateField('fullname', $fullname);
+            $user->updateData('fullname', $fullname);
             $errors['success'] = 'Votre nom a bien été modifié';
         }
+
+        $_SESSION['user'] = $user;
 
         if (empty($errors)) {
             $errors['success'] = 'Aucune modification n\'a été effectuée';

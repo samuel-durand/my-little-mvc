@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="fix: idea folder">
-      <change afterPath="$PROJECT_DIR$/my-little-mvc/shop.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Controller/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Controller/AuthenticationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Model/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Model/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +35,9 @@
       <path value="$PROJECT_DIR$/my-little-mvc/vendor/composer" />
     </include_path>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2bciHwUEKuslyBj2LYdHpf4Z9dE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -68,6 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706520684141</updated>
       <workItem from="1706520685828" duration="1804000" />
+      <workItem from="1706624314270" duration="3931000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />

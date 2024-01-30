@@ -161,12 +161,23 @@ class User
         return $this;
     }
 
-    public function updateField(string $field, $value): void
+    public function __wakeup()
     {
-        $query = $this->pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");
-        $query->execute([
-            'value' => $value,
-            'id' => $this->id
-        ]);
+        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
+    public function __sleep()
+    {
+        return ['id', 'fullname', 'email', 'password', 'role', 'created_at', 'updated_at'];
+    }
+    public function updateData(string $field, string $value): void
+    {
+        if ($this->pdo === null) {
+            $this->pdo = (new DatabaseConnexion())->getConnexion();
+            $query = $this->pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");
+            $query->bindParam(':value', $value);
+            $query->bindParam(':id', $this->id);
+            $query->execute();
+        }
+    }
+
 }
