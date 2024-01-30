@@ -63,31 +63,34 @@ class AuthenticationController
         }
     }
 
-    public function login(string $email, string $password): User|string
+    public function login(string $email, string $password): array
     {
-        if (empty($email) || empty($password)) {
-            return 'Veuillez remplir tous les champs';
-        } else {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return 'L\'email n\'est pas valide';
-            }
-            if (strlen($password) < 8) {
-                return 'Le mot de passe doit contenir au moins 8 caractères';
-            }
-            if (empty($errors)) {
-                $user = new User();
-                if ($user->findOneByEmail($email) === false) {
-                    return 'Cet email n\'existe pas';
-                }
-                $user->findOneByEmail($email);
-                if (password_verify($password, $user->getPassword())) {
-                    return $user;
-                } else {
-                    return 'Les identifiants fournis ne correspondent à aucun utilisateur.';
-                }
+        $errors = [];
+        if (empty($email)) {
+            $errors['email'] = 'Veuillez remplir le champ email';
+        }
+        if (empty($password)) {
+            $errors['password'] = 'Veuillez remplir le champ mot de passe';
+        }
+
+        if (empty($errors)) {
+            $user = new User();
+            if ($user->findOneByEmail($email) === false) {
+                $errors['errors'] = 'Les identifiants fournis ne correspondent à aucun utilisateur.';
             } else {
-                return 'Une erreur est survenue';
+                $users = $user->getOneByEmail($email);
+                var_dump($users->getRole());
+                if (password_verify($password, $users->getPassword())) {
+                    $_SESSION['user'] = $users;
+                    $errors['success'] = 'Vous êtes connecté';
+                    header('Location: /my-little-mvc/my-little-mvc/shop.php');
+                } else {
+                    $errors['errors'] = 'Les identifiants sont incorrects.';
+                }
             }
+            return $errors;
+        } else {
+            return $errors;
         }
     }
 }

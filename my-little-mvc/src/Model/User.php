@@ -11,7 +11,7 @@ class User
     private ?array $role;
     private ?\DateTime $created_at;
     private ?\DateTime $updated_at;
-    private \PDO $pdo;
+    private ?\PDO $pdo;
 
     public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null)
     {
@@ -122,7 +122,18 @@ class User
             return true;
         }
     }
-
+    public function getOneByEmail(string $email): ?User
+    {
+        $query = $this->pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+        if ($data === false) {
+            return null;
+        }
+        $user = new User();
+        $user->hydrate($data);
+        return $user;
+    }
     public function create(): User
     {
         $query = $this->pdo->prepare('INSERT INTO user (fullname, email, password, role, created_at) VALUES (:fullname, :email, :password, :role, :created_at)');
@@ -146,5 +157,7 @@ class User
         $this->role = json_decode($data['role'], true);
         $this->created_at = new \DateTime($data['created_at']);
         $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->pdo = null;
+        return $this;
     }
 }
