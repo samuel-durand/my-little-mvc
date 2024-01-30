@@ -93,4 +93,28 @@ class AuthenticationController
             return $errors;
         }
     }
+
+    public function logout(): void
+    {
+        session_destroy();
+        header('Location: /my-little-mvc/my-little-mvc/shop.php');
+    }
+
+    public function isLogged(): bool
+    {
+        if (isset($_SESSION['user'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function profile() : bool
+    {
+        if ($this->isLogged()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
