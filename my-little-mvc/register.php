@@ -2,18 +2,14 @@
 
 require 'vendor/autoload.php';
 
-use App\Model\User;
 use App\Controller\AuthenticationController;
 
 $auth = new AuthenticationController();
 
+$message = [];
 if (isset($_POST['submit'])) {
     $reg = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
-    if ($reg != User::class) {
-        var_dump($reg);
-    } else {
-        echo 'User created';
-    }
+    $message = $reg;
 }
 
 
@@ -23,7 +19,7 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Shop</title>
+    <title>Shop - Register</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -31,8 +27,14 @@ if (isset($_POST['submit'])) {
 <h1>Register</h1>
 <form action="" method="post">
     <input type="text" name="fullname" id="fullname" placeholder="fullname">
+        <p><?php echo $message['fullname'] ?? ''; ?></p>
     <input type="email" name="email" id="email" placeholder="email">
+        <p><?php echo $message['email'] ?? ''; ?></p>
     <input type="password" name="password" id="password" placeholder="password">
+        <p><?php echo $message['password'] ?? ''; ?></p>:
+    <div id="message">
+        <?php echo $message['success'] ?? ''; ?>
+    </div>
     <input type="submit" value="submit" name="submit">
 </form>
 </body>

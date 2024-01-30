@@ -47,15 +47,16 @@ class AuthenticationController
             $user = new User();
             if ($user->findOneByEmail($email) === true) {
                 $errors['email'] = 'Cet email existe déjà';
-            }
-            $user->setEmail($email);
-            $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-            $user->setFullname($fullname);
-            $user->setRole(['ROLE_USER']);
-            $user->setCreatedAt(new \DateTime());
+            } else {
+                $user->setEmail($email);
+                $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+                $user->setFullname($fullname);
+                $user->setRole(['ROLE_USER']);
+                $user->setCreatedAt(new \DateTime());
 
-            $user->create();
-            $errors['success'] = 'Votre compte a bien été créé';
+                $user->create();
+                $errors['success'] = 'Votre compte a bien été créé';
+            }
             return $errors;
         } else {
             return $errors;
