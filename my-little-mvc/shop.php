@@ -4,6 +4,8 @@
     use App\Model\Electronic;
     use App\Model\Category;
 
+    require 'product.php';
+
     $electronic = new Electronic();
     $electronics = $electronic->findAll();
 
@@ -20,9 +22,9 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Quantité</th>
                 <th>Marque</th>
             </tr>
         </thead>
