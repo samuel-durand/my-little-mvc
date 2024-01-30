@@ -24,6 +24,7 @@ abstract class AbstractProduct
     protected ?\DateTime $createdAt = null;
 
     protected ?\DateTime $updatedAt = null;
+    private \PDO $pdo;
 
 
     public function __construct(
