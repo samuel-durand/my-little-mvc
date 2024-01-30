@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+
+
 Class User {
 
 
@@ -66,11 +68,43 @@ Class User {
         return $this;
     }
 
-    public function adduser() {
-        $bdd = "mysql:host=localhost;dbname=draft-shop";
-        $username = "root";
-        $password = "";
-        $pdo = new PDO ($bdd, $username, $password);
+    public function findOneByid(int $id): self
+    {
+        $bdd = new DataBaseConnection();
+        $pdo = $bdd->getConnexion();
+        $sql = "SELECT * From user where id = ?";
+        $sql2 = $pdo->prepare($sql);
+        $sql2->execute([$id]);
+        $result = $sql2->fetch();
+        $this->id = $result['id'];
+        $this->fullname = $result['fullname'];
+        $this->email = $result['email'];
+        return $this;
+    }
+
+    public function findall(): array
+    {
+        $bdd = new DataBaseConnection();
+        $pdo = $bdd->getConnexion();
+        $sql = "SELECT * From user";
+        $sql2 = $pdo->prepare($sql);
+        $sql2->execute();
+        $result = $sql2->fetchAll();
+        return $result;
+    }
+
+    public function create() {
+        $bdd = new DataBaseConnection();
+        $pdo = $bdd->getConnexion();
+        $sql = "INSERT INTO user (fullname, email, password, role) value (?,?,?,?,?)";
+        $sql2 = $pdo->prepare($sql);
+    }
+
+    public function update() {
+        $bdd = new DataBaseConnection();
+        $pdo = $bdd->getConnexion();
+        $sql = "UPDATE user SET fullname = ?, email = ?, password = ?, role = ? WHERE id = ?";
+        $sql2 = $pdo->prepare($sql);
     }
 
 
