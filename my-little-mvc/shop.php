@@ -42,6 +42,8 @@ var_dump($product->findAll());
                     <td><?= $product->getQuantity() ?></td>
                     <td><?= $product->getCreatedAt()->format('Y-m-d H:i:s') ?></td>
                     <td><?= $product->getUpdatedAt()->format('Y-m-d H:i:s') ?></td>
+                    <td><?= $product->getCategoryid() ?></td>
+
                     <td><?= $product->getBrand() ?></td>
                     <td><?= $product->getWarantyFee() ?></td>
                 </tr>

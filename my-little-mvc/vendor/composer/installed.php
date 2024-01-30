@@ -3,7 +3,7 @@
         'name' => 'nico-rvl/revisions-poo',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '4fe697afe8fa5ab8169d7145d0126fbac358e166',
+        'reference' => '677610415c812ba66247a4cb738acb2265ced433',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'nico-rvl/revisions-poo' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4fe697afe8fa5ab8169d7145d0126fbac358e166',
+            'reference' => '677610415c812ba66247a4cb738acb2265ced433',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
