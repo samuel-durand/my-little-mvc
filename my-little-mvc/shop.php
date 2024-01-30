@@ -1,6 +1,12 @@
 <?php
     require 'vendor/autoload.php';
+    use App\Model\Abstract\AbstractProduct;
     use App\Model\Electronic;
+    use App\Model\Category;
+
+    $electronic = new Electronic();
+    $electronics = $electronic->findAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -11,9 +17,25 @@
     <title>Shop</title>
 </head>
 <body>
-    <?php
-
-       
-    ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Marque</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($electronics as $product): ?>
+                <tr>
+                    <td><?php echo $product->getName(); ?></td>
+                    <td><?php echo $product->getPrice(); ?></td>
+                    <td><?php echo $product->getQuantity(); ?></td>
+                    <td><?php echo $product->getBrand(); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </body>
 </html>
