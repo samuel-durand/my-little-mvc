@@ -29,10 +29,10 @@
         <tbody>
             <?php foreach ($electronics as $product): ?>
                 <tr>
-                    <td><?php echo $product->getName(); ?></td>
-                    <td><?php echo $product->getPrice(); ?></td>
-                    <td><?php echo $product->getQuantity(); ?></td>
-                    <td><?php echo $product->getBrand(); ?></td>
+                    <td><?= $product->getName(); ?></td>
+                    <td><?= $product->getPrice(); ?>€</td>
+                    <td><?= $product->getQuantity(); ?></td>
+                    <td><?= $product->getBrand(); ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
