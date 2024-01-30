@@ -80,7 +80,7 @@ class AuthenticationController
             } else {
                 $users = $user->getOneByEmail($email);
                 if (password_verify($password, $users->getPassword())) {
-                    $_SESSION['user'] = $users;
+                    $_SESSION['user'] = $user;
                     $errors['success'] = 'Vous êtes connecté';
                     header('Location: /my-little-mvc/my-little-mvc/shop.php');
                 } else {
@@ -122,7 +122,6 @@ class AuthenticationController
 
         $user = $_SESSION['user'];
 
-
         if (!empty($email)) {
             if ($this->validateEmail($email) === false) {
                 $errors['email'] = 'L\'email n\'est pas valide';
@@ -147,6 +146,7 @@ class AuthenticationController
         }
         if (!empty($fullname)) {
             $user->updateData('fullname', $fullname);
+            $user->setFullname($fullname);
             $errors['success'] = 'Votre nom a bien été modifié';
         }
 

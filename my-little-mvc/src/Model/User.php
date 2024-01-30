@@ -11,7 +11,7 @@ class User
     private ?array $role;
     private ?\DateTime $created_at;
     private ?\DateTime $updated_at;
-    private ?\PDO $pdo;
+    private ?\PDO $pdo = null;
 
     public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null)
     {
@@ -22,7 +22,6 @@ class User
         $this->role = $role;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
-        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
 
     public function getId(): ?int
@@ -94,10 +93,17 @@ class User
     {
         $this->updated_at = $updated_at;
     }
-
+    public function getPdo(): \PDO
+    {
+        if ($this->pdo === null) {
+            $this->pdo = (new DatabaseConnexion())->getConnexion();
+        }
+        return $this->pdo;
+    }
     public function findOneById(int $id): ?User
     {
-        $query = $this->pdo->prepare('SELECT * FROM user WHERE id = :id');
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM user WHERE id = :id');
         $query->execute(['id' => $id]);
         $user = $query->fetchObject(User::class);
         if ($user === false) {
@@ -107,13 +113,15 @@ class User
     }
     public function findAll(): array
     {
-        $query = $this->pdo->query('SELECT * FROM user');
+        $pdo = $this->getPdo();
+        $query = $pdo->query('SELECT * FROM user');
         $users = $query->fetchAll(\PDO::FETCH_CLASS, User::class);
         return $users;
     }
     public function findOneByEmail(string $email): bool
     {
-        $query = $this->pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
         $query->execute(['email' => $email]);
         $user = $query->fetchAll(\PDO::FETCH_CLASS);
         if (empty($user)) {
@@ -124,7 +132,8 @@ class User
     }
     public function getOneByEmail(string $email): ?User
     {
-        $query = $this->pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
         $query->execute(['email' => $email]);
         $data = $query->fetch(\PDO::FETCH_ASSOC);
         if ($data === false) {
@@ -136,7 +145,8 @@ class User
     }
     public function create(): User
     {
-        $query = $this->pdo->prepare('INSERT INTO user (fullname, email, password, role, created_at) VALUES (:fullname, :email, :password, :role, :created_at)');
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('INSERT INTO user (fullname, email, password, role, created_at) VALUES (:fullname, :email, :password, :role, :created_at)');
         $query->execute([
             'fullname' => $this->fullname,
             'email' => $this->email,
@@ -147,7 +157,6 @@ class User
         $this->id = $this->pdo->lastInsertId();
         return $this;
     }
-
     public function hydrate(array $data): static
     {
         $this->id = $data['id'];
@@ -157,27 +166,15 @@ class User
         $this->role = json_decode($data['role'], true);
         $this->created_at = new \DateTime($data['created_at']);
         $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
-        $this->pdo = null;
         return $this;
-    }
-
-    public function __wakeup()
-    {
-        $this->pdo = (new DatabaseConnexion())->getConnexion();
-    }
-    public function __sleep()
-    {
-        return ['id', 'fullname', 'email', 'password', 'role', 'created_at', 'updated_at'];
     }
     public function updateData(string $field, string $value): void
     {
-        if ($this->pdo === null) {
-            $this->pdo = (new DatabaseConnexion())->getConnexion();
-            $query = $this->pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");
-            $query->bindParam(':value', $value);
-            $query->bindParam(':id', $this->id);
-            $query->execute();
-        }
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");
+        $query->bindParam(':value', $value);
+        $query->bindParam(':id', $this->id);
+        $query->execute();
     }
 
 }
