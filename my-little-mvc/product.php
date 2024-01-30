@@ -55,3 +55,4 @@ if ($url_idProduct !== null && $url_product_type !== null) {
     </body>
 <?php endif; ?>
 </html>
+
