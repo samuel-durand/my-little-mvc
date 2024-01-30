@@ -4,24 +4,16 @@ namespace App\Model;
 
 class User
 {
-    private ?int $id;
-    private ?string $fullname;
-    private ?string $email;
-    private ?string $password;
-    private ?array $role;
-    private ?\DateTime $created_at;
-    private ?\DateTime $updated_at;
-    private ?\PDO $pdo = null;
-
-    public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null)
-    {
-        $this->id = $id;
-        $this->fullname = $fullname;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
-        $this->created_at = $created_at;
-        $this->updated_at = $updated_at;
+    public function __construct(
+        private ?int $id = null,
+        private ?string $fullname = null,
+        private ?string $email = null,
+        private ?string $password = null,
+        private ?array $role = null,
+        private ?\DateTime $created_at = null,
+        private ?\DateTime $updated_at = null,
+        private ?\PDO $pdo = null
+    )  {
     }
 
     public function getId(): ?int
@@ -95,9 +87,7 @@ class User
     }
     public function getPdo(): \PDO
     {
-        if ($this->pdo === null) {
-            $this->pdo = (new DatabaseConnexion())->getConnexion();
-        }
+        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
         return $this->pdo;
     }
     public function findOneById(int $id): ?User
@@ -167,6 +157,17 @@ class User
         $this->created_at = new \DateTime($data['created_at']);
         $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
         return $this;
+    }
+    public function __sleep(): array
+    {
+        // Return all property names except 'pdo'
+        return ['id', 'fullname', 'email', 'password', 'role', 'created_at', 'updated_at'];
+    }
+
+    public function __wakeup(): void
+    {
+        // Reinitialize the PDO property after deserialization
+        $this->pdo = null;
     }
     public function updateData(string $field, string $value): void
     {

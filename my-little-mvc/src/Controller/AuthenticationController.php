@@ -80,7 +80,7 @@ class AuthenticationController
             } else {
                 $users = $user->getOneByEmail($email);
                 if (password_verify($password, $users->getPassword())) {
-                    $_SESSION['user'] = $user;
+                    $_SESSION['user'] = $users;
                     $errors['success'] = 'Vous êtes connecté';
                     header('Location: /my-little-mvc/my-little-mvc/shop.php');
                 } else {

@@ -1,6 +1,5 @@
 <?php
 require_once 'vendor/autoload.php';
-
 session_start();
 
 use App\Controller\AuthenticationController;
@@ -8,20 +7,24 @@ use App\Controller\AuthenticationController;
 $authController = new AuthenticationController();
 
 $errors = [];
+
+var_dump($_SESSION['user']);
+
 if ($authController->profile()) {
     $user = $_SESSION['user'];
 } else {
     $errors['auth'] = 'Vous devez être connecté pour accéder à cette page';
 }
 if (!empty($errors['auth'])) {
-    sleep(5); // Pause de 5 secondes
+    sleep(5);
     header('Location: /my-little-mvc/my-little-mvc/login.php');
     exit;
 }
 
+$errors = [];
 if (isset($_POST['submit'])) {
     $update = $authController->update($_POST['email'], $_POST['password'], $_POST['fullname']);
-    var_dump($update);
+    $errors = $update;
 }
 ?>
 
@@ -36,6 +39,7 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 <main>
+    <?php require_once 'import/header.php'; ?>
     <h1>Profil</h1>
     <?php if (!empty($user)) : ?>
         <p>Nom : <?php echo $user->getFullname(); ?></p>
@@ -44,7 +48,7 @@ if (isset($_POST['submit'])) {
             $role === 'ROLE_ADMIN' ? $role = 'Administrateur' : $role = 'Utilisateur';
         echo '<p>Role : ' . $role . '</p>';
         ?>
-        <a href="logout.php">Déconnexion</a>
+        <a href="/logout.php">Déconnexion</a>
     <?php else: ?>
         <a href="login.php">Connexion</a>
         <p>Vous devez être connecté pour accéder à cette page</p>
