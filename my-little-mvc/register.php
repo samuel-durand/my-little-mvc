@@ -11,7 +11,7 @@ $auth = new AuthenticationController();
 
 
 if (isset($_POST['submit'])) {
-    $reg = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
+    $register = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
 }
 
 
@@ -29,15 +29,15 @@ if (isset($_POST['submit'])) {
 <body>
 <h1>Register</h1>
 <form action="" method="post">
+    <label for="fullname">fullname</label>
     <input type="text" name="fullname" id="fullname" placeholder="fullname">
-    <p><?php echo $message['fullname'] ?? ''; ?></p>
+
+    <label for="email">email</label>
     <input type="email" name="email" id="email" placeholder="email">
-    <p><?php echo $message['email'] ?? ''; ?></p>
+
+    <label for="password">password</label>
     <input type="password" name="password" id="password" placeholder="password">
-    <p><?php echo $message['password'] ?? ''; ?></p>:
-    <div id="message">
-        <?php echo $message['success'] ?? ''; ?>
-    </div>
+
     <input type="submit" value="submit" name="submit">
 </form>
 </body>

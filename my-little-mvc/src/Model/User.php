@@ -13,8 +13,6 @@ class User
         private ?string $email = null,
         private ?string $password = null,
         private ?array $role = null,
-        private ?\DateTime $created_at = null,
-        private ?\DateTime $updated_at = null,
         private ?\PDO $pdo = null
     )  {
     }
@@ -69,32 +67,10 @@ class User
         $this->role = $role;
     }
 
-    public function getCreatedAt(): ?\DateTime
-    {
-        return $this->created_at;
-    }
 
-    public function setCreatedAt(?\DateTime $created_at): void
-    {
-        $this->created_at = $created_at;
-    }
-
-    public function getUpdatedAt(): ?\DateTime
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTime $updated_at): void
-    {
-        $this->updated_at = $updated_at;
-    }
-    public function getPdo(): \PDO
-    {
-        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
-        return $this->pdo;
-    }
     public function findOneById(int $id): ?User
     {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $query = $pdo->prepare('SELECT * FROM user WHERE id = :id');
         $query->execute(['id' => $id]);
         $user = $query->fetchObject(User::class);
@@ -105,12 +81,14 @@ class User
     }
     public function findAll(): array
     {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $query = $pdo->query('SELECT * FROM user');
         $users = $query->fetchAll(\PDO::FETCH_CLASS, User::class);
         return $users;
     }
     public function findOneByEmail(string $email): bool
     {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
         $query->execute(['email' => $email]);
         $user = $query->fetchAll(\PDO::FETCH_CLASS);
@@ -120,18 +98,10 @@ class User
             return true;
         }
     }
-    public function getOneByEmail(string $email): ?User
-    {
-        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
-        $query->execute(['email' => $email]);
-        $data = $query->fetch(\PDO::FETCH_ASSOC);
-        if ($data === false) {
-            return null;
-        }
-        $user = new User();
-        $user->hydrate($data);
-        return $user;
-    }
+
+
+
+
     public function create(): User
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
@@ -144,6 +114,8 @@ class User
         ]);
         return $this;
     }
+
+
 
 
 }
