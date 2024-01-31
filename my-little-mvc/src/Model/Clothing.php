@@ -7,20 +7,23 @@ use App\Model\Interface\StockableInterface;
 
 class Clothing extends AbstractProduct implements StockableInterface
 {
-    private ?string $size = null;
-    private ?string $color = null;
-    private ?string $type = null;
-    private ?int $material_fee = null;
-    private \PDO $pdo;
-
-    public function __construct(?int $id = null, ?string $name = null, ?array $photos = null, ?int $price = null, ?string $description = null, ?int $quantity = null, ?int $category_id = null, ?\DateTime $createdAt = null, ?\DateTime $updatedAt = null, ?string $size = null, ?string $color = null, ?string $type = null, ?int $material_fee = null)
-    {
+    public function __construct(
+        protected ?int $id = null,
+        protected ?string $name = null,
+        protected ?array $photos = null,
+        protected ?int $price = null,
+        protected ?string $description = null,
+        protected ?int $quantity = null,
+        protected ?int $category_id = null,
+        protected ?\DateTime $createdAt = null,
+        protected ?\DateTime $updatedAt = null,
+        private ?string $size = null,
+        private ?string $color = null,
+        private ?string $type = null,
+        private ?int $material_fee = null,
+        protected ?\PDO $pdo = null
+    ) {
         parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id, $createdAt, $updatedAt);
-        $this->size = $size;
-        $this->color = $color;
-        $this->type = $type;
-        $this->material_fee = $material_fee;
-        $this->pdo = (new DatabaseConnexion())->getConnexion();
     }
 
     public function addStock(int $quantity): static
@@ -82,10 +85,15 @@ class Clothing extends AbstractProduct implements StockableInterface
         $this->material_fee = $material_fee;
         return $this;
     }
-
+    public function getPdo(): \PDO
+    {
+        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
+        return $this->pdo;
+    }
     public function findOneById(int $id): static|false
     {
-        $statement = $this->pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id WHERE clothing.product_id = :id');
+        $pdo = $this->getPdo();
+        $statement = $pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id WHERE clothing.product_id = :id');
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -100,7 +108,8 @@ class Clothing extends AbstractProduct implements StockableInterface
 
     public function findAll(): array
     {
-        $statement = $this->pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id');
+        $pdo = $this->getPdo();
+        $statement = $pdo->prepare('SELECT * FROM clothing INNER JOIN product ON clothing.product_id = product.id');
         $statement->execute();
         $results = $statement->fetchAll(\PDO::FETCH_ASSOC);
         $products = [];
@@ -114,8 +123,9 @@ class Clothing extends AbstractProduct implements StockableInterface
 
     public function create(): static
     {
+        $pdo = $this->getPdo();
         $sql = "INSERT INTO product (name, photos, price, description, quantity, category_id, created_at, updated_at) VALUES (:name, :photos, :price, :description, :quantity, :category_id, :created_at, :updated_at)";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':name', $this->getName());
         $statement->bindValue(':photos', json_encode($this->getPhotos()));
         $statement->bindValue(':price', $this->getPrice());
@@ -139,8 +149,9 @@ class Clothing extends AbstractProduct implements StockableInterface
 
     public function update(): static
     {
+        $pdo = $this->getPdo();
         $sql = "UPDATE product SET name = :name, photos = :photos, price = :price, description = :description, quantity = :quantity, category_id = :category_id, updated_at = :updated_at WHERE id = :id";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $this->getId());
         $statement->bindValue(':name', $this->getName());
         $statement->bindValue(':photos', json_encode($this->getPhotos()));
@@ -160,7 +171,14 @@ class Clothing extends AbstractProduct implements StockableInterface
         $statement->execute();
         return $this;
     }
-
+    public function __sleep(): array
+    {
+        return ['id', 'name', 'photos', 'price', 'description', 'quantity', 'category_id', 'created_at', 'updated_at', 'size', 'color', 'type', 'material_fee'];
+    }
+    public function __wakeup(): void
+    {
+        $this->pdo = null;
+    }
     public function hydrate(array $data): static
     {
         parent::hydrate($data);
