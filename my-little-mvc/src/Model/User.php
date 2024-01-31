@@ -118,13 +118,13 @@ class User {
     public function update(): static
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $sql = "UPDATE user SET fullname = :fullname, email = :email, password = :password, email = :email, password = :password WHERE id = :id)";
+        $sql = "UPDATE user SET fullname = :fullname, email = :email, password = :password, role = :role WHERE id = :id)";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $this->getId());
         $statement->bindValue(':fullname', $this->getFullname());
         $statement->bindValue(':email', $this->getEmail());
         $statement->bindValue(':password', $this->getPassword());
-        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':role', $this->getRole());
         $statement->execute();
         return $this;
     }
