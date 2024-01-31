@@ -6,6 +6,8 @@ use App\Model\User;
 
 class AuthenticationController
 {
+    public function __construct() {
+    }
     private function validateEmail(string $email): bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
