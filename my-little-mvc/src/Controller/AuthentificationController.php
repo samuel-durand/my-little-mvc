@@ -16,7 +16,6 @@ class AuthentificationController
     public function register($fullname, $email, $password, $password_confirm) {
 
         $searched_user = $this->user->findOneByEmail($email);
-        var_dump($searched_user);
 
         if ($searched_user == false) {
             if ($password < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)){
@@ -31,18 +30,17 @@ class AuthentificationController
                 $user->setFullname($fullname);
                 $user->setEmail($email);
                 $user->setPassword($password);
-                $user->setRole(['ROLE_USER']);
+                $user->setRole('ROLE_USER');
                 $user->create();
-    
-                var_dump($user);
     
                 echo "Vous êtes bien inscrit";
             }
         }
 
         else {
-            echo "L'email existe déjà";}
+            echo "L'email existe déjà";
         }
+    }
 }
 
 ?>

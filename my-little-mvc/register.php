@@ -11,10 +11,7 @@ if (isset($_POST['fullname']) || isset($_POST['email']) || isset($_POST['passwor
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
     
-
     $authentificationController->register($fullname, $email, $password, $password_confirm);
-
-    var_dump($_POST);
 } else {
     echo "Veuillez remplir tous les champs";
 }

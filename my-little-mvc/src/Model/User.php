@@ -8,15 +8,24 @@ class User {
     private ?string $fullname = null;
     private ?string $email = null;
     private ?string $password = null;
-    private ?array $role = null;
+    private ?string $role = null;
 
-    public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null)
+    public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?string $role = null)
     {
         $this->id = $id;
         $this->fullname = $fullname;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId(?int $id) {
+        $this->id = $id;
+        return $this;
     }
 
     public function getFullname() {
@@ -50,7 +59,7 @@ class User {
         return $this->role;
     }
 
-    public function setRole(?array $role) {
+    public function setRole(?string $role) {
         $this->role = $role;
         return $role;
     }
@@ -103,14 +112,7 @@ class User {
         $statement->bindValue(':password', $this->getPassword());
         $statement->bindValue(':role', $this->getRole());
         $statement->execute();
-        $this->setId((int)$pdo->lastInsertId());
-        $sql = "INSERT INTO user (fullname, email, password, role) VALUES (:fullname, :email, :password, :role)";
-        $statement = $pdo->prepare($sql);
-        $statement->bindValue(':fullname', $this->getFullname());
-        $statement->bindValue(':email', $this->getEmail());
-        $statement->bindValue(':password', $this->getPassword());
-        $statement->bindValue(':role', $this->getRole());
-        $statement->execute();
+
         return $this;
     }
 
