@@ -6,49 +6,18 @@ use App\Model\Category;
 use App\Model\DatabaseConnexion;
 abstract class AbstractProduct
 {
-
-    protected ?int $id = null;
-
-    protected ?string $name = null;
-
-    protected ?array $photos = null;
-
-    protected ?int $price = null;
-
-    protected ?string $description = null;
-
-    protected ?int $quantity = null;
-
-    protected ?int $category_id = null;
-
-    protected ?\DateTime $createdAt = null;
-
-    protected ?\DateTime $updatedAt = null;
-    private \PDO $pdo;
-
-
     public function __construct(
-        ?int       $id = null,
-        ?string    $name = null,
-        ?array     $photos = null,
-        ?int       $price = null,
-        ?string    $description = null,
-        ?int       $quantity = null,
-        ?int       $category_id = null,
-        ?\DateTime $createdAt = null,
-        ?\DateTime $updatedAt = null
-    )
-    {
-        $this->id = $id;
-        $this->name = $name;
-        $this->photos = $photos;
-        $this->price = $price;
-        $this->description = $description;
-        $this->quantity = $quantity;
-        $this->category_id = $category_id;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-        $this->pdo = (new DatabaseConnexion())->getConnexion();
+    protected ?int $id = null,
+    protected ?string $name = null,
+    protected ?array $photos = null,
+    protected ?int $price = null,
+    protected ?string $description = null,
+    protected ?int $quantity = null,
+    protected ?int $category_id = null,
+    protected ?\DateTime $createdAt = null,
+    protected ?\DateTime $updatedAt = null,
+    protected ?\PDO $pdo = null
+    ) {
     }
 
     public function getId(): ?int
@@ -149,11 +118,17 @@ abstract class AbstractProduct
         $this->updatedAt = $updatedAt;
         return $this;
     }
+    public function getPdo(): \PDO
+    {
+        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
+        return $this->pdo;
+    }
 
     public function getCategory(): Category|false
     {
+        $pdo = $this->getPdo();
         $sql = "SELECT * FROM category WHERE id = :id";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $this->category_id);
         $statement->execute();
         $category = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -172,8 +147,9 @@ abstract class AbstractProduct
 
     public function findOneById(int $id): static|false
     {
+        $pdo = $this->getPdo();
         $sql = "SELECT * FROM product WHERE id = :id";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $id);
         $statement->execute();
         $product = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -196,8 +172,9 @@ abstract class AbstractProduct
 
     public function findAll(): array
     {
+        $pdo = $this->getPdo();
         $sql = "SELECT * FROM product";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->execute();
         $products = $statement->fetchAll(\PDO::FETCH_ASSOC);
         $results = [];
@@ -220,8 +197,9 @@ abstract class AbstractProduct
 
     public function create(): static
     {
+        $pdo = $this->getPdo();
         $sql = "INSERT INTO product (name, photos, price, description, quantity, category_id, created_at, updated_at) VALUES (:name, :photos, :price, :description, :quantity, :category_id, :created_at, :updated_at)";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':name', $this->name);
         $statement->bindValue(':photos', json_encode($this->photos));
         $statement->bindValue(':price', $this->price);
@@ -237,8 +215,9 @@ abstract class AbstractProduct
 
     public function update(): static
     {
+        $pdo = $this->getPdo();
         $sql = "UPDATE product SET name = :name, photos = :photos, price = :price, description = :description, quantity = :quantity, category_id = :category_id, updated_at = :updated_at WHERE id = :id";
-        $statement = $this->pdo->prepare($sql);
+        $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $this->id);
         $statement->bindValue(':name', $this->name);
         $statement->bindValue(':photos', json_encode($this->photos));

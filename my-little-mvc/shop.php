@@ -5,17 +5,25 @@ session_start();
 
 use App\Model\Clothing;
 use App\Model\Electronic;
+use App\Controller\ShopController;
 
 /* Récupération de tous les produits */
 
-$clothing = new Clothing();
+/*$clothing = new Clothing();
 $allClothing = $clothing->findAll();
 
 $electronic = new Electronic();
 $allElectronics = $electronic->findAll();
+$allProducts = array_merge($allClothing, $allElectronics);*/
 
+$shopController = new ShopController();
 
-$allProducts = array_merge($allClothing, $allElectronics);
+if (isset($_GET['page'])) {
+    $page = intval($_GET['page']);
+    $getProductPage = $shopController->index($page);
+} else {
+    $page = 1;
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,16 +32,39 @@ $allProducts = array_merge($allClothing, $allElectronics);
     <title>Shop</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<h1>Products</h1>
-<?php foreach ($allProducts as $product): ?>
-    <div>
-        <h2><?php echo $product->getName(); ?></h2>
-        <p><?php echo $product->getDescription(); ?></p>
-        <p>Price: <?php echo $product->getPrice(); ?></p>
-        <p>Quantity: <?php echo $product->getQuantity(); ?></p>
+
+<?php require_once 'import/header.php'; ?>
+
+<main class="px-8">
+    <div class="w-full flex justify-between">
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>">Page précédente</a>
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>">Page suivante</a>
     </div>
-<?php endforeach; ?>
+    <div class="w-full flex justify-center py-4">
+        <h1 class="text-3xl">Products</h1>
+    </div>
+    <div class="flex flex-wrap">
+        <?php /*foreach ($allProducts as $product): */?><!--
+            <div>
+                <h2><?php /*echo $product->getName(); */?></h2>
+                <p><?php /*echo $product->getDescription(); */?></p>
+                <p>Price: <?php /*echo $product->getPrice(); */?></p>
+                <p>Quantity: <?php /*echo $product->getQuantity(); */?></p>
+            </div>
+        --><?php /*endforeach; */?>
+        <?php foreach ($getProductPage as $product): ?>
+            <div class="w-1/4 p-4">
+                <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
+                <p class="text-sm"><?php echo $product->getDescription(); ?></p>
+                <p class="text-sm">Price: <?php echo $product->getPrice(); ?></p>
+                <p class="text-sm">Quantity: <?php echo $product->getQuantity(); ?></p>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</main>
+
 </body>
 </html>
