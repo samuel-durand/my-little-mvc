@@ -4,8 +4,8 @@ namespace App\Model;
 
 
 
+use App\Interface\StockableInterface;
 use App\Model\Abstract\AbstractProduct;
-use App\Model\StockableInterface;
 
 class Electronic extends AbstractProduct implements StockableInterface
 {

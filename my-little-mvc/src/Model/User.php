@@ -1,110 +1,148 @@
 <?php
 
-namespace App\Model;
+namespace src\Model;
+
+use PDO;
 
 
-
-Class User {
-
-
-
-    public function __construct(private ?int $id = null, private ?string $fullname = null, private ?string $email = null, private ?string $password = null, private array $role = [] ){
-
+class User
+{
+    public function __construct(
+        private ?int $id = null,
+        private ?string $fullname = null,
+        private ?string $email = null,
+        private ?string $password = null,
+        private ?array $role = null,
+        private ?\DateTime $created_at = null,
+        private ?\DateTime $updated_at = null,
+        private ?\PDO $pdo = null
+    )  {
     }
 
-    //Getter and Setter
-    public function getid()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setid(int $id): self
+    public function setId(?int $id): void
     {
         $this->id = $id;
-        return $this;
     }
 
-    public function getfullname()
+    public function getFullname(): ?string
     {
         return $this->fullname;
     }
 
-    public function setfullname(string $fullname): self
+    public function setFullname(?string $fullname): void
     {
         $this->fullname = $fullname;
-        return $this;
     }
 
-    public function getemail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setemail(string $email): self
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
-        return $this;
     }
 
-    public function getpassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setpassword(string $password): self
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
-        return $this;
     }
 
-    public function getrole()
+    public function getRole(): ?array
     {
         return $this->role;
     }
 
-    public function setrole(array $role): self
+    public function setRole(?array $role): void
     {
         $this->role = $role;
-        return $this;
     }
 
-    public function findOneByid(int $id): self
+    public function getCreatedAt(): ?\DateTime
     {
-        $bdd = new DataBaseConnection();
-        $pdo = $bdd->getConnexion();
-        $sql = "SELECT * From user where id = ?";
-        $sql2 = $pdo->prepare($sql);
-        $sql2->execute([$id]);
-        $result = $sql2->fetch();
-        $this->id = $result['id'];
-        $this->fullname = $result['fullname'];
-        $this->email = $result['email'];
-        return $this;
+        return $this->created_at;
     }
 
-    public function findall(): array
+    public function setCreatedAt(?\DateTime $created_at): void
     {
-        $bdd = new DataBaseConnection();
-        $pdo = $bdd->getConnexion();
-        $sql = "SELECT * From user";
-        $sql2 = $pdo->prepare($sql);
-        $sql2->execute();
-        $result = $sql2->fetchAll();
-        return $result;
+        $this->created_at = $created_at;
     }
 
-    public function create() {
-        $bdd = new DataBaseConnection();
-        $pdo = $bdd->getConnexion();
-        $sql = "INSERT INTO user (fullname, email, password, role) value (?,?,?,?,?)";
-        $sql2 = $pdo->prepare($sql);
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updated_at;
     }
 
-    public function update() {
-        $bdd = new DataBaseConnection();
-        $pdo = $bdd->getConnexion();
-        $sql = "UPDATE user SET fullname = ?, email = ?, password = ?, role = ? WHERE id = ?";
-        $sql2 = $pdo->prepare($sql);
+    public function setUpdatedAt(?\DateTime $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+    public function getPdo(): \PDO
+    {
+        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
+        return $this->pdo;
+    }
+    public function findOneById(int $id): ?User
+    {
+        $query = $pdo->prepare('SELECT * FROM user WHERE id = :id');
+        $query->execute(['id' => $id]);
+        $user = $query->fetchObject(User::class);
+        if ($user === false) {
+            return null;
+        }
+        return $user;
+    }
+    public function findAll(): array
+    {
+        $query = $pdo->query('SELECT * FROM user');
+        $users = $query->fetchAll(\PDO::FETCH_CLASS, User::class);
+        return $users;
+    }
+    public function findOneByEmail(string $email): bool
+    {
+        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        $user = $query->fetchAll(\PDO::FETCH_CLASS);
+        if (empty($user)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public function getOneByEmail(string $email): ?User
+    {
+        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+        if ($data === false) {
+            return null;
+        }
+        $user = new User();
+        $user->hydrate($data);
+        return $user;
+    }
+    public function create(): User
+    {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
+        $sql = $pdo->prepare('INSERT INTO user (fullname, email, password, role) VALUES (:fullname, :email, :password, :role)');
+        $sql->execute([
+            'fullname' => $this->fullname,
+            'email' => $this->email,
+            'password' => $this->password,
+            'role' => json_encode($this->role),
+        ]);
+        return $this;
     }
 
 
