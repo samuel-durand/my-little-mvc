@@ -66,6 +66,15 @@ if (isset($_GET['page'])) {
                 <p class="text-sm"><?php echo $product->getDescription(); ?></p>
                 <p class="text-sm">Price: <?php echo $product->getPrice(); ?></p>
                 <p class="text-sm">Quantity: <?php echo $product->getQuantity(); ?></p>
+                <button class="bg-red-100 rounded p-0.5">
+                    <a href="/my-little-mvc/my-little-mvc/product.php?id_product=<?php echo $product->getId();?>">
+                        Voir le produit
+                    </a>
+                </button>
+                <form action="" method="post">
+                    <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
+                    <input type="submit" name="submit" value="Add to cart" class="bg-red-100 rounded p-0.5">
+                </form>
             </div>
         <?php endforeach; ?>
     </div>
