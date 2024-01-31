@@ -4,7 +4,7 @@ namespace App\Model;
 
 use App\Model\Abstract\AbstractProduct;
 use App\Model\Interface\StockableInterface;
-
+use PDO;
 class Electronic extends AbstractProduct implements StockableInterface
 {
 
@@ -26,9 +26,9 @@ class Electronic extends AbstractProduct implements StockableInterface
     }
     public function getPdo(): \PDO
     {
-        return parent::getPdo();
+        $this->pdo = $this->pdo ?? (new DatabaseConnexion())->getConnexion();
+        return $this->pdo;
     }
-
     public function addStock(int $quantity): static
     {
         $this->quantity += $quantity;
@@ -74,6 +74,7 @@ class Electronic extends AbstractProduct implements StockableInterface
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
+
 
         if ($result === false) {
             return false;
