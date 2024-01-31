@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require 'vendor/autoload.php';
 
 use App\Controller\AuthenticationController;
@@ -23,8 +23,10 @@ if (isset($_POST['submit'])) {
     <title>Shop - Register</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<?php require_once 'import/header.php'; ?>
 <h1>Register</h1>
 <form action="" method="post">
     <input type="text" name="fullname" id="fullname" placeholder="fullname">
