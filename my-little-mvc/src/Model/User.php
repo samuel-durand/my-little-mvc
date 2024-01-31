@@ -160,13 +160,11 @@ class User
     }
     public function __sleep(): array
     {
-        // Return all property names except 'pdo'
         return ['id', 'fullname', 'email', 'password', 'role', 'created_at', 'updated_at'];
     }
 
     public function __wakeup(): void
     {
-        // Reinitialize the PDO property after deserialization
         $this->pdo = null;
     }
     public function updateData(string $field, string $value): void
