@@ -12,7 +12,6 @@ class User {
 
     public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?array $role = null)
     {
-        parent::__construct($id, $fullname, $email, $password, $role);
         $this->id = $id;
         $this->fullname = $fullname;
         $this->email = $email;
@@ -58,7 +57,7 @@ class User {
 
     public function findOnebyId(int $id): static|false
     {
-        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root' '');
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $statement = $pdo->prepare('SELECT * FROM user');
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
