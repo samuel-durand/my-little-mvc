@@ -23,6 +23,7 @@ if (isset($_GET['page'])) {
     $getProductPage = $shopController->index($page);
 } else {
     $page = 1;
+    $getProductPage = $shopController->index($page);
 }
 ?>
 
@@ -39,9 +40,13 @@ if (isset($_GET['page'])) {
 <?php require_once 'import/header.php'; ?>
 
 <main class="px-8">
-    <div class="w-full flex justify-between">
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>">Page précédente</a>
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>">Page suivante</a>
+    <div class="w-full flex justify-between pt-2">
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
+            Page précédente
+        </a>
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
+            Page suivante
+        </a>
     </div>
     <div class="w-full flex justify-center py-4">
         <h1 class="text-3xl">Products</h1>
