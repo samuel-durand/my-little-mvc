@@ -29,7 +29,7 @@ class User {
     }
 
     public function getEmail() {
-        return $email;
+        return $this->email;
     }
 
     public function setEmail(?string $email) {
@@ -38,12 +38,12 @@ class User {
     }
 
     public function getPassword() {
-        return $password;
+        return $this->password;
     }
 
     public function setPassword(?string $password) {
         $this->password = $password;
-        return $password;
+        return $this->password;
     }
 
     public function getRole() {
@@ -55,7 +55,7 @@ class User {
         return $role;
     }
 
-    public function findOnebyId(int $id): static|false
+    public function findOneById(int $id): static|false
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
         $statement = $pdo->prepare('SELECT * FROM user');
@@ -126,5 +126,25 @@ class User {
         $statement->bindValue(':role', $this->getRole());
         $statement->execute();
         return $this;
+    }
+
+    public function findOneByEmail(?string $email): static|false
+    {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
+        $sql = "SELECT * FROM user WHERE email = :email";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(':email', $email, \PDO::PARAM_STR);
+        $statement->execute();
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        if (!$result) {
+            return false;
+        }
+        return new static(
+            $result['id'],
+            $result['fullname'],
+            $result['email'],
+            $result['password'],
+            $result['role'],
+        );
     }
 }

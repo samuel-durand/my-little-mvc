@@ -1,3 +1,26 @@
+<?php
+
+require 'vendor/autoload.php';
+use App\Controller\AuthentificationController;
+
+$authentificationController = new AuthentificationController;
+
+if (isset($_POST['fullname']) || isset($_POST['email']) || isset($_POST['password']) || isset($_POST['password_confirm'])){
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $password_confirm = $_POST['password_confirm'];
+    
+
+    $authentificationController->register($fullname, $email, $password, $password_confirm);
+
+    var_dump($_POST);
+} else {
+    echo "Veuillez remplir tous les champs";
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +33,7 @@
         <label for="fullname">Nom et Prénom</label>
         <input type="text" name="fullname" id="fullname">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+        <input type="text" name="email" id="email">
         <label for="password">Mot de passe</label>
         <input type="password" name="password" id="password">
         <label for="password_confirm">Confirmer le mot de passe</label>
