@@ -8,8 +8,6 @@ $authController = new AuthenticationController();
 
 $errors = [];
 
-var_dump($_SESSION['user']);
-
 if ($authController->profile()) {
     $user = $_SESSION['user'];
 } else {
@@ -35,6 +33,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Shop - Profil</title>
 </head>
 <body>
@@ -56,19 +55,28 @@ if (isset($_POST['submit'])) {
 
     <section>
         <?php if (!empty($user)) : ?>
-        <div id="containerForm">
+        <div id="containerForm" class="">
             <h2>Modifier mes informations</h2>
             <form action="" method="post">
-                <input type="text" name="fullname" id="fullname" placeholder=<?php echo $user->getFullname(); ?>>
+                <div>
+                    <label for="fullname">Nom complet</label>
+                    <input type="text" name="fullname" id="fullname" placeholder=<?php echo $user->getFullname(); ?> class="">
                     <p><?php echo $errors['fullname'] ?? ''; ?></p>
-                <input type="email" name="email" id="email" placeholder=<?php echo $user->getEmail();?>>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder=<?php echo $user->getEmail();?>>
                     <p><?php echo $errors['email'] ?? ''; ?></p>
-                <input type="password" name="password" id="password" placeholder="password">
+                </div>
+                <div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" placeholder="password">
                     <p><?php echo $errors['password'] ?? ''; ?></p>
+                </div>
                 <div id="message">
                     <?php echo $errors['success'] ?? ''; ?>
                 </div>
-                <input type="submit" value="submit" name="submit">
+                <input type="submit" value="submit" name="submit" class="p-2 border rounded bg-red-100">
             </form>
         </div>
         <?php endif; ?>
