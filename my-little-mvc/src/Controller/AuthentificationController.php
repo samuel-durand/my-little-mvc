@@ -46,15 +46,11 @@ class AuthentificationController
     public function login($email, $password) {
         $searched_user = $this->user->findOneByEmail($email);
 
-        if ($searched_user === true) {
-            if (password_verify($password, $searched_user->getPassword())) {
-                echo "Vous êtes bien connecté";
-            }
-            else {
-                echo "Les identifiants fournis ne correspondent à aucun utilisateur";
-            }
-        }
+        var_dump($searched_user);
 
+        if ($searched_user && password_verify($password, $searched_user->getPassword())) {
+            echo "Vous êtes bien connecté";
+        }
         else {
             echo "Les identifiants fournis ne correspondent à aucun utilisateur";
         }
