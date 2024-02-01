@@ -5,13 +5,13 @@ use App\Controller\AuthentificationController;
 
 $authentificationController = new AuthentificationController;
 
-if (isset($_POST['email']) || isset($_POST['password'])){
+if (!(isset($_POST['email'])) || !(isset($_POST['password'])) || empty($_POST['email']) || empty($_POST['password'])){
+    echo "Veuillez remplir tous les champs";
+} else {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
+    
     $authentificationController->login($email, $password);
-} else {
-    echo "Veuillez remplir tous les champs";
 }
 
 ?>

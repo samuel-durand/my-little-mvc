@@ -13,7 +13,7 @@ if (isset($_POST['fullname']) || isset($_POST['email']) || isset($_POST['passwor
     
     $authentificationController->register($fullname, $email, $password, $password_confirm);
 } else {
-    echo "Veuillez remplir tous les champs";
+    $msg = "Veuillez remplir tous les champs";
 }
 
 ?>
@@ -26,6 +26,7 @@ if (isset($_POST['fullname']) || isset($_POST['email']) || isset($_POST['passwor
     <title>Inscription</title>
 </head>
 <body>
+    <p><?php if (isset($msg)) { echo $msg; } ?></p>
     <form method="post">
         <label for="fullname">Nom et Prénom</label>
         <input type="text" name="fullname" id="fullname">
