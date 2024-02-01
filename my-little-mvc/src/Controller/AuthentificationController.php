@@ -25,7 +25,7 @@ class AuthentificationController
                 echo "Les mots de passe ne correspondent pas";
             }
             else {
-                // $password = password_hash($password, PASSWORD_DEFAULT);
+                $password = password_hash($password, PASSWORD_DEFAULT);
                 $user = new User();
                 $user->setFullname($fullname);
                 $user->setEmail($email);
@@ -39,6 +39,19 @@ class AuthentificationController
 
         else {
             echo "L'email existe déjà";
+        }
+    }
+
+    // Function that checks if the email and password exist in the database
+    public function login($email, $password) {
+        $searched_user = $this->user->findOneByEmail($email);
+
+        if ($searched_user == true) {
+            var_dump($searched_user);
+        }
+
+        else {
+            echo "L'email n'existe pas";
         }
     }
 }
