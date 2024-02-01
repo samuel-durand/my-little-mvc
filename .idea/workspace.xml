@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="feat: add display product detail">
+    <list default="true" id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="feat: wip add product in client cart function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/product.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Controller/AuthenticationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Controller/AuthenticationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Controller/ShopController.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Controller/ShopController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Model/Cart.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Model/Cart.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Model/CartProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Model/CartProduct.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Model/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Model/Product.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +76,8 @@
       <workItem from="1706624314270" duration="3931000" />
       <workItem from="1706628912490" duration="30648000" />
       <workItem from="1706774191304" duration="11769000" />
-      <workItem from="1706786657287" duration="15215000" />
+      <workItem from="1706786657287" duration="16562000" />
+      <workItem from="1706817426967" duration="737000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -188,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706797598670</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat: wip add product in client cart function">
+      <option name="closed" value="true" />
+      <created>1706811078076</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1706811078076</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,7 +236,8 @@
     <MESSAGE value="feat: wip add product in cart and cart_product" />
     <MESSAGE value="fix: return value not log" />
     <MESSAGE value="feat: add display product detail" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add display product detail" />
+    <MESSAGE value="feat: wip add product in client cart function" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: wip add product in client cart function" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
