@@ -1,21 +1,17 @@
 <?php
 
+
 require 'vendor/autoload.php';
+
+session_start();
 
 use src\Controller\AuthenticationController;
 
-
 $auth = new AuthenticationController();
 
-
-
-
 if (isset($_POST['submit'])) {
-    $register = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
+    $login = $auth->login($_POST['email'], $_POST['password']);
 }
-
-
-
 
 
 
@@ -24,15 +20,13 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Shop - Register</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>Register</h1>
+<h1>Login</h1>
 <form action="" method="post">
-    <label for="fullname">fullname</label>
-    <input type="text" name="fullname" id="fullname" placeholder="fullname">
 
     <label for="email">email</label>
     <input type="email" name="email" id="email" placeholder="email">
@@ -44,3 +38,5 @@ if (isset($_POST['submit'])) {
 </form>
 </body>
 </html>
+
+

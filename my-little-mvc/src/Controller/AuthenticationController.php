@@ -46,6 +46,8 @@ class AuthenticationController
 
 
 
+
+
         //try catch pour la creation de l'utilisateur
 
         try {
@@ -55,6 +57,7 @@ class AuthenticationController
             $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
             $user->setRole(['ROLE_USER']);
             $user->create();
+            var_dump($user);
         } catch (\PDOException $e) {
             echo $e->getMessage();
             var_dump($user);
@@ -66,36 +69,40 @@ class AuthenticationController
     }
 
     //connexion de l'utilisateur
-    public function login()
+    public function login(string $email, string $password)
     {
-     //connecter l'user
-        //verifie si le formulaire n'est pas vide
-        if (empty($_POST['email']) || empty($_POST['password'])) {
+        // Vérification des champs vides
+        if (empty($email) || empty($password)) {
             echo 'Veuillez remplir tous les champs';
-            return;
+            return false;
         }
-        //verifie si l'email existe
+
+        // Vérification de la validité de l'email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo 'Veuillez entrer un email valide';
+            return false;
+        }
+
         $user = new User();
-        //verifie si le mot de passe est bon
-        if(!password_verify($_POST['password'], $user->getPassword())){
-            echo 'Le mot de passe est incorrect';
-            return;
+        $login = $user->findOneByEmail($email);
+
+        // Vérification de l'existence de l'utilisateur
+        if ($login === false) {
+            echo 'Aucun utilisateur trouvé avec cet email';
+            return false;
         }
-        //connecter l'utilisateur
-        $_SESSION['user'] = $user;
-        //try catch pour la connexion de l'utilisateur
-        try {
-            $user = new User();
-            $user->setEmail($_POST['email']);
-            $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
-            $user->setRole(['ROLE_USER']);
-            $user->login();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            var_dump($user);
-            return;
+
+        // Vérification du mot de passe
+        if (password_verify($password, $login['password'])) {
+            echo 'Vous êtes connecté';
+            var_dump($login);
+            return true;
+        } else {
+            echo 'Mot de passe incorrect';
+            return false;
         }
     }
+
 
 
 

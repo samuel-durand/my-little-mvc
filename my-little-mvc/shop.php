@@ -1,6 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
-use App\Model\Electronic;
+use src\Model\Electronic;
 
 $product = new Electronic();
 
@@ -36,7 +36,7 @@ var_dump($product->findAll());
                 <tr>
                     <td><?= $product->getId() ?></td>
                     <td><?= $product->getName() ?></td>
-                    <td><?= $product->getphotos("photos") ?></td>
+                    <td><?= $product->getphotos(["photo"]) ?></td>
                     <td><?= $product->getPrice() ?></td>
                     <td><?= $product->getDescription() ?></td>
                     <td><?= $product->getQuantity() ?></td>

@@ -47,12 +47,12 @@ class User
         $this->email = $email;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password): void
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
@@ -86,11 +86,15 @@ class User
         $users = $query->fetchAll(\PDO::FETCH_CLASS, User::class);
         return $users;
     }
-    public function findOneByEmail(string $email): bool
+
+
+
+
+    public function findOneByPassword(string $password): array|bool
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
-        $query->execute(['email' => $email]);
+        $query = $pdo->prepare('SELECT * FROM user WHERE password = :password');
+        $query->execute(['password' => $password]);
         $user = $query->fetchAll(\PDO::FETCH_CLASS);
         if (empty($user)) {
             return false;
@@ -98,6 +102,18 @@ class User
             return true;
         }
     }
+
+    public function findOneByEmail(string $email)
+    {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
+        $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        return $query->fetch(\PDO::FETCH_ASSOC);
+    }
+
+
+
+
 
 
 
@@ -127,6 +143,8 @@ class User
             return true;
         }
     }
+
+
 
 
 
