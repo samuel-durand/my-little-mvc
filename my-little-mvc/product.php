@@ -1,21 +1,21 @@
 <?php
 require_once 'vendor/autoload.php';
-
 session_start();
 
 use App\Controller\ShopController;
 
 
-/* recupére les parametre de l'url */
+/* get url params in get */
 
 $url_idProduct = intval($_GET['id_product']) ?? null;
 
-/* recupére le produit */
+/* get product */
 if ($url_idProduct !== null) {
     $shopController = new ShopController();
     $products = $shopController->showProduct($url_idProduct);
 }
 
+/* add product to cart */
 if (isset($_POST['submit'])) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();

@@ -21,9 +21,10 @@ class CartProduct
         return $this->id;
     }
 
-    public function setId(?int $id): void
+    public function setId(?int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getQuantity(): ?int
@@ -31,19 +32,21 @@ class CartProduct
         return $this->quantity;
     }
 
-    public function setQuantity(?int $quantity):void
-{
-    $this->quantity = $quantity;
-}
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
 
     public function getCartId(): ?int
     {
         return $this->cart_id;
     }
 
-    public function setCartId(?int $cart_id): void
+    public function setCartId(?int $cart_id): self
     {
         $this->cart_id = $cart_id;
+        return $this;
     }
 
     public function getProductId(): ?int
@@ -51,19 +54,20 @@ class CartProduct
         return $this->product_id;
     }
 
-    public function setProductId(?int $product_id): void
+    public function setProductId(?int $product_id): self
     {
         $this->product_id = $product_id;
+        return $this;
     }
-
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): void
+    public function setCreatedAt(?\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTime
@@ -71,9 +75,10 @@ class CartProduct
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): void
+    public function setUpdatedAt(?\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
     public function getPdo(): \PDO
     {
@@ -111,6 +116,30 @@ class CartProduct
             return true;
         }
     }
+    public function findOneById(int $id): ?CartProduct
+    {
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM cart_product WHERE id = :id');
+        $query->execute(['id' => $id]);
+        $cartProduct = $query->fetchObject(CartProduct::class);
+        if ($cartProduct === false) {
+            return null;
+        }
+        return $cartProduct;
+    }
+    public function findAll(int $id) : array
+    {
+        $pdo = this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM cart_product WHERE cart_id = :id');
+        $query->execute(['id' => $id]);
+        $results = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $cartProducts = [];
+        foreach ($results as $result) {
+            $cartProduct = new CartProduct();
+            $cartProduct->hydrate($result);
+            $cartProducts[] = $cartProduct;
+        }
+    }
     public function addProduct(int $cart_id, int $product_id, int $quantity): void
     {
         $pdo = $this->getPdo();
@@ -120,7 +149,7 @@ class CartProduct
         $query->bindParam(':quantity', $quantity, \PDO::PARAM_INT);
         $query->execute();
     }
-    public function updateQuantity(int $id, int $quantity): void
+    public function update(): void
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('UPDATE cart_product SET quantity = :quantity, updated_at = NOW() WHERE id = :id');
@@ -134,5 +163,16 @@ class CartProduct
         $query = $pdo->prepare('DELETE FROM cart_product WHERE id = :id');
         $query->bindParam(':id', $id, \PDO::PARAM_INT);
         $query->execute();
+    }
+    public function create(): static
+    {
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('INSERT INTO cart_product (cart_id, product_id, quantity, created_at) VALUES (:cart_id, :product_id, :quantity, NOW())');
+        $query->bindParam(':cart_id', $cart_id, \PDO::PARAM_INT);
+        $query->bindParam(':product_id', $product_id, \PDO::PARAM_INT);
+        $query->bindParam(':quantity', $quantity, \PDO::PARAM_INT);
+        $query->execute();
+
+        $this->id = $pdo->lastInsertId();
     }
 }

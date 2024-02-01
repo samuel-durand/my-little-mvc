@@ -94,21 +94,21 @@ class Cart
             'total' => $this->total,
             'user_id' => $this->user_id
         ]);
-        $this->id = (int)$pdo->lastInsertId();
+        $this->id = $pdo->lastInsertId();
         return $this;
     }
-    public function findByUserId(int $id): ?Cart
+    public function findOneByUserId(int $id): Cart|bool
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('SELECT * FROM cart WHERE user_id = :user_id');
         $query->execute(['user_id' => $id]);
         $cart = $query->fetchObject(Cart::class);
         if ($cart === false) {
-            return null;
+            return false;
         }
         return $cart;
     }
-    public function update(int $id, int $total): void
+    public function update(): void
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('UPDATE cart SET total = :total, updated_at = NOW() WHERE id = :id');
