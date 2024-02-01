@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Model\User;
+use App\Model\Cart;
+use App\Model\CartProduct;
 
 class AuthenticationController
 {
@@ -83,6 +85,7 @@ class AuthenticationController
                 $users = $user->getOneByEmail($email);
                 if (password_verify($password, $users->getPassword())) {
                     $_SESSION['user'] = $users;
+                    $this->loginCart();
                     $errors['success'] = 'Vous êtes connecté';
                     header('Location: /my-little-mvc/my-little-mvc/shop.php');
                 } else {
@@ -95,6 +98,15 @@ class AuthenticationController
         }
     }
 
+    private function loginCart(): void
+    {
+        $cart = new Cart();
+        if ($cart->findOneByUserId($_SESSION['user']->getId()) !== false) {
+            $_SESSION['cart'] = $cart->findOneByUserId($_SESSION['user']->getId());
+            $cartProductModel = new CartProduct();
+            $_SESSION['products'] = $cartProductModel->findAllByCartId($_SESSION['cart']->getId());
+        }
+    }
     public function logout(): void
     {
         session_destroy();

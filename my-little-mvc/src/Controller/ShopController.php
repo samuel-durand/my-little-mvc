@@ -40,10 +40,9 @@ class ShopController
         $product = new Product();
         $products = $product->findOneById($productId);
 
-
         $cartModel = new Cart();
 
-        if ($cartModel->findOneByUserId($user_id) === false){
+        if ($cartModel->findOneByUserId($user_id) === false) {
             $cartModel->setUserId($user_id);
             $cartModel->setTotal(0);
             $cartModel->setCreatedAt(new \DateTime());
@@ -64,29 +63,35 @@ class ShopController
             $cart->update();
             // store cart object in session
             $_SESSION['cart'] = $cart;
-            $_SESSION['products'] = [$cartProductModel];
+            $_SESSION['products'][] = $cartProductModel;
         } else {
-            $cart = $cartModel->findOneByUserId($user_id);
-            $cartProductModel = new CartProduct();
-            $findProduct = $cartProductModel->findOneById($cart->getId());
-
-            if ($findProduct === false) {
+            $foundProduct = null;
+            foreach ($_SESSION['products'] as $cartProduct) {
+                if ($cartProduct->getProductId() == $productId) {
+                    $foundProduct = $cartProduct;
+                    break;
+                }
+            }
+            if ($foundProduct !== null) {
+                $foundProduct->setQuantity($foundProduct->getQuantity() + $quantity);
+                $foundProduct->update();
+                $cart = $_SESSION['cart'];
+                $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
+                $cart->update();
+            } else {
+                $cartProductModel = new CartProduct();
                 $cartProductModel
-                    ->setCartId($cart->getId())
+                    ->setCartId($_SESSION['cart']->getId())
                     ->setProductId($productId)
                     ->setQuantity($quantity)
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(null)
                     ->create();
 
-
-                $cart->setTotal($quantity * $products->getPrice());
-                $cart->update();
-            } else {
-                $findProduct->setQuantity($findProduct->getQuantity() + $quantity);
-                $findProduct->update();
+                $cart = $_SESSION['cart'];
                 $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
                 $cart->update();
+                $_SESSION['products'][] = $cartProductModel;
             }
         }
     }

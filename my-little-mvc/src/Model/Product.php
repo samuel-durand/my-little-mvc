@@ -14,11 +14,11 @@ class Product extends AbstractProduct
         protected ?string $description = null,
         protected ?int $quantity = null,
         protected ?int $category_id = null,
-        protected ?\DateTime $createdAt = null,
-        protected ?\DateTime $updatedAt = null,
+        protected ?\DateTime $created_at = null,
+        protected ?\DateTime $updated_at = null,
         protected ?\PDO $pdo = null
     ) {
-        parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id, $createdAt, $updatedAt);
+        parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id, $created_at, $updated_at);
     }
     public function getPdo(): \PDO
     {
@@ -34,8 +34,8 @@ class Product extends AbstractProduct
         $this->description = $data['description'] ?? null;
         $this->quantity = $data['quantity'] ?? null;
         $this->category_id = $data['category_id'] ?? null;
-        $this->createdAt = new \DateTime($data['created_at']);
-        $this->updatedAt = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->created_at = new \DateTime($data['created_at']);
+        $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
         return $this;
     }
     public function __sleep(): array
@@ -82,5 +82,17 @@ class Product extends AbstractProduct
             return $product;
         }
     }
-
+    public function findAll(): array
+    {
+        $pdo = $this->getPdo();
+        $query = $pdo->query('SELECT * FROM product');
+        $results = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $products = [];
+        foreach ($results as $result) {
+            $product = new Product();
+            $product->hydrate($result);
+            $products[] = $product;
+        }
+        return $products;
+    }
 }

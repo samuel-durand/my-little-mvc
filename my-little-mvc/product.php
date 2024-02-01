@@ -13,14 +13,18 @@ $url_idProduct = intval($_GET['id_product']) ?? null;
 if ($url_idProduct !== null) {
     $shopController = new ShopController();
     $products = $shopController->showProduct($url_idProduct);
+    if ($products === null) {
+        header('Location: /my-little-mvc/my-little-mvc/shop.php');
+    }
 }
-
+var_dump($_SESSION['products']);
 /* add product to cart */
 if (isset($_POST['submit'])) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($url_idProduct, intval($_POST['quantity']), $user->getId());
 }
+
 
 ?>
 

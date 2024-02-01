@@ -80,7 +80,7 @@ class Cart
     }
     public function __sleep(): array
     {
-        return ['id', 'total', 'user_id', 'created_at', 'updated_at'];
+        return ['id', 'total', 'user_id', 'createdAt', 'updatedAt'];
     }
     public function __wakeup(): void
     {
@@ -97,23 +97,26 @@ class Cart
         $this->id = $pdo->lastInsertId();
         return $this;
     }
-    public function findOneByUserId(int $id): Cart|bool
+    public function findOneByUserId(int $id): Cart|false
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('SELECT * FROM cart WHERE user_id = :user_id');
         $query->execute(['user_id' => $id]);
-        $cart = $query->fetchObject(Cart::class);
+        $cart = $query->fetch(\PDO::FETCH_ASSOC);
         if ($cart === false) {
             return false;
+        } else {
+            $carts = new Cart();
+            $carts->hydrate($cart);
+            return $carts;
         }
-        return $cart;
     }
     public function update(): void
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('UPDATE cart SET total = :total, updated_at = NOW() WHERE id = :id');
-        $query->bindParam(':total', $total);
-        $query->bindParam(':id', $id);
+        $query->bindParam(':total', $this->total);
+        $query->bindParam(':id', $this->id);
         $query->execute();
     }
 }
