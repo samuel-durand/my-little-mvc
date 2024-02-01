@@ -20,22 +20,27 @@ class AuthentificationController
         $searched_user = $this->user->findOneByEmail($email);
 
         if ($searched_user == false) {
-            if ($password < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)){
-                echo "Le mot de passe doit contenir au moins 8 caractères, avoir une majuscule et un chiffre";
-            }
-            else if ($password != $password_confirm) {
-                echo "Les mots de passe ne correspondent pas";
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo "L'email n'est pas valide";
             }
             else {
-                $password = password_hash($password, PASSWORD_DEFAULT);
-                $user = new User();
-                $user->setFullname($fullname);
-                $user->setEmail($email);
-                $user->setPassword($password);
-                $user->setRole('ROLE_USER');
-                $user->create();
-    
-                echo "Vous êtes bien inscrit";
+                if ($password < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)){
+                    echo "Le mot de passe doit contenir au moins 8 caractères, avoir une majuscule et un chiffre";
+                }
+                else if ($password != $password_confirm) {
+                    echo "Les mots de passe ne correspondent pas";
+                }
+                else {
+                    $password = password_hash($password, PASSWORD_DEFAULT);
+                    $user = new User();
+                    $user->setFullname($fullname);
+                    $user->setEmail($email);
+                    $user->setPassword($password);
+                    $user->setRole('ROLE_USER');
+                    $user->create();
+        
+                    echo "Vous êtes bien inscrit";
+                }
             }
         }
 
@@ -64,6 +69,44 @@ class AuthentificationController
         else {
             header('Location: login.php');
             echo "Vous n'êtes pas connecté";
+        }
+    }
+
+    public function updateProfile($email, $fullname, $password) {
+        $_SESSION['user'] = $this->user->findOneById($id);
+
+        if ($_SESSION['user']) {
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    echo "L'email n'est pas valide";
+                }
+                else {
+                    $_SESSION['user']->setEmail($email);
+                    $_SESSION['user']->update();
+                    echo "L'email a bien été modifié";
+                }
+            }
+            else if ($fullname) {
+                $_SESSION['user']->setFullname($fullname);
+                $_SESSION['user']->update();
+                echo "Le nom et prénom ont bien été modifiés";
+            }
+            else if ($password) {
+                if ($password < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)){
+                    echo "Le mot de passe doit contenir au moins 8 caractères, avoir une majuscule et un chiffre";
+                }
+                else {
+                    $password = password_hash($password, PASSWORD_DEFAULT);
+
+                    $_SESSION['user']->setPassword($password);
+                    $_SESSION['user']->update();
+                    echo "Mot de passe modifié avec succès";
+                }
+            }
+        }
+
+        else {
+            echo "Erreur fatale. L'utilisateur n'existe pas";
         }
     }
 }
