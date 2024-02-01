@@ -10,7 +10,7 @@ if (!(isset($_POST['email'])) || !(isset($_POST['password'])) || empty($_POST['e
 } else {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
+
     $authentificationController->login($email, $password);
 }
 

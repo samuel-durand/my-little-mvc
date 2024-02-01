@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+session_start();
+
 use App\Model\User;
 
 class AuthentificationController
@@ -52,6 +54,16 @@ class AuthentificationController
         }
         else {
             echo "Les identifiants fournis ne correspondent à aucun utilisateur";
+        }
+    }
+
+    public function profile() {
+        if ($_SESSION['user']) {
+            return true;
+        }
+        else {
+            header('Location: login.php');
+            echo "Vous n'êtes pas connecté";
         }
     }
 }

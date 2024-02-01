@@ -7,11 +7,10 @@
 
     $clothing = new Clothing();
     $clothings = $clothing->findAll();
-    var_dump($clothings);
 
     $electronic = new Electronic();
     $electronics = $electronic->findAll();
-    var_dump($electronics);
+
 ?>
 
 <!DOCTYPE html>
