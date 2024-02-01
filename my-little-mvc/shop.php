@@ -63,6 +63,7 @@ if (isset($_GET['page'])) {
         <?php foreach ($getProductPage as $product): ?>
             <div class="w-1/4 p-4">
                 <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
+                <p class="text-sm"><?php echo $product->getId(); ?></p>
                 <p class="text-sm"><?php echo $product->getDescription(); ?></p>
                 <p class="text-sm">Price: <?php echo $product->getPrice(); ?></p>
                 <p class="text-sm">Quantity: <?php echo $product->getQuantity(); ?></p>
