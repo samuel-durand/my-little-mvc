@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 use App\Model\Product;
-use App\Controller\AuthenticationController;
+use App\Model\Clothing;
+use App\Model\Electronic;
 class ShopController
 {
     public function index(int $page): array
@@ -10,15 +11,25 @@ class ShopController
         $productModel = new Product();
         return $productModel->findPaginated($page);
     }
-    public function showProduct(int $id)
+    public function showProduct(int $id) : Clothing|Electronic|false
     {
         $auth = new AuthenticationController();
 
         if ($auth->isLogged()) {
-            $productModel = new Product();
-            return $productModel->findOneById($id);
-        } else {
-            header('Location: /login');
+            $clothing = new Clothing();
+            $electronic = new Electronic();
+            if ($clothing->findOneById($id) !== false) {
+                $products = $clothing->findOneById($id);
+            } elseif ($electronic->findOneById($id) !== false) {
+                $products = $electronic->findOneById($id);
+            } else {
+                header('Location: /login');
+            }
         }
+        return $products;
+    }
+    public function addProductToCart(int $productId, int $quantity, int $user_id): void
+    {
+        var_dump($productId, $quantity, $user_id);
     }
 }
