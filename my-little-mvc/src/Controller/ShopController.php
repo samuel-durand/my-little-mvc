@@ -13,7 +13,7 @@ class ShopController
         $productModel = new Product();
         return $productModel->findPaginated($page);
     }
-    public function showProduct(int $id) : Clothing|Electronic|false
+    public function showProduct(int $id) : Clothing|Electronic|null
     {
         $auth = new AuthenticationController();
 
@@ -22,22 +22,26 @@ class ShopController
             $electronic = new Electronic();
             if ($clothing->findOneById($id) !== false) {
                 $products = $clothing->findOneById($id);
+                return $products;
             } elseif ($electronic->findOneById($id) !== false) {
                 $products = $electronic->findOneById($id);
+                return $products;
             } else {
-                header('Location: /login');
+                return null;
             }
+        } else {
+            return null;
         }
-        return $products;
     }
     public function addProductToCart(int $productId, int $quantity, int $user_id): void
     {
-        var_dump($productId, $quantity, $user_id);
         $product = new Product();
         $products = $product->findOneById($productId);
 
+
         $cartModel = new Cart();
-        if (!$cartModel->findOneByUserId($user_id)){
+
+        if ($cartModel->findOneByUserId($user_id) === false){
             $cartModel->setUserId($user_id);
             $cartModel->setTotal(0);
             $cartModel->setCreatedAt(new \DateTime());
@@ -56,13 +60,15 @@ class ShopController
 
             $cart->setTotal($quantity * $products->getPrice());
             $cart->update();
-            var_dump($cart);
+            // store cart object in session
+            $_SESSION['cart'] = $cart;
+            $_SESSION['products'] = [$cartProductModel];
         } else {
             $cart = $cartModel->findOneByUserId($user_id);
             $cartProductModel = new CartProduct();
-            $findProduct = $cartProductModel->findOneById($productId);
+            $findProduct = $cartProductModel->findOneById($cart->getId());
 
-            if ($findProduct === null) {
+            if ($findProduct === false) {
                 $cartProductModel
                     ->setCartId($cart->getId())
                     ->setProductId($productId)
@@ -70,6 +76,7 @@ class ShopController
                     ->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(null)
                     ->create();
+
 
                 $cart->setTotal($quantity * $products->getPrice());
                 $cart->update();
