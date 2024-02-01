@@ -68,5 +68,19 @@ class Product extends AbstractProduct
         }
         return $products;
     }
+    public function findOneById(int $id) : static|false
+    {
+        $pdo = $this->getPdo();
+        $query = $pdo->prepare('SELECT * FROM product WHERE id = :id');
+        $query->execute(['id' => $id]);
+        $result = $query->fetch(\PDO::FETCH_ASSOC);
+        if ($result === false) {
+            return false;
+        } else {
+            $product = new Product();
+            $product->hydrate($result);
+            return $product;
+        }
+    }
 
 }

@@ -13,13 +13,14 @@ class ShopController
         $productModel = new Product();
         return $productModel->findPaginated($page);
     }
-    public function showProduct(int $id) : Clothing|Electronic|null
+    public function showProduct(int $id) : Clothing|Electronic|Product|null
     {
         $auth = new AuthenticationController();
 
         if ($auth->isLogged()) {
             $clothing = new Clothing();
             $electronic = new Electronic();
+            $product = new Product();
             if ($clothing->findOneById($id) !== false) {
                 $products = $clothing->findOneById($id);
                 return $products;
@@ -27,7 +28,8 @@ class ShopController
                 $products = $electronic->findOneById($id);
                 return $products;
             } else {
-                return null;
+                $products = $product->findOneById($id);
+                return $products;
             }
         } else {
             return null;
