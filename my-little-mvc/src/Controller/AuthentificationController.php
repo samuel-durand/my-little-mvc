@@ -46,10 +46,9 @@ class AuthentificationController
     public function login($email, $password) {
         $searched_user = $this->user->findOneByEmail($email);
 
-        var_dump($searched_user);
-
         if ($searched_user && password_verify($password, $searched_user->getPassword())) {
-            echo "Vous êtes bien connecté";
+            $_SESSION['user'] = $searched_user;
+            header('Location: shop.php');
         }
         else {
             echo "Les identifiants fournis ne correspondent à aucun utilisateur";
