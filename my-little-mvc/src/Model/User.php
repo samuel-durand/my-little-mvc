@@ -115,6 +115,19 @@ class User
         return $this;
     }
 
+    public function findOneByFullname(string $fullname): bool
+    {
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
+        $query = $pdo->prepare('SELECT * FROM user WHERE fullname = :fullname');
+        $query->execute(['fullname' => $fullname]);
+        $user = $query->fetchAll(\PDO::FETCH_CLASS);
+        if (empty($user)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
 
 
