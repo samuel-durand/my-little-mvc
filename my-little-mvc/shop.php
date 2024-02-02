@@ -18,7 +18,6 @@ var_dump($product->findAll());
     <table>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Photos</th>
                 <th>Price</th>
@@ -34,7 +33,6 @@ var_dump($product->findAll());
         <tbody>
             <?php foreach ($product->findAll() as $product) : ?>
                 <tr>
-                    <td><?= $product->getId() ?></td>
                     <td><?= $product->getName() ?></td>
                     <td><?= $product->getphotos(["photo"]) ?></td>
                     <td><?= $product->getPrice() ?></td>

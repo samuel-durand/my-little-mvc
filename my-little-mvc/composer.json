@@ -2,8 +2,8 @@
     "name": "nico-rvl/revisions-poo",
     "autoload": {
         "psr-4": {
-            "src\\Controller\\": "src/Controller",
-            "src\\Model\\": "src/Model"
+            "src\\Controller\\": "src/Controller/",
+            "src\\Model\\": "src/Model/"
         }
     },
     "require": {}

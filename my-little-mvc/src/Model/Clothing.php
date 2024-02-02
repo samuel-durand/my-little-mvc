@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Model;
+namespace src\Model;
 
-use App\Interface\StockableInterface;
-use App\Model\Abstract\AbstractProduct;
+use src\Model\Interface\StockableInterface;
+use src\Model\Abstract\AbstractProduct;
 
 class Clothing extends AbstractProduct implements StockableInterface
 {

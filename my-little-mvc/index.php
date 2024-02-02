@@ -2,17 +2,15 @@
 
 require_once 'vendor/autoload.php';
 
-use App\Model\Clothing;
-
-$category = new Clothing();
-
+use src\Controller\AuthenticationController;
+$auth = new AuthenticationController();
 
 
 
 
-//test
 
-var_dump($category);
+
+
 
 
 

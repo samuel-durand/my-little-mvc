@@ -77,18 +77,19 @@ class AuthenticationController
             return false;
         }
 
-        // Vérification de la validité de l'email
+        // Vérifie si l'email est valide
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo 'Veuillez entrer un email valide';
             return false;
         }
 
+        //vérifie si l"email correspond à un utilisateur
         $user = new User();
         $login = $user->findOneByEmail($email);
 
-        // Vérification de l'existence de l'utilisateur
+        // Vérification  si l'user existe
         if ($login === false) {
-            echo 'Aucun utilisateur trouvé avec cet email';
+            echo 'Les identifiants fournis ne correspondent à aucun utilisateur';
             return false;
         }
 
@@ -96,11 +97,37 @@ class AuthenticationController
         if (password_verify($password, $login['password'])) {
             echo 'Vous êtes connecté';
             var_dump($login);
+            $user = $_SESSION['user'] = $login;
+            header('Location: shop.php');
             return true;
         } else {
             echo 'Mot de passe incorrect';
             return false;
         }
+    }
+
+
+    public static function profile()
+    {
+        $user = new User();
+        $email = $_SESSION['user']['email'] ;
+        return $user->findOneByEmail($email);
+    }
+    public function isLogged()
+    {
+        if (isset($_SESSION['user'])) {
+
+            var_dump($_SESSION['user']);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: login.php');
     }
 
 

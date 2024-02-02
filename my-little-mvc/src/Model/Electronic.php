@@ -4,7 +4,7 @@ namespace src\Model;
 
 
 
-use src\Interface\StockableInterface;
+use src\Model\Interface\StockableInterface;
 use src\Model\Abstract\AbstractProduct;
 
 class Electronic extends AbstractProduct implements StockableInterface
