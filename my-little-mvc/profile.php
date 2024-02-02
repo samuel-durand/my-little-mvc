@@ -7,11 +7,31 @@ use App\Controller\AuthentificationController;
 $authentificationController = new AuthentificationController;
 $authentificationController->profile();
 
-if (isset($_POST['edit'])) {
-    if (isset($_POST['email']) || isset($_POST['fullname']) || isset($_POST['password'])){
-        $fullname = $_POST['fullname'];
+if (isset($_POST['edit-email'])) {
+    if (isset($_POST['email'])){
         $email = $_POST['email'];
+        $fullname = null;
+        $password = null;
+
+        $authentificationController->updateProfile($email, $fullname, $password);
+    }
+}
+
+if (isset($_POST['edit-fullname'])) {
+    if (isset($_POST['fullname'])){
+        $fullname = $_POST['fullname'];
+        $email = null;
+        $password = null;
+
+        $authentificationController->updateProfile($email, $fullname, $password);
+    }
+}
+
+if (isset($_POST['edit-password'])) {
+    if (isset($_POST['password'])){
         $password = $_POST['password'];
+        $fullname = null;
+        $email = null;
 
         $authentificationController->updateProfile($email, $fullname, $password);
     }
@@ -28,15 +48,16 @@ if (isset($_POST['edit'])) {
 </head>
 <body>
 
-    <form>
+    <form method="post">
         <label for="fullname">Nom et Prénom</label>
         <input type="text" name="fullname" id="fullname" value="<?= $_SESSION['user']->getFullname() ?>">
-        <input type="submit" name="edit" value="Modifier">
+        <input type="submit" name="edit-fullname" value="Modifier">
         <label for="email">Email</label>
         <input type="text" name="email" id="email" value="<?= $_SESSION['user']->getEmail() ?>">
-        <input type="submit" name="edit" value="Modifier">
-        <input type="text" name="password" id="password" value="*********">
-        <input type="submit" name="edit" value="Modifier">
+        <input type="submit" name="edit-email" value="Modifier">
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" id="password" value="*********">
+        <input type="submit" name="edit-password" value="Modifier">
     </form>
     
 </body>

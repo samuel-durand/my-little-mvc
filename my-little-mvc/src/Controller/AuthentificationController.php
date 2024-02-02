@@ -73,11 +73,11 @@ class AuthentificationController
     }
 
     public function updateProfile($email, $fullname, $password) {
-        $_SESSION['user'] = $this->user->findOneById($id);
+        $_SESSION['user'] = $this->user->findOneById($_SESSION['user']->getId());
 
         if ($_SESSION['user']) {
-            if ($email) {
-                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (isset($_POST['edit-email'])) {
+                if (!(filter_var($email, FILTER_VALIDATE_EMAIL))) {
                     echo "L'email n'est pas valide";
                 }
                 else {
@@ -86,12 +86,12 @@ class AuthentificationController
                     echo "L'email a bien été modifié";
                 }
             }
-            else if ($fullname) {
+            else if (isset($_POST['edit-fullname'])) {
                 $_SESSION['user']->setFullname($fullname);
                 $_SESSION['user']->update();
                 echo "Le nom et prénom ont bien été modifiés";
             }
-            else if ($password) {
+            else if (isset($_POST['edit-password'])) {
                 if ($password < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)){
                     echo "Le mot de passe doit contenir au moins 8 caractères, avoir une majuscule et un chiffre";
                 }
@@ -100,7 +100,7 @@ class AuthentificationController
 
                     $_SESSION['user']->setPassword($password);
                     $_SESSION['user']->update();
-                    echo "Mot de passe modifié avec succès";
+                    echo "Le mot de passe a bien été modifié";
                 }
             }
         }

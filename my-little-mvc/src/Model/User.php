@@ -67,7 +67,7 @@ class User {
     public function findOneById(int $id): static|false
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $statement = $pdo->prepare('SELECT * FROM user');
+        $statement = $pdo->prepare('SELECT * FROM user WHERE id = :id');
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
@@ -119,7 +119,7 @@ class User {
     public function update(): static
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $sql = "UPDATE user SET fullname = :fullname, email = :email, password = :password, role = :role WHERE id = :id)";
+        $sql = "UPDATE user SET fullname = :fullname, email = :email, password = :password, role = :role WHERE id = :id";
         $statement = $pdo->prepare($sql);
         $statement->bindValue(':id', $this->getId());
         $statement->bindValue(':fullname', $this->getFullname());
