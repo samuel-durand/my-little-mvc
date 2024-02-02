@@ -9,6 +9,13 @@ if (isset($_POST['remove'])) {
     $shopController = new ShopController();
     $shopController->removeProductFromCart($idProduct);
 }
+
+if (isset($_POST['update'])) {
+    $idProduct = $_POST['id_product'];
+    $quantity = $_POST['quantity'];
+    $shopController = new ShopController();
+    $shopController->updateProductInCart($idProduct, $quantity);
+}
 ?>
 
 

@@ -142,4 +142,32 @@ class ShopController
         }
         return $errors;
     }
+    public function updateProductInCart(int $product, int $quantity) : array
+    {
+        $errors = [];
+        $cartProductModel = new CartProduct();
+        $cartProduct = $cartProductModel->findOneById($product, $_SESSION['cart']->getId());
+
+        if (!empty($cartProduct)) {
+            $storedQuantity = $cartProduct->getQuantity();
+            $cartProduct->setQuantity($quantity);
+            if ($cartProduct->update()) {
+                $cart = $_SESSION['cart'];
+                $cart->setTotal($cart->getTotal() - ($storedQuantity * $cartProduct->getPrice()));
+                $cart->setTotal($cart->getTotal() + ($quantity * $cartProduct->getPrice()));
+                $cart->update();
+                $_SESSION['cart'] = $cart;
+                unset($_SESSION['products']);
+                foreach ($cart->getCartProducts() as $product) {
+                    $_SESSION['products'][] = $product;
+                }
+                $errors['success'] = 'Product updated';
+            } else {
+                $errors['errors'] = 'An error occurred';
+            }
+        } else {
+            $errors['errors'] = 'Product not found';
+        }
+        return $errors;
+    }
 }
