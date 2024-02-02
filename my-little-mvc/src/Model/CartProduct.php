@@ -7,6 +7,7 @@ class CartProduct
     public function __construct(
         protected ?int $id = null,
         protected ?int $quantity = null,
+        protected ?int $price = null,
         protected ?int $cart_id = null,
         protected ?int $product_id = null,
         protected ?\DateTime $created_at = null,
@@ -38,6 +39,15 @@ class CartProduct
         return $this;
     }
 
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
+        return $this;
+    }
     public function getCartId(): ?int
     {
         return $this->cart_id;
@@ -89,6 +99,7 @@ class CartProduct
     {
         $this->id = $data['id'] ?? null;
         $this->quantity = $data['quantity'] ?? null;
+        $this->price = $data['price'] ?? null;
         $this->cart_id = $data['cart_id'] ?? null;
         $this->product_id = $data['product_id'] ?? null;
         $this->created_at = new \DateTime($data['created_at']);
@@ -97,7 +108,7 @@ class CartProduct
     }
     public function __sleep(): array
     {
-        return ['id', 'quantity', 'cart_id', 'product_id', 'created_at', 'updated_at'];
+        return ['id', 'quantity', 'cart_id', 'price' , 'product_id', 'created_at', 'updated_at'];
     }
 
     public function __wakeup(): void
@@ -116,23 +127,32 @@ class CartProduct
             return true;
         }
     }
-    public function findOneById(int $id) : CartProduct|false
+    /**
+     * Finds a CartProduct by its product_id and cart_id.
+     *
+     * This function searches for an entry in the cart_product table that matches both the given product_id and cart_id.
+     * If such an entry is found, it creates a new CartProduct object, hydrates it with the found data, and returns it.
+     * If no such entry is found, it returns false.
+     *
+     * @param int $product_id The ID of the product.
+     * @param int $cart_id The ID of the cart.
+     * @return CartProduct|false The CartProduct object if found, false otherwise.
+     */
+    public function findOneById(int $product_id, int $cart_id) : static|false
     {
         $pdo = $this->getPdo();
-        $query = $pdo->prepare('SELECT cart_product.id, cart_product.cart_id, cart_product.quantity, cart_product.product_id, cart_product.created_at, cart_product.updated_at  
-                                    FROM cart_product 
-                                    INNER JOIN cart ON cart_product.cart_id = cart.id 
-                                    WHERE cart_id = :id');
-        $query->bindParam(':id', $id, \PDO::PARAM_INT);
+        $query = $pdo->prepare('SELECT * FROM cart_product WHERE cart_id = :cart_id AND product_id = :product_id');
+        $query->bindParam(':cart_id', $cart_id, \PDO::PARAM_INT);
+        $query->bindParam(':product_id', $product_id, \PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        if (count($result) > 1) {
-            return false;
-        } else {
+        if (count($result) === 1) {
             $cartProduct = new CartProduct();
-            $cartProduct->hydrate($result);
+            $cartProduct->hydrate($result[0]);
             return $cartProduct;
+        } else {
+            return false;
         }
     }
     public function findAll(int $id) : array
@@ -166,21 +186,22 @@ class CartProduct
         $query->bindParam(':quantity', $this->quantity, \PDO::PARAM_INT);
         $query->execute();
     }
-    public function delete(int $id): void
+    public function delete(int $id): bool
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('DELETE FROM cart_product WHERE id = :id');
         $query->bindParam(':id', $id, \PDO::PARAM_INT);
-        $query->execute();
+        return $query->execute();
     }
     public function create(): static
     {
         $pdo = $this->getPdo();
 
-        $query = $pdo->prepare('INSERT INTO cart_product (cart_id, product_id, quantity, created_at) VALUES (:cart_id, :product_id, :quantity, NOW())');
+        $query = $pdo->prepare('INSERT INTO cart_product (cart_id, product_id, quantity, price, created_at) VALUES (:cart_id, :product_id, :quantity, :price, NOW())');
         $query->bindParam(':cart_id', $this->cart_id, \PDO::PARAM_INT);
         $query->bindParam(':product_id', $this->product_id, \PDO::PARAM_INT);
         $query->bindParam(':quantity', $this->quantity, \PDO::PARAM_INT);
+        $query->bindParam(':price', $this->price, \PDO::PARAM_INT);
         $query->execute();
 
         $this->id = $pdo->lastInsertId();

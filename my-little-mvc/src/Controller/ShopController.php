@@ -13,6 +13,16 @@ class ShopController
         $productModel = new Product();
         return $productModel->findPaginated($page);
     }
+    /**
+     * Displays a product.
+     *
+     * This function attempts to find a product by its ID. It first checks if the user is logged in.
+     * If the user is logged in, it tries to find the product as a Clothing item, then as an Electronic item, and finally as a generic Product.
+     * If the product is found, it is returned. If the product is not found or the user is not logged in, null is returned.
+     *
+     * @param int $id The ID of the product to display.
+     * @return Clothing|Electronic|Product|null The found product or null if not found or user is not logged in.
+     */
     public function showProduct(int $id) : Clothing|Electronic|Product|null
     {
         $auth = new AuthenticationController();
@@ -55,6 +65,7 @@ class ShopController
                 ->setCartId($cart->getId())
                 ->setProductId($productId)
                 ->setQuantity($quantity)
+                ->setPrice($products->getPrice())
                 ->setcreated_at(new \DateTime())
                 ->setupdated_at(null)
                 ->create();
@@ -84,6 +95,7 @@ class ShopController
                     ->setCartId($_SESSION['cart']->getId())
                     ->setProductId($productId)
                     ->setQuantity($quantity)
+                    ->setPrice($products->getPrice())
                     ->setcreated_at(new \DateTime())
                     ->setupdated_at(null)
                     ->create();
@@ -95,23 +107,39 @@ class ShopController
             }
         }
     }
-    public function removeProductFromCart(int $id_product)
+    /**
+     * Removes a product from the cart.
+     *
+     * This function attempts to find a product in the cart using the provided product_id.
+     * If the product is found, it is deleted from the cart, the total price of the cart is updated,
+     * and the cart is saved back to the session. If the product is not found, an error message is returned.
+     *
+     * @param int $product_id The ID of the product to remove from the cart.
+     * @return array An associative array containing either a success message or an error message.
+     */
+    public function removeProductFromCart(int $product_id) : array
     {
-        var_dump($id_product);
+        $errors = [];
         $cartProductModel = new CartProduct();
-        $cartProduct = $cartProductModel->findOneById($id_product);
+        $cartProduct = $cartProductModel->findOneById($product_id, $_SESSION['cart']->getId());
 
-        if ($cartProduct !== false) {
-            var_dump($cartProduct);
-            /*$cartProduct->delete();
-            $cart = $_SESSION['cart'];
-            $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getProduct()->getPrice()));
-            $cart->update();
-            $_SESSION['cart'] = $cart;
-            unset($_SESSION['products']);
-            foreach ($cart->getCartProducts() as $product) {
-                $_SESSION['products'][] = $product;
-            }*/
+        if (!empty($cartProduct)) {
+            if ($cartProduct->delete($product_id)) {
+                $cart = $_SESSION['cart'];
+                $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
+                $cart->update();
+                $_SESSION['cart'] = $cart;
+                unset($_SESSION['products']);
+                foreach ($cart->getCartProducts() as $product) {
+                    $_SESSION['products'][] = $product;
+                }
+                $errors['success'] = 'Product removed from cart';
+            } else {
+                $errors['errors'] = 'An error occurred';
+            }
+        } else {
+            $errors['errors'] = 'Product not found';
         }
+        return $errors;
     }
 }
