@@ -37,50 +37,41 @@ if (isset($_POST['submit'])) {
     <title>Shop - Profil</title>
 </head>
 <body>
-<main>
+<main class="w-screen h-screen flex justify-center items-center">
     <?php require_once 'import/header.php'; ?>
-    <h1>Profil</h1>
-    <?php if (!empty($user)) : ?>
-        <p>Nom : <?php echo $user->getFullname(); ?></p>
-        <p>Email : <?php echo $user->getEmail(); ?></p>
-        <?php foreach ($user->getRole() as $role)
-            $role === 'ROLE_ADMIN' ? $role = 'Administrateur' : $role = 'Utilisateur';
-        echo '<p>Role : ' . $role . '</p>';
-        ?>
-        <a href="/logout.php">Déconnexion</a>
-    <?php else: ?>
-        <a href="login.php">Connexion</a>
-        <p>Vous devez être connecté pour accéder à cette page</p>
-    <?php endif; ?>
-
-    <section>
         <?php if (!empty($user)) : ?>
-        <div id="containerForm" class="">
-            <h2>Modifier mes informations</h2>
-            <form action="" method="post">
-                <div>
-                    <label for="fullname">Nom complet</label>
-                    <input type="text" name="fullname" id="fullname" placeholder=<?php echo $user->getFullname(); ?> class="">
-                    <p><?php echo $errors['fullname'] ?? ''; ?></p>
+        <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">
+            <div class="w-1/2 text-white p-4">
+                <h2 class="text-6xl font-semibold text-[#7B41F9]">Profil</h2>
+                <div class="pt-3 text-black">
+                    <p>Modifiez vos informations</p>
                 </div>
-                <div>
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder=<?php echo $user->getEmail();?>>
-                    <p><?php echo $errors['email'] ?? ''; ?></p>
-                </div>
-                <div>
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" placeholder="password">
-                    <p><?php echo $errors['password'] ?? ''; ?></p>
-                </div>
-                <div id="message">
-                    <?php echo $errors['success'] ?? ''; ?>
-                </div>
-                <input type="submit" value="submit" name="submit" class="p-2 border rounded bg-red-100">
-            </form>
-        </div>
+            </div>
+            <div id="containerForm" class="w-1/2 h-full">
+                <form action="" method="post" class="flex flex-col justify-around h-full px-4">
+                    <div class="flex flex-col items-start gap-y-1">
+                        <label for="fullname">Nom complet</label>
+                        <input type="text" name="fullname" id="fullname" class="p-2 w-full rounded border border-[#7B41F9]" placeholder=<?php echo $user->getFullname(); ?> class="">
+                        <p><?php echo $errors['fullname'] ?? ''; ?></p>
+                    </div>
+                    <div class="flex flex-col items-start gap-y-1">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="p-2 w-full rounded border border-[#7B41F9]" placeholder=<?php echo $user->getEmail();?>>
+                        <p><?php echo $errors['email'] ?? ''; ?></p>
+                    </div>
+                    <div class="flex flex-col items-start gap-y-1">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="password" id="password" class="p-2 w-full rounded border border-[#7B41F9]" placeholder="password">
+                        <p><?php echo $errors['password'] ?? ''; ?></p>
+                    </div>
+                    <div id="message">
+                        <?php echo $errors['success'] ?? ''; ?>
+                    </div>
+                    <input type="submit" value="submit" name="submit" class="p-2 w-full bg-[#7B41F9] text-white text-xl rounded">
+                </form>
+            </div>
+        </section>
         <?php endif; ?>
-    </section>
 </main>
 </body>
 </html>

@@ -31,27 +31,11 @@ if (isset($_GET['page'])) {
 
 <?php require_once 'import/header.php'; ?>
 
-<main class="px-8 pt-20">
-    <div class="w-full flex justify-between pt-2">
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
-            Page précédente
-        </a>
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
-            Page suivante
-        </a>
-    </div>
+<main class="w-screen h-screen flex flex-col justify-center items-center">
     <div class="w-full flex justify-center py-4">
         <h1 class="text-3xl">Products</h1>
     </div>
     <div class="flex flex-wrap">
-        <?php /*foreach ($allProducts as $product): */?><!--
-            <div>
-                <h2><?php /*echo $product->getName(); */?></h2>
-                <p><?php /*echo $product->getDescription(); */?></p>
-                <p>Price: <?php /*echo $product->getPrice(); */?></p>
-                <p>Quantity: <?php /*echo $product->getQuantity(); */?></p>
-            </div>
-        --><?php /*endforeach; */?>
         <?php foreach ($getProductPage as $product): ?>
             <div class="w-1/4 p-4">
                 <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
@@ -70,6 +54,15 @@ if (isset($_GET['page'])) {
                 </form>
             </div>
         <?php endforeach; ?>
+    </div>
+    <div class="w-full flex justify-between pt-2">
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
+            Page précédente
+        </a>
+        <p><?php echo $page; ?></p>
+        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
+            Page suivante
+        </a>
     </div>
 </main>
 
