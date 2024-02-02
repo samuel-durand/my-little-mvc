@@ -8,8 +8,8 @@ $user = $_SESSION['user'] ?? null;
 ?>
 
 
-<header>
-    <nav class="flex py-2 px-4 border-b-2">
+<header class="fixed top-0 left-0 right-0 lg: h-16">
+    <nav class="flex items-center py-2 px-4 border-b-2 h-full">
         <ul class="flex justify-between w-full">
             <li><a href="/my-little-mvc/my-little-mvc/shop.php">Accueil</a></li>
             <?php if ($authController->isLogged()) : ?>
