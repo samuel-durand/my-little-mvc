@@ -8,8 +8,8 @@ class Cart
         protected ?int $id = null,
         protected ?int $total = null,
         protected ?int $user_id = null,
-        protected ?\DateTime $createdAt = null,
-        protected ?\DateTime $updatedAt = null,
+        protected ?\DateTime $created_at = null,
+        protected ?\DateTime $updated_at = null,
         protected ?PDO $pdo = null
     ) {
 
@@ -50,37 +50,37 @@ class Cart
         $this->user_id = $user_id;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getcreated_at(): ?\DateTime
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): void
+    public function setcreated_at(?\DateTime $created_at): void
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getupdated_at(): ?\DateTime
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): void
+    public function setupdated_at(?\DateTime $updated_at): void
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
     }
     public function hydrate(array $data): static
     {
         $this->id = $data['id'] ?? null;
         $this->total = $data['total'] ?? null;
         $this->user_id = $data['user_id'] ?? null;
-        $this->createdAt = new \DateTime($data['created_at']);
-        $this->updatedAt = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->created_at = new \DateTime($data['created_at']);
+        $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
         return $this;
     }
     public function __sleep(): array
     {
-        return ['id', 'total', 'user_id', 'createdAt', 'updatedAt'];
+        return ['id', 'total', 'user_id', 'created_at', 'updated_at'];
     }
     public function __wakeup(): void
     {

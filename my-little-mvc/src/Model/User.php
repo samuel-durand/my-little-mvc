@@ -66,22 +66,22 @@ class User
         $this->role = $role;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getcreated_at(): ?\DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTime $created_at): void
+    public function setcreated_at(?\DateTime $created_at): void
     {
         $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getupdated_at(): ?\DateTime
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updated_at): void
+    public function setupdated_at(?\DateTime $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
@@ -167,7 +167,7 @@ class User
     {
         $this->pdo = null;
     }
-    public function updateData(string $field, string $value): void
+    public function updated_ata(string $field, string $value): void
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare("UPDATE user SET $field = :value, created_at = NOW() WHERE id = :id");

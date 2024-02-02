@@ -45,8 +45,8 @@ class ShopController
         if ($cartModel->findOneByUserId($user_id) === false) {
             $cartModel->setUserId($user_id);
             $cartModel->setTotal(0);
-            $cartModel->setCreatedAt(new \DateTime());
-            $cartModel->setUpdatedAt(null);
+            $cartModel->setcreated_at(new \DateTime());
+            $cartModel->setupdated_at(null);
             $cart = $cartModel->create();
 
             // add product to cart_product and update cart total
@@ -55,8 +55,8 @@ class ShopController
                 ->setCartId($cart->getId())
                 ->setProductId($productId)
                 ->setQuantity($quantity)
-                ->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(null)
+                ->setcreated_at(new \DateTime())
+                ->setupdated_at(null)
                 ->create();
 
             $cart->setTotal($quantity * $products->getPrice());
@@ -84,8 +84,8 @@ class ShopController
                     ->setCartId($_SESSION['cart']->getId())
                     ->setProductId($productId)
                     ->setQuantity($quantity)
-                    ->setCreatedAt(new \DateTime())
-                    ->setUpdatedAt(null)
+                    ->setcreated_at(new \DateTime())
+                    ->setupdated_at(null)
                     ->create();
 
                 $cart = $_SESSION['cart'];
@@ -93,6 +93,25 @@ class ShopController
                 $cart->update();
                 $_SESSION['products'][] = $cartProductModel;
             }
+        }
+    }
+    public function removeProductFromCart(int $id_product)
+    {
+        var_dump($id_product);
+        $cartProductModel = new CartProduct();
+        $cartProduct = $cartProductModel->findOneById($id_product);
+
+        if ($cartProduct !== false) {
+            var_dump($cartProduct);
+            /*$cartProduct->delete();
+            $cart = $_SESSION['cart'];
+            $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getProduct()->getPrice()));
+            $cart->update();
+            $_SESSION['cart'] = $cart;
+            unset($_SESSION['products']);
+            foreach ($cart->getCartProducts() as $product) {
+                $_SESSION['products'][] = $product;
+            }*/
         }
     }
 }

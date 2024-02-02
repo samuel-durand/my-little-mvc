@@ -14,8 +14,8 @@ abstract class AbstractProduct
     protected ?string $description = null,
     protected ?int $quantity = null,
     protected ?int $category_id = null,
-    protected ?\DateTime $createdAt = null,
-    protected ?\DateTime $updatedAt = null,
+    protected ?\DateTime $created_at = null,
+    protected ?\DateTime $updated_at = null,
     protected ?\PDO $pdo = null
     ) {
     }
@@ -97,25 +97,25 @@ abstract class AbstractProduct
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getcreated_at(): ?\DateTime
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): AbstractProduct
+    public function setcreated_at(?\DateTime $created_at): AbstractProduct
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getupdated_at(): ?\DateTime
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): AbstractProduct
+    public function setupdated_at(?\DateTime $updated_at): AbstractProduct
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
         return $this;
     }
     public function getPdo(): \PDO
@@ -206,8 +206,8 @@ abstract class AbstractProduct
         $statement->bindValue(':description', $this->description);
         $statement->bindValue(':quantity', $this->quantity);
         $statement->bindValue(':category_id', $this->category_id);
-        $statement->bindValue(':created_at', $this->createdAt->format('Y-m-d H:i:s'));
-        $statement->bindValue(':updated_at', $this->updatedAt ? $this->updatedAt->format('Y-m-d H:i:s') : null);
+        $statement->bindValue(':created_at', $this->created_at->format('Y-m-d H:i:s'));
+        $statement->bindValue(':updated_at', $this->updated_at ? $this->updated_at->format('Y-m-d H:i:s') : null);
         $statement->execute();
         $this->id = $pdo->lastInsertId();
         return $this;
@@ -238,8 +238,8 @@ abstract class AbstractProduct
         $this->price = $data['price'];
         $this->description = $data['description'];
         $this->quantity = $data['quantity'];
-        $this->createdAt = new \DateTime($data['created_at']);
-        $this->updatedAt = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->created_at = new \DateTime($data['created_at']);
+        $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
         $this->category_id = $data['category_id'];
 
         return $this;

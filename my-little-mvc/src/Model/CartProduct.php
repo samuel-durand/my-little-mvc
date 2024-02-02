@@ -9,8 +9,8 @@ class CartProduct
         protected ?int $quantity = null,
         protected ?int $cart_id = null,
         protected ?int $product_id = null,
-        protected ?\DateTime $createdAt = null,
-        protected ?\DateTime $updatedAt = null,
+        protected ?\DateTime $created_at = null,
+        protected ?\DateTime $updated_at = null,
         protected ?\PDO $pdo = null
     ) {
 
@@ -59,25 +59,25 @@ class CartProduct
         $this->product_id = $product_id;
         return $this;
     }
-    public function getCreatedAt(): ?\DateTime
+    public function getcreated_at(): ?\DateTime
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): self
+    public function setcreated_at(?\DateTime $created_at): self
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getupdated_at(): ?\DateTime
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): self
+    public function setupdated_at(?\DateTime $updated_at): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
         return $this;
     }
     public function getPdo(): \PDO
@@ -91,13 +91,13 @@ class CartProduct
         $this->quantity = $data['quantity'] ?? null;
         $this->cart_id = $data['cart_id'] ?? null;
         $this->product_id = $data['product_id'] ?? null;
-        $this->createdAt = new \DateTime($data['created_at']);
-        $this->updatedAt = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
+        $this->created_at = new \DateTime($data['created_at']);
+        $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
         return $this;
     }
     public function __sleep(): array
     {
-        return ['id', 'quantity', 'cart_id', 'product_id', 'createdAt', 'updatedAt'];
+        return ['id', 'quantity', 'cart_id', 'product_id', 'created_at', 'updated_at'];
     }
 
     public function __wakeup(): void
@@ -131,7 +131,7 @@ class CartProduct
             return false;
         } else {
             $cartProduct = new CartProduct();
-            $cartProduct->hydrate($result[0]);
+            $cartProduct->hydrate($result);
             return $cartProduct;
         }
     }

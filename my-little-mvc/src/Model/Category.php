@@ -10,17 +10,17 @@ class Category
 
     private ?string $description;
 
-    private ?\DateTime $createdAt;
+    private ?\DateTime $created_at;
 
-    private ?\DateTime $updatedAt;
+    private ?\DateTime $updated_at;
 
-    public function __construct(?int $id = null, ?string $name = null, ?string $description = null, ?\DateTime $createdAt = null, ?\DateTime $updatedAt = null)
+    public function __construct(?int $id = null, ?string $name = null, ?string $description = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
     public function getId(): ?int
@@ -56,25 +56,25 @@ class Category
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getcreated_at(): ?\DateTime
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTime $createdAt): Category
+    public function setcreated_at(?\DateTime $created_at): Category
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getupdated_at(): ?\DateTime
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTime $updatedAt): Category
+    public function setupdated_at(?\DateTime $updated_at): Category
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
         return $this;
     }
 

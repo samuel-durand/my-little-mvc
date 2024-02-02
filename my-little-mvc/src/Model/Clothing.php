@@ -15,21 +15,21 @@ class Clothing extends AbstractProduct implements StockableInterface
         protected ?string $description = null,
         protected ?int $quantity = null,
         protected ?int $category_id = null,
-        protected ?\DateTime $createdAt = null,
-        protected ?\DateTime $updatedAt = null,
+        protected ?\DateTime $created_at = null,
+        protected ?\DateTime $updated_at = null,
         private ?string $size = null,
         private ?string $color = null,
         private ?string $type = null,
         private ?int $material_fee = null,
         protected ?\PDO $pdo = null
     ) {
-        parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id, $createdAt, $updatedAt);
+        parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id, $created_at, $updated_at);
     }
 
     public function addStock(int $quantity): static
     {
         $this->quantity += $quantity;
-        $this->updatedAt = new \DateTime();
+        $this->updated_at = new \DateTime();
         $this->update();
         return $this;
     }
@@ -37,7 +37,7 @@ class Clothing extends AbstractProduct implements StockableInterface
     public function removeStock(int $quantity): static
     {
         $this->quantity -= $quantity;
-        $this->updatedAt = new \DateTime();
+        $this->updated_at = new \DateTime();
         $this->update();
         return $this;
     }
@@ -132,8 +132,8 @@ class Clothing extends AbstractProduct implements StockableInterface
         $statement->bindValue(':description', $this->getDescription());
         $statement->bindValue(':quantity', $this->getQuantity());
         $statement->bindValue(':category_id', $this->getCategoryId());
-        $statement->bindValue(':created_at', $this->getCreatedAt()->format('Y-m-d H:i:s'));
-        $statement->bindValue(':updated_at', $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d H:i:s') : null);
+        $statement->bindValue(':created_at', $this->getcreated_at()->format('Y-m-d H:i:s'));
+        $statement->bindValue(':updated_at', $this->getupdated_at() ? $this->getupdated_at()->format('Y-m-d H:i:s') : null);
         $statement->execute();
         $this->setId((int)$this->pdo->lastInsertId());
         $sql = "INSERT INTO clothing (product_id, size, color, type, material_fee) VALUES (:product_id, :size, :color, :type, :material_fee)";

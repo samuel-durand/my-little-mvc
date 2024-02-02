@@ -56,7 +56,7 @@ class AuthenticationController
                 $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
                 $user->setFullname($fullname);
                 $user->setRole(['ROLE_USER']);
-                $user->setCreatedAt(new \DateTime());
+                $user->setcreated_at(new \DateTime());
 
                 $user->create();
                 $errors['success'] = 'Votre compte a bien été créé';
@@ -143,7 +143,7 @@ class AuthenticationController
                 if ($user->findOneByEmail($email) === true) {
                     $errors['email'] = 'Cet email existe déjà';
                 } else {
-                    $user->updateData('email', $email);
+                    $user->updated_ata('email', $email);
                     $user->setEmail($email);
                     $errors['success'] = 'Votre email a bien été modifié';
                 }
@@ -154,12 +154,12 @@ class AuthenticationController
                 $errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères';
             } else {
                 $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-                $user->updateData('password', password_hash($password, PASSWORD_DEFAULT));
+                $user->updated_ata('password', password_hash($password, PASSWORD_DEFAULT));
                 $errors['success'] = 'Votre mot de passe a bien été modifié';
             }
         }
         if (!empty($fullname)) {
-            $user->updateData('fullname', $fullname);
+            $user->updated_ata('fullname', $fullname);
             $user->setFullname($fullname);
             $errors['success'] = 'Votre nom a bien été modifié';
         }
