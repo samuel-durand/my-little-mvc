@@ -4,12 +4,19 @@
     use App\Model\Clothing;
     use App\Model\Electronic;
     use App\Model\Category;
+    use App\Model\Product;
+    use App\Controller\ShopController;
 
     $clothing = new Clothing();
     $clothings = $clothing->findAll();
 
     $electronic = new Electronic();
     $electronics = $electronic->findAll();
+
+    if (isset($_GET['page'])) {
+        $shopController = new ShopController();
+        $shopController->index($_GET['page']);
+    }
 
 ?>
 
