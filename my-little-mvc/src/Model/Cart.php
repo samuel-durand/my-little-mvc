@@ -71,8 +71,8 @@ class Cart
     }
     public function hydrate(array $data): static
     {
-        $this->id = $data['id'] ?? null;
-        $this->total = $data['total'] ?? null;
+        $this->id = intval($data['id']) ?? null;
+        $this->total = intval($data['total']) ?? null;
         $this->user_id = $data['user_id'] ?? null;
         $this->created_at = new \DateTime($data['created_at']);
         $this->updated_at = isset($data['updated_at']) ? new \DateTime($data['updated_at']) : null;
@@ -90,10 +90,10 @@ class Cart
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('INSERT INTO cart (total, user_id, created_at) VALUES (:total, :user_id, NOW())');
-        $query->execute([
-            'total' => $this->total,
-            'user_id' => $this->user_id
-        ]);
+        $query->bindParam(':total', $this->total,\PDO::PARAM_INT);
+        $query->bindParam(':user_id', $this->user_id,\PDO::PARAM_INT);
+        $query->execute();
+
         $this->id = $pdo->lastInsertId();
         return $this;
     }
@@ -115,8 +115,8 @@ class Cart
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('UPDATE cart SET total = :total, updated_at = NOW() WHERE id = :id');
-        $query->bindParam(':total', $this->total);
-        $query->bindParam(':id', $this->id);
+        $query->bindParam(':total', $this->total,\PDO::PARAM_INT);
+        $query->bindParam(':id', $this->id,\PDO::PARAM_INT);
         $query->execute();
     }
 }

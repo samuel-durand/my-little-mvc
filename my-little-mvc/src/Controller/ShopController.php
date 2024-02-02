@@ -58,8 +58,8 @@ class ShopController
             $cartModel->setcreated_at(new \DateTime());
             $cartModel->setupdated_at(null);
             $cart = $cartModel->create();
-
             // add product to cart_product and update cart total
+            echo 'cart';
             $cartProductModel = new CartProduct();
             $cartProductModel
                 ->setCartId($cart->getId())
@@ -69,7 +69,6 @@ class ShopController
                 ->setcreated_at(new \DateTime())
                 ->setupdated_at(null)
                 ->create();
-
             $cart->setTotal($quantity * $products->getPrice());
             $cart->update();
             // store cart object in session

@@ -25,7 +25,6 @@ if (isset($_POST['submit'])) {
     $cartController->addProductToCart($url_idProduct, intval($_POST['quantity']), $user->getId());
 }
 
-
 ?>
 
 <!DOCTYPE html>

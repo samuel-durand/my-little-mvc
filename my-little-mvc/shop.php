@@ -7,15 +7,6 @@ use App\Model\Clothing;
 use App\Model\Electronic;
 use App\Controller\ShopController;
 
-/* Récupération de tous les produits */
-
-/*$clothing = new Clothing();
-$allClothing = $clothing->findAll();
-
-$electronic = new Electronic();
-$allElectronics = $electronic->findAll();
-$allProducts = array_merge($allClothing, $allElectronics);*/
-
 $shopController = new ShopController();
 
 if (isset($_GET['page'])) {
@@ -25,6 +16,7 @@ if (isset($_GET['page'])) {
     $page = 1;
     $getProductPage = $shopController->index($page);
 }
+
 ?>
 
 <!DOCTYPE html>
