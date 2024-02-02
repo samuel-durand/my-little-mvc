@@ -16,8 +16,8 @@ if ($url_idProduct !== null) {
     if ($products === null) {
         header('Location: /my-little-mvc/my-little-mvc/shop.php');
     }
-}
-var_dump($_SESSION['products']);
+};
+
 /* add product to cart */
 if (isset($_POST['submit'])) {
     $user = $_SESSION['user'];
@@ -38,19 +38,21 @@ if (isset($_POST['submit'])) {
 </head>
 <?php require_once 'import/header.php'; ?>
 <?php if ($url_idProduct !== null): ?>
-    <body>
-    <h1>Product</h1>
-    <div>
-        <h2><?php echo $products->getName(); ?></h2>
-        <p><?php echo $products->getDescription(); ?></p>
-        <p>Price: <?php echo $products->getPrice(); ?></p>
-        <p>Quantity: <?php echo $products->getQuantity(); ?></p>
-        <form action="" method="post">
-            <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1" value="1">
-            <input type="submit" name="submit" value="Ajouter au panier">
-        </form>
-    </div>
-    </body>
+    <main class="h-screen w-screen pt-20">
+        <section>
+            <h1>Product</h1>
+            <div>
+                <h2><?php echo $products->getName(); ?></h2>
+                <p><?php echo $products->getDescription(); ?></p>
+                <p>Price: <?php echo $products->getPrice(); ?></p>
+                <p>Quantity: <?php echo $products->getQuantity(); ?></p>
+                <form action="" method="post">
+                    <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1" value="1">
+                    <input type="submit" name="submit" value="Ajouter au panier">
+                </form>
+            </div>
+        </section>
+    </main>
 <?php else: ?>
     <body>
     <h1>Product not found</h1>

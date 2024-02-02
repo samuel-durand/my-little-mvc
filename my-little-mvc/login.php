@@ -26,19 +26,21 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 <?php require_once 'import/header.php'; ?>
-<h1>Login</h1>
-<form action="" method="post">
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" placeholder="email">
+<main class="pt-20">
+    <h1>Login</h1>
+    <form action="" method="post">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="email">
         <p><?php echo $message['fullname'] ?? ''; ?></p>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" placeholder="password">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="password">
         <p><?php echo $message['password'] ?? ''; ?></p>
-    <div id="message">
-        <?php echo $message['success'] ?? ''; ?>
-        <?php echo $message['errors'] ?? ''; ?>
-    </div>
-    <input type="submit" value="submit" name="submit" placeholder="Connexion">
-</form>
+        <div id="message">
+            <?php echo $message['success'] ?? ''; ?>
+            <?php echo $message['errors'] ?? ''; ?>
+        </div>
+        <input type="submit" value="submit" name="submit" placeholder="Connexion">
+    </form>
+</main>
 </body>
 </html>

@@ -39,7 +39,7 @@ if (isset($_GET['page'])) {
 
 <?php require_once 'import/header.php'; ?>
 
-<main class="px-8">
+<main class="px-8 pt-20">
     <div class="w-full flex justify-between pt-2">
         <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
             Page précédente

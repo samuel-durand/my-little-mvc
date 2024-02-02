@@ -178,13 +178,13 @@ class CartProduct
         $query->bindParam(':quantity', $quantity, \PDO::PARAM_INT);
         $query->execute();
     }
-    public function update(): void
+    public function update(): bool
     {
         $pdo = $this->getPdo();
         $query = $pdo->prepare('UPDATE cart_product SET quantity = :quantity, updated_at = NOW() WHERE id = :id');
         $query->bindParam(':id', $this->id, \PDO::PARAM_INT);
         $query->bindParam(':quantity', $this->quantity, \PDO::PARAM_INT);
-        $query->execute();
+        return $query->execute();
     }
     public function delete(int $id): bool
     {
