@@ -54,8 +54,8 @@ class Product extends AbstractProduct
     public function findPaginated(int $page) : array
     {
         $pdo = $this->getPdo();
-        $offset = ($page - 1) * 10;
-        $query = $pdo->prepare('SELECT * FROM product LIMIT 10 OFFSET :offset');
+        $offset = ($page - 1) * 12;
+        $query = $pdo->prepare('SELECT * FROM product LIMIT 12 OFFSET :offset');
         $query->bindParam(':offset', $offset, \PDO::PARAM_INT);
         $query->execute();
         $results = $query->fetchAll(\PDO::FETCH_ASSOC);
