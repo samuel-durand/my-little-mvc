@@ -124,7 +124,7 @@ class ShopController
                 $cart->update();
                 $_SESSION['cart'] = $cart;
                 unset($_SESSION['products']);
-                foreach ($cart->getCartProducts() as $product) {
+                foreach ($cart->findOneByUserId($_SESSION['user']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
                 }
                 $errors['success'] = 'Product removed from cart';

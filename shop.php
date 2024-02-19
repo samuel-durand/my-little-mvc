@@ -31,39 +31,47 @@ if (isset($_GET['page'])) {
 
 <?php require_once 'import/header.php'; ?>
 
-<main class="w-screen h-screen flex flex-col justify-center items-center">
-    <div class="w-full flex justify-center py-4">
+<main>
+    <div class="pt-20 w-full flex justify-center py-4">
         <h1 class="text-3xl">Products</h1>
     </div>
-    <div class="flex flex-wrap">
-        <?php foreach ($getProductPage as $product): ?>
-            <div class="w-1/4 p-4">
-                <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
-                <p class="text-sm"><?php echo $product->getId(); ?></p>
-                <p class="text-sm"><?php echo $product->getDescription(); ?></p>
-                <p class="text-sm">Price: <?php echo $product->getPrice(); ?></p>
-                <p class="text-sm">Quantity: <?php echo $product->getQuantity(); ?></p>
-                <button class="bg-red-100 rounded p-0.5">
-                    <a href="/my-little-mvc/product.php?id_product=<?php echo $product->getId();?>">
-                        Voir le produit
-                    </a>
-                </button>
-                <form action="" method="post">
-                    <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
-                    <input type="submit" name="submit" value="Add to cart" class="bg-red-100 rounded p-0.5">
-                </form>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <div class="w-full flex justify-between pt-2">
-        <a href="/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
-            Page précédente
-        </a>
-        <p><?php echo $page; ?></p>
-        <a href="/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
-            Page suivante
-        </a>
-    </div>
+    <section class="w-screen h-screen flex flex-col justify-center items-center p-2">
+        <div class="flex justify-around flex-wrap">
+            <?php foreach ($getProductPage as $product): ?>
+                <div class="w-1/5 p-4 border border rounded-lg border-b-3 m-2">
+                    <?php $photos = $product->getPhotos(); ?>
+                    <div class="h-full flex justify-between items-center">
+                        <img src="<?php echo $photos[0]; ?>" alt="<?php echo $product->getName(); ?>"
+                             class="w-full h-48 rounded-lg object-cover">
+                        <div class="flex flex-col">
+                            <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
+                            <p class="text-2xl"><?php echo $product->getPrice(); ?> €</p>
+                            <p class="text-sm">Quantité: <?php echo $product->getQuantity(); ?></p>
+                            <button class="bg-red-100 rounded p-1">
+                                <a href="/my-little-mvc/product.php?id_product=<?php echo $product->getId();?>">
+                                    Voir le produit
+                                </a>
+                            </button>
+                            <form action="" method="post">
+                                <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
+                                <input type="submit" name="submit" value="Add" class="bg-red-300 rounded p-3">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="w-screen flex justify-around pt-2">
+            <a href="/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-2">
+                Page précédente
+            </a>
+            <p><?php echo $page; ?></p>
+            <a href="/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-2">
+                Page suivante
+            </a>
+        </div>
+    </section>
+
 </main>
 
 </body>

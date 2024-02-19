@@ -24,7 +24,6 @@ if (isset($_POST['submit'])) {
     $cartController = new ShopController();
     $cartController->addProductToCart($url_idProduct, intval($_POST['quantity']), $user->getId());
 }
-var_dump($_SESSION['products']);
 
 ?>
 
