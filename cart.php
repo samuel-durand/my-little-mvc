@@ -32,61 +32,68 @@ if (isset($_POST['update'])) {
 <body>
 <?php require_once 'import/header.php'; ?>
 <main class="pt-20">
-    <h1>Cart</h1>
+    <section class="w-screen h-fit flex justify-center items-center">
+        <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre panier</h1>
+    </section>
     <?php if (!isset($_SESSION['products'])): ?>
         <section class="w-screen h-screen flex justify-center items-center">
             <p>Votre panier est vide.</p>
         </section>
     <?php else: ?>
-        <section class="w-screen h-screen flex justify-center items-center">
-            <h2>Products</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                $total = 0;
-                $shopController = new ShopController();
-                foreach ($_SESSION['products'] as $product) {
+        <section class="w-screen h-[60vh] flex justify-center items-center">
+            <div class="flex flex-col">
+                <table class="border p-2">
+                    <thead class="border p-2">
+                    <tr class="border p-2">
+                        <th class="text-center p-2">Nom</th>
+                        <th class="text-center p-2">Prix</th>
+                        <th class="text-center p-2">Quantité</th>
+                        <th class="text-center p-2">Total</th>
+                        <th class="text-center p-2">Supprimer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $total = 0;
+                    $shopController = new ShopController();
+                    foreach ($_SESSION['products'] as $product) {
                     $idProduct = $product->getProductId();
                     $productDetail = $shopController->showProduct($idProduct);
                     $price = $productDetail->getPrice();
                     $quantity = $product->getQuantity();
                     $total += $price * $quantity;
-                    echo '<tr>';
-                    echo '<td>' . $productDetail->getName() . '</td>';
-                    echo '<td>' . $price . '</td>'; ?>
-                    <td>
-                        <form action="" method="post">
-                            <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
-                                   value="<?php echo $quantity; ?>">
-                            <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
-                            <input type="submit" name="update" value="Update">
-                        </form>
-                    </td>
-                    <?php
-                    echo '<td>' . $price * $quantity . '</td>'; ?>
-                    <td>
-                        <form action="" method="post">
-                            <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
-                            <input type="submit" name="remove" value="Remove">
-                        </form>
-                    </td>
-                    <?php
+                    ?>
+                    <tr>
+                        <td class="text-center p-2 border"> <?= $productDetail->getName() ?></td>
+                        <td class="text-center p-2"><?= $price ?></td>
+                        <td class="text-center p-2 border">
+                            <form action="" method="post">
+                                <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
+                                       class="p-2"
+                                       value="<?php echo $quantity; ?>">
+                                <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
+                                <input type="submit" name="update" value="Update" class="p-2 text-white bg-green-400">
+                            </form>
+                        </td>
+                        <td class="text-center p-2 border">
+                            <?= $price * $quantity ?>
+                        </td>
+                        <td class="text-center porder p-2">
+                            <form action="" method="post">
+                                <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
+                                <input type="submit" name="remove" value="Supprimer" class="p-2 text-white bg-red-500">
+                            </form>
+                        </td>
+                        <?php
 
-                    echo '</tr>';
-                }
-                ?>
-                </tbody>
-            </table>
-            <p>Total: <?php echo $total; ?></p>
+                        echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <p>Total: <?php echo $total; ?></p>
+            </div>
+
         </section>
     <?php endif; ?>
 </main>
