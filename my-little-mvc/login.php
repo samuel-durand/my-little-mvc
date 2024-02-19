@@ -22,6 +22,7 @@ if (!(isset($_POST['email'])) || !(isset($_POST['password'])) || empty($_POST['e
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="src/CSS/login.css">
 </head>
 <body>
     <form method="post">
@@ -31,5 +32,9 @@ if (!(isset($_POST['email'])) || !(isset($_POST['password'])) || empty($_POST['e
         <input type="password" name="password" id="password" autocomplete="off">
         <input type="submit" value="Se connecter">
     </form>
+    <div class="link">
+        <p>Pas encore de compte ?</p>
+        <button><a href="register.php">S'inscrire</a></button>
+    </div>
 </body>
 </html>

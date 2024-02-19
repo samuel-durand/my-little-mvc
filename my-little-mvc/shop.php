@@ -13,10 +13,11 @@
     $electronic = new Electronic();
     $electronics = $electronic->findAll();
 
-    if (isset($_GET['page'])) {
-        $shopController = new ShopController();
-        $shopController->index($_GET['page']);
-    }
+    $shopController = new ShopController();
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    $result = $shopController->index($page);
+    var_dump($result);
 
 ?>
 
@@ -26,6 +27,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
+    <link rel="stylesheet" href="src/CSS/shop.css">
 </head>
 <body>
     <h1>Produits</h1>

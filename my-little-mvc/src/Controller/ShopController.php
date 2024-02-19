@@ -1,21 +1,24 @@
 <?php
 
 namespace App\Controller;
+require 'vendor/autoload.php';
 
 session_start();
+
+use App\Model\Product;
 
 class ShopController
 {
 
-    private $product;
+    private $products;
 
     public function __construct()
     {
-        $this->product = new Product();
+        $this->products = new Product();
     }
 
-    public function index(int $page) {
-        $product->findPaginated($page);
+    public function index($page) {
+        $this->products->findPaginated($page);
     }
 
 }
