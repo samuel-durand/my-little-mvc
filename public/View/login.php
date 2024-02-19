@@ -1,22 +1,3 @@
-<?php
-require_once 'vendor/autoload.php';
-session_start();
-
-
-
-use App\Controller\AuthenticationController;
-
-$auth = new AuthenticationController();
-
-$message = [];
-if (isset($_POST['submit'])) {
-    $reg = $auth->login($_POST['email'], $_POST['password']);
-    $message = $reg;
-}
-
-
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -37,7 +18,7 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
             <div class="w-1/2 h-full">
-                <form action="" method="post" class="flex flex-col justify-around h-full px-4">
+                <form action="/my-little-mvc/login" method="post" class="flex flex-col justify-around h-full px-4">
                     <div class="flex flex-col items-start gap-y-1">
                         <label for="email" class="font-semibold text-xl">Email</label>
                         <input type="email" name="email" id="email" placeholder="email" class="p-2 w-full rounded border border-[#7B41F9]">
