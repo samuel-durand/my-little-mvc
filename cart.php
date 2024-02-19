@@ -30,16 +30,18 @@ if (isset($_POST['update'])) {
     <title>Shop - Cart</title>
 </head>
 <body>
-  <?php require_once 'import/header.php'; ?>
-  <main class="pt-20">
+<?php require_once 'import/header.php'; ?>
+<main class="pt-20">
     <h1>Cart</h1>
     <?php if (!isset($_SESSION['products'])): ?>
-        <p>Your cart is empty</p>
+        <section class="w-screen h-screen flex justify-center items-center">
+            <p>Votre panier est vide.</p>
+        </section>
     <?php else: ?>
-    <div>
-        <h2>Products</h2>
-        <table>
-            <thead>
+        <section class="w-screen h-screen flex justify-center items-center">
+            <h2>Products</h2>
+            <table>
+                <thead>
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
@@ -47,13 +49,13 @@ if (isset($_POST['update'])) {
                     <th>Total</th>
                     <th>Remove</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <?php
                 $total = 0;
                 $shopController = new ShopController();
                 foreach ($_SESSION['products'] as $product) {
-                    $idProduct = $product->getId();
+                    $idProduct = $product->getProductId();
                     $productDetail = $shopController->showProduct($idProduct);
                     $price = $productDetail->getPrice();
                     $quantity = $product->getQuantity();
@@ -63,7 +65,8 @@ if (isset($_POST['update'])) {
                     echo '<td>' . $price . '</td>'; ?>
                     <td>
                         <form action="" method="post">
-                            <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1" value="<?php echo $quantity; ?>">
+                            <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
+                                   value="<?php echo $quantity; ?>">
                             <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
                             <input type="submit" name="update" value="Update">
                         </form>
@@ -81,11 +84,11 @@ if (isset($_POST['update'])) {
                     echo '</tr>';
                 }
                 ?>
-            </tbody>
-        </table>
-        <p>Total: <?php echo $total; ?></p>
-    </div>
+                </tbody>
+            </table>
+            <p>Total: <?php echo $total; ?></p>
+        </section>
     <?php endif; ?>
-  </main>  
+</main>
 </body>
 </html>

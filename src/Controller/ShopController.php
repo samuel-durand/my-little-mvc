@@ -31,19 +31,15 @@ class ShopController
             $clothing = new Clothing();
             $electronic = new Electronic();
             $product = new Product();
-            if ($clothing->findOneById($id) !== false) {
-                $products = $clothing->findOneById($id);
+            if (($products = $clothing->findOneById($id)) !== false) {
                 return $products;
-            } elseif ($electronic->findOneById($id) !== false) {
-                $products = $electronic->findOneById($id);
+            } elseif (($products = $electronic->findOneById($id)) !== false) {
                 return $products;
-            } else {
-                $products = $product->findOneById($id);
+            } elseif (($products = $product->findOneById($id)) !== false) {
                 return $products;
             }
-        } else {
-            return null;
         }
+        return null;
     }
     public function addProductToCart(int $productId, int $quantity, int $user_id): void
     {

@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
                         <?php echo $message['errors'] ?? ''; ?>
                     </div>
                     <div class="text-center">
-                        <p>Vous n'avez pas de compte ? <a href="/my-little-mvc/my-little-mvc/register.php" class="text-[#7B41F9]">Inscrivez-vous</a></p>
+                        <p>Vous n'avez pas de compte ? <a href="/my-little-mvc/register.php" class="text-[#7B41F9]">Inscrivez-vous</a></p>
                     </div>
                     <input type="submit" value="Connexion" name="submit" class="p-2 w-full bg-[#7B41F9] text-white text-xl rounded">
                 </form>

@@ -87,7 +87,7 @@ class AuthenticationController
                     $_SESSION['user'] = $users;
                     $this->loginCart();
                     $errors['success'] = 'Vous êtes connecté';
-                    header('Location: /my-little-mvc/my-little-mvc/shop.php');
+                    header('Location: /my-little-mvc/shop.php');
                 } else {
                     $errors['errors'] = 'Les identifiants sont incorrects.';
                 }
@@ -110,7 +110,7 @@ class AuthenticationController
     public function logout(): void
     {
         session_destroy();
-        header('Location: /my-little-mvc/my-little-mvc/shop.php');
+        header('Location: /my-little-mvc/shop.php');
     }
 
     public function isLogged(): bool
