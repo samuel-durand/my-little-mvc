@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="feat: refactor delete useless folder" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/my-little-mvc/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="router" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\Users\PHP\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/my-little-mvc/vendor/composer" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2bciHwUEKuslyBj2LYdHpf4Z9dE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "refacto__v1",
+    "last_opened_file_path": "C:/wamp64/www/my-little-mvc",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.14475.35" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="" />
+      <created>1706520684141</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706520684141</updated>
+      <workItem from="1706520685828" duration="1804000" />
+      <workItem from="1706624314270" duration="3931000" />
+      <workItem from="1706628912490" duration="30648000" />
+      <workItem from="1706774191304" duration="11769000" />
+      <workItem from="1706786657287" duration="16562000" />
+      <workItem from="1706817426967" duration="737000" />
+      <workItem from="1706860159325" duration="513000" />
+      <workItem from="1706860694402" duration="21667000" />
+      <workItem from="1708326615016" duration="2326000" />
+    </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <option name="closed" value="true" />
+      <created>1706521390239</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706521390239</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix: add gitignore">
+      <option name="closed" value="true" />
+      <created>1706521648939</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1706521648939</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix: rename and move class Electronic, Clothing.">
+      <option name="closed" value="true" />
+      <created>1706521699909</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706521699909</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix: add namespace model, controller">
+      <option name="closed" value="true" />
+      <created>1706521732347</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706521732347</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix: idea folder">
+      <option name="closed" value="true" />
+      <created>1706521793809</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1706521793809</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: wip update">
+      <option name="closed" value="true" />
+      <created>1706631815135</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706631815135</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: update profile user data">
+      <option name="closed" value="true" />
+      <created>1706647307597</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1706647307598</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: change to use electronic or clothing class to display a product with is id">
+      <option name="closed" value="true" />
+      <created>1706776632062</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1706776632062</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: minor changes">
+      <option name="closed" value="true" />
+      <created>1706776659218</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1706776659218</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: minor changes">
+      <option name="closed" value="true" />
+      <created>1706776673246</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1706776673246</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: wip add product in cart and cart_product">
+      <option name="closed" value="true" />
+      <created>1706785380336</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1706785380336</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix: return value not log">
+      <option name="closed" value="true" />
+      <created>1706796951844</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1706796951844</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: add display product detail">
+      <option name="closed" value="true" />
+      <created>1706797598670</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1706797598670</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: wip add product in client cart function">
+      <option name="closed" value="true" />
+      <created>1706811078076</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1706811078076</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: wip cart display">
+      <option name="closed" value="true" />
+      <created>1706862609109</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1706862609109</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: wip home page">
+      <option name="closed" value="true" />
+      <created>1706862628478</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1706862628478</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: refactor delete useless folder">
+      <option name="closed" value="true" />
+      <created>1708330084857</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1708330084857</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/samuel" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="fix: add gitignore" />
+    <MESSAGE value="fix: rename and move class Electronic, Clothing." />
+    <MESSAGE value="fix: add namespace model, controller" />
+    <MESSAGE value="fix: idea folder" />
+    <MESSAGE value="fix: wip update" />
+    <MESSAGE value="feat: update profile user data" />
+    <MESSAGE value="feat: change to use electronic or clothing class to display a product with is id" />
+    <MESSAGE value="feat: minor changes" />
+    <MESSAGE value="feat: wip add product in cart and cart_product" />
+    <MESSAGE value="fix: return value not log" />
+    <MESSAGE value="feat: add display product detail" />
+    <MESSAGE value="feat: wip add product in client cart function" />
+    <MESSAGE value="feat: wip cart display" />
+    <MESSAGE value="feat: wip home page" />
+    <MESSAGE value="feat: refactor delete useless folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: refactor delete useless folder" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
