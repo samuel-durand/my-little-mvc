@@ -59,7 +59,6 @@ class ShopController
             $cartModel->setupdated_at(null);
             $cart = $cartModel->create();
             // add product to cart_product and update cart total
-            echo 'cart';
             $cartProductModel = new CartProduct();
             $cartProductModel
                 ->setCartId($cart->getId())

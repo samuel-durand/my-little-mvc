@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4ed96da-a19b-458f-a0fd-518940cfba9a" name="Changes" comment="feat: wip home page">
+      <change afterPath="$PROJECT_DIR$/my-little-mvc/public/scripts/cart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/profile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-little-mvc/shop.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/shop.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-little-mvc/cart.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/cart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-little-mvc/src/Controller/ShopController.php" beforeDir="false" afterPath="$PROJECT_DIR$/my-little-mvc/src/Controller/ShopController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -57,7 +59,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "jules",
+    "git-widget-placeholder": "router",
     "last_opened_file_path": "C:/wamp64/www/my-little-mvc",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
@@ -78,7 +80,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.14015.96" />
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.14475.35" />
       </set>
     </attachedChunks>
   </component>
@@ -97,7 +99,8 @@
       <workItem from="1706786657287" duration="16562000" />
       <workItem from="1706817426967" duration="737000" />
       <workItem from="1706860159325" duration="513000" />
-      <workItem from="1706860694402" duration="20705000" />
+      <workItem from="1706860694402" duration="21667000" />
+      <workItem from="1708326615016" duration="2000000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
