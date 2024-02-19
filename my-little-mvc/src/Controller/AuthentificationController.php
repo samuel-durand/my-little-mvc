@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
 
 use App\Model\User;
 
