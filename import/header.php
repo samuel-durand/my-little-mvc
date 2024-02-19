@@ -24,18 +24,18 @@ if (isset($_SESSION['products'])) {
             <div id="containerLink" class="h-full flex items-center">
                 <ul class="flex text-bold uppercase gap-x-2 font-medium items-center">
                     <li class="">
-                        <a href="/my-little-mvc/my-little-mvc/shop.php">
+                        <a href="/my-little-mvc/shop.php">
                             Accueil
                         </a>
                     </li>
                     <?php if ($authController->isLogged()) : ?>
                         <li class="">
-                            <a href="/my-little-mvc/my-little-mvc/profile.php">
+                            <a href="/my-little-mvc/profile.php">
                                 <?= $user->getFullname(); ?>
                             </a>
                         </li>
                         <li>
-                            <a href="/my-little-mvc/my-little-mvc/cart.php" class="flex items-center gap-x-0.5 ">
+                            <a href="/my-little-mvc/cart.php" class="flex items-center gap-x-0.5 ">
                                 <span class="rounded-full bg-[#F8F8F8] px-2 py-1">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24"
@@ -52,18 +52,18 @@ if (isset($_SESSION['products'])) {
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/my-little-mvc/logout.php">
+                            <a href="/my-little-mvc/logout.php">
                                 Déconnexion
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="">
-                            <a href="/my-little-mvc/my-little-mvc/login.php">
+                            <a href="/my-little-mvc/login.php">
                                 Connexion
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/my-little-mvc/register.php">
+                            <a href="/my-little-mvc/register.php">
                                 Inscription
                             </a>
                         </li>

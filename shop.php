@@ -44,7 +44,7 @@ if (isset($_GET['page'])) {
                 <p class="text-sm">Price: <?php echo $product->getPrice(); ?></p>
                 <p class="text-sm">Quantity: <?php echo $product->getQuantity(); ?></p>
                 <button class="bg-red-100 rounded p-0.5">
-                    <a href="/my-little-mvc/my-little-mvc/product.php?id_product=<?php echo $product->getId();?>">
+                    <a href="/my-little-mvc/product.php?id_product=<?php echo $product->getId();?>">
                         Voir le produit
                     </a>
                 </button>
@@ -56,11 +56,11 @@ if (isset($_GET['page'])) {
         <?php endforeach; ?>
     </div>
     <div class="w-full flex justify-between pt-2">
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
+        <a href="/my-little-mvc/shop.php?page=<?php echo $page - 1; ?>" class="bg-red-100 rounded p-0.5">
             Page précédente
         </a>
         <p><?php echo $page; ?></p>
-        <a href="/my-little-mvc/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
+        <a href="/my-little-mvc/shop.php?page=<?php echo $page + 1; ?>" class="bg-red-100 rounded p-0.5">
             Page suivante
         </a>
     </div>

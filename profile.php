@@ -15,7 +15,7 @@ if ($authController->profile()) {
 }
 if (!empty($errors['auth'])) {
     sleep(5);
-    header('Location: /my-little-mvc/my-little-mvc/login.php');
+    header('Location: /my-little-mvc/login.php');
     exit;
 }
 

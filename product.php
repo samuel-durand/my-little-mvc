@@ -14,7 +14,7 @@ if ($url_idProduct !== null) {
     $shopController = new ShopController();
     $products = $shopController->showProduct($url_idProduct);
     if ($products === null) {
-        header('Location: /my-little-mvc/my-little-mvc/shop.php');
+        header('Location: /my-little-mvc/shop.php');
     }
 };
 
