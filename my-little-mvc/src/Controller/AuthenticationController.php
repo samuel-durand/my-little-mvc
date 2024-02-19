@@ -56,6 +56,7 @@ class AuthenticationController
             $user->setEmail($_POST['email']);
             $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
             $user->setRole(['ROLE_USER']);
+            $user->setcreated_at(new \DateTime());
             $user->create();
             var_dump($user);
         } catch (\PDOException $e) {
@@ -113,16 +114,26 @@ class AuthenticationController
         $email = $_SESSION['user']['email'] ;
         return $user->findOneByEmail($email);
     }
-    public function isLogged()
-    {
-        if (isset($_SESSION['user'])) {
 
-            var_dump($_SESSION['user']);
-            return true;
-        } else {
-            return false;
+    public function update(string $fullname, string $email, string $password)
+    {
+        $user = new User();
+        $user->setFullname($fullname);
+        $user->setEmail($email);
+        $user->setRole(json_encode('ROLE_USER'));
+        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+
+        // Vérifie que le formulaire n'est pas vide
+        if (empty($fullname) || empty($email) || empty($password)) {
+            echo 'Veuillez remplir tous les champs';
+            return;
         }
+        // Si le formulaire n'est pas vide, mise à jour du profil
+        $user->updateProfile($email, $password, $fullname);
     }
+
+
+
 
     public function logout()
     {

@@ -13,6 +13,8 @@ class User
         private ?string $email = null,
         private ?string $password = null,
         private ?array $role = null,
+        private ?\DateTime $created_at = null,
+        private ?\DateTime $updated_at = null,
         private ?\PDO $pdo = null
     )  {
     }
@@ -67,6 +69,16 @@ class User
         $this->role = $role;
     }
 
+    public function getcreated_at(): ?\DateTime
+    {
+        return $this->created_at;
+    }
+
+    public function setcreated_at(?\DateTime $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
 
     public function findOneById(int $id): ?User
     {
@@ -112,24 +124,36 @@ class User
     }
 
 
-
-
-
-
-
-
     public function create(): User
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $sql = $pdo->prepare('INSERT INTO user (fullname, email, password, role) VALUES (:fullname, :email, :password, :role)');
+        $sql = $pdo->prepare('INSERT INTO user (fullname, email, password, role, created_at) VALUES (:fullname, :email, :password, :role, :created_at)');
         $sql->execute([
             'fullname' => $this->fullname,
             'email' => $this->email,
             'password' => $this->password,
             'role' => json_encode($this->role),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s')
         ]);
         return $this;
     }
+
+    public function updateProfile(string $email, string $password,string  $fullname): array
+    {
+
+        $id = $_SESSION['user'];
+        $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
+        $sql = $pdo->prepare('UPDATE user SET email = :email, password = :password, fullname = :fullname role = :role  WHERE id = :id');
+        $sql->execute([
+            'email' => $email,
+            'password' => $password,
+            'fullname' => $fullname,
+            'role' => json_encode($this->role), // 'role' => '["ROLE_USER"]
+            'id' => $id
+        ]);
+    return $sql->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 
     public function findOneByFullname(string $fullname): bool
     {
