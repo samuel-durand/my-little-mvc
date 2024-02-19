@@ -40,6 +40,7 @@ class AuthentificationController
                     $user->create();
         
                     echo "Vous êtes bien inscrit";
+                    header('Location: login.php');
                 }
             }
         }
