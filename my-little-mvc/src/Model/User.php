@@ -4,20 +4,15 @@ namespace App\Model;
 
 class User {
 
-    private ?int $id = null;
-    private ?string $fullname = null;
-    private ?string $email = null;
-    private ?string $password = null;
-    private ?string $role = null;
+    
 
-    public function __construct(?int $id = null, ?string $fullname = null, ?string $email = null, ?string $password = null, ?string $role = null)
-    {
-        $this->id = $id;
-        $this->fullname = $fullname;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
-    }
+    public function __construct(
+        private ?int $id = null,
+        private ?string $fullname = null,
+        private  ?string $email = null,
+        private ?string $password = null,
+        private ?string $role = null)
+    {}
 
     public function getId() {
         return $this->id;
