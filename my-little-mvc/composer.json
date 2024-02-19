@@ -6,5 +6,7 @@
             "src\\Model\\": "src/Model/"
         }
     },
-    "require": {}
+    "require": {
+        "altorouter/altorouter": "^2.0"
+    }
 }
