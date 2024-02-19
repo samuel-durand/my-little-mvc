@@ -26,6 +26,7 @@ if (isset($_POST['update'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <script defer src="public/scripts/cart.js"></script>
     <title>Shop - Cart</title>
 </head>
 <body>
