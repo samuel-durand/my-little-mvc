@@ -45,6 +45,7 @@ if (isset($_POST['edit-password'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
+    <link rel="stylesheet" href="src/CSS/profile.css">
 </head>
 <body>
 
@@ -59,6 +60,10 @@ if (isset($_POST['edit-password'])) {
         <input type="password" name="password" id="password" value="*********">
         <input type="submit" name="edit-password" value="Modifier">
     </form>
+
+    <div class="link">
+        <button><a href="shop.php">Retour à la boutique</a></button>
+    </div>
     
 </body>
 </html>

@@ -37,3 +37,30 @@ th {
 
 /* Specific styles for the shop page */
 /* Add your custom CSS styles here */
+
+.link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link p {
+  margin-bottom: 10px;
+}
+
+.link button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.link button:hover {
+  background-color: #45a049;
+}
+
+.link a {
+  color: white;
+  text-decoration: none;
+}

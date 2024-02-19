@@ -17,7 +17,6 @@
     $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
     $result = $shopController->index($page);
-    var_dump($result);
 
 ?>
 
@@ -30,6 +29,9 @@
     <link rel="stylesheet" href="src/CSS/shop.css">
 </head>
 <body>
+    <div class="link">
+        <button><a href="profile.php">Profil</a></button>
+    </div>
     <h1>Produits</h1>
     <table>
         <thead>

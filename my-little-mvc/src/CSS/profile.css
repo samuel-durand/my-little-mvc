@@ -1,0 +1,84 @@
+/* FILEPATH: /C:/wamp64/www/my-little-mvc/my-little-mvc/src/CSS/profile.css */
+
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Form styles */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+form input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Other styles */
+/* Add your custom CSS styles here */
+
+.link {
+    text-align: center;
+    margin-top: 20px;
+  } 
+
+.link p {
+    margin-bottom: 10px;
+  }
+  
+  .link button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .link button:hover {
+    background-color: #45a049;
+  }
+  
+  .link a {
+    color: white;
+    text-decoration: none;
+  }
