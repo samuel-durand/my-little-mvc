@@ -7,16 +7,30 @@
     use App\Model\Product;
     use App\Controller\ShopController;
 
-    $clothing = new Clothing();
-    $clothings = $clothing->findAll();
+    $Clothing = new Clothing();
+    $Clothings = $Clothing->findAll();
 
     $electronic = new Electronic();
     $electronics = $electronic->findAll();
 
-    $shopController = new ShopController();
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $product = new Product();
+    $products = $product->findAll();
 
-    $result = $shopController->index($page);
+    $shopController = new ShopController();
+
+    if (isset($_GET['page'])) {
+        $page = intval($_GET['page']);
+
+        if ($page < 1) {
+            $page = 1;
+        }
+        $shopController->index($page);
+        $products = $shopController->index($page);
+    } else {
+        $page = 1;
+        $shopController->index($page);
+        $products = $shopController->index($page);
+    }
 
 ?>
 
@@ -43,25 +57,28 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($clothings as $clothing): ?>
+            <?php
+            if (empty($products)) {
+                echo '<tr><td colspan="4">Aucun produit</td></tr>';
+            }
+            foreach ($products as $product): 
+            ?>
                 <tr>
-                    <td><?= $clothing->getName(); ?></td>
-                    <td><?= $clothing->getDescription(); ?></td>
-                    <td><?= $clothing->getPrice(); ?>€</td>
-                    <td><?= $clothing->getQuantity(); ?></td>
+                    <td><?= $product['name']; ?></td>
+                    <td><?= $product['description']; ?></td>
+                    <td><?= $product['price']; ?>€</td>
+                    <td><?= $product['quantity']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
-        <tbody>
-            <?php foreach ($electronics as $electronic): ?>
-                <tr>
-                    <td><?= $electronic->getName(); ?></td>
-                    <td><?= $electronic->getDescription(); ?></td>
-                    <td><?= $electronic->getPrice(); ?>€</td>
-                    <td><?= $electronic->getQuantity(); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a href="shop.php?page=<?= $page - 1; ?>">Précédent</a>
+                    <a href="shop.php?page=<?= $page + 1; ?>">Suivant</a>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </body>
 </html>

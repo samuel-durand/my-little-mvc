@@ -64,3 +64,15 @@ th {
   color: white;
   text-decoration: none;
 }
+
+tfoot {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: black;
+}
+
+tfoot tr td{
+  text-align: right;
+  color: black;
+}

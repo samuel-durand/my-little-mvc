@@ -19,6 +19,7 @@ class ShopController
 
     public function index($page) {
         $this->products->findPaginated($page);
+        return $this->products->findPaginated($page);
     }
 
 }
