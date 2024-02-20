@@ -136,6 +136,15 @@ $router->map('GET', '/admin/products', function () {
     }
 }, 'admin_products');
 
+$router->map('GET', '/admin/users', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showUser();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin_users');
+
 $match = $router->match();
 
 if ($match) {

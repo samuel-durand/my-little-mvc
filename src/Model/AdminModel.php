@@ -21,4 +21,11 @@ class AdminModel
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getUser(): array
+    {
+        $query = $this->getPdo()->prepare('SELECT * FROM user');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
