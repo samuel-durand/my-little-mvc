@@ -16,6 +16,12 @@
     <main>
         <section class="w-screen h-screen flex justify-center items-center">
             <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre espace administrateur</h1>
+            <article class="flex justify-center items-center gap-4">
+                <button id="btnUser" class="bg-[#7B41F9] text-white p-2 rounded-lg">Utilisateurs</button>
+                <button id="btnProduct" class="bg-[#7B41F9] text-white p-2 rounded-lg">Produits</button>
+            </article>
+            <div id="userList"></div>
+            <div id="productList"></div>
         </section>
     </main>
 
