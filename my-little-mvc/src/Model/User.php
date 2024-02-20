@@ -16,7 +16,8 @@ class User
         private ?\DateTime $created_at = null,
         private ?\DateTime $updated_at = null,
         private ?\PDO $pdo = null
-    )  {
+    )     {
+
     }
 
     public function getId(): ?int
@@ -79,6 +80,16 @@ class User
         $this->created_at = $created_at;
     }
 
+    public function getupdated_at(): ?\DateTime
+    {
+        return $this->updated_at;
+    }
+
+    public function setupdated_at(?\DateTime $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
 
     public function findOneById(int $id): ?User
     {
@@ -138,23 +149,21 @@ class User
         return $this;
     }
 
-    public function updateProfile(string $email, string $password,string  $fullname): array
+    //public function update(): User
+    public function update(string $email, string $fullname, string $password, )
     {
-
-        $id = $_SESSION['user'];
+        $id = $_SESSION['user']['id'];
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
-        $sql = $pdo->prepare('UPDATE user SET email = :email, password = :password, fullname = :fullname role = :role  WHERE id = :id');
+        $sql = $pdo->prepare('UPDATE user SET fullname = :fullname, email = :email , password = :password, update_at = :update_at WHERE id = :id');
         $sql->execute([
+            'fullname' => $fullname,
             'email' => $email,
             'password' => $password,
-            'fullname' => $fullname,
-            'role' => json_encode($this->role), // 'role' => '["ROLE_USER"]
+            'update_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'id' => $id
         ]);
-    return $sql->fetchAll(\PDO::FETCH_ASSOC);
+        return $this;
     }
-
-
     public function findOneByFullname(string $fullname): bool
     {
         $pdo = new \PDO('mysql:host=localhost;dbname=draft-shop', 'root', '');
@@ -174,5 +183,3 @@ class User
 
 
 }
-
-

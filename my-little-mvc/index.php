@@ -14,8 +14,6 @@ $router->map( 'GET', '/test', function() {
 });
 
 
-
-
 $router->map( 'POST', '/register', function() {
     $auth = new AuthenticationController();
     $auth->register();
@@ -33,6 +31,15 @@ $router->map( 'GET', '/profile', function() {
     $auth->profile();
     require __DIR__ . '../my-little-mvc/profile.php';
 },'profile');
+
+$router->map( 'POST', '/profile', function() {
+    $auth = new AuthenticationController();
+    $auth->update();
+    require __DIR__ . '../my-little-mvc/profile.php';
+},'update');
+
+
+
 
 
 

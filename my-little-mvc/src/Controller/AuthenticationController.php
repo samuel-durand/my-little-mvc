@@ -8,6 +8,8 @@ use src\Model\User;
 
 class AuthenticationController
 {
+
+
     public  function register()
     {
 
@@ -44,12 +46,6 @@ class AuthenticationController
             return;
         }
 
-
-
-
-
-        //try catch pour la creation de l'utilisateur
-
         try {
             $user = new User();
             $user->setFullname($_POST['fullname']);
@@ -68,7 +64,6 @@ class AuthenticationController
         echo 'Votre compte a bien été créé';
 
     }
-
     //connexion de l'utilisateur
     public function login(string $email, string $password)
     {
@@ -115,31 +110,24 @@ class AuthenticationController
         return $user->findOneByEmail($email);
     }
 
-    public function update(string $fullname, string $email, string $password)
+    public function updatecontroller(string $fullname, string $email, string $password)
     {
         $user = new User();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $user->setFullname($fullname);
         $user->setEmail($email);
-        $user->setRole(json_encode('ROLE_USER'));
-        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
-
-        // Vérifie que le formulaire n'est pas vide
-        if (empty($fullname) || empty($email) || empty($password)) {
-            echo 'Veuillez remplir tous les champs';
-            return;
-        }
-        // Si le formulaire n'est pas vide, mise à jour du profil
-        $user->updateProfile($email, $password, $fullname);
+        $user->setPassword($hashedPassword);
+        $user->setupdated_at(new \DateTime());
+        $user->update($email, $fullname, $hashedPassword);
+        return $user;
     }
 
 
 
 
-    public function logout()
-    {
-        session_destroy();
-        header('Location: login.php');
-    }
+
+
+
 
 
 
