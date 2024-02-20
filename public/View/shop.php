@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<?php require_once __DIR__ . './import/header.php';?>
+<?php require_once __DIR__ . '/import/header.php';?>
 <main>
     <div class="pt-20 w-full flex justify-center py-4">
         <h1 class="text-3xl">Products</h1>

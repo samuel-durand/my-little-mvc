@@ -9,7 +9,7 @@
     <title>Shop - Profil</title>
 </head>
 <body>
-<?php require_once __DIR__ . './import/header.php';?>
+<?php require_once __DIR__ . '/import/header.php';?>
 <main class="w-screen h-screen flex justify-center items-center">
         <?php if (!empty($user)): ?>
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">

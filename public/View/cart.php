@@ -16,7 +16,7 @@ use App\Controller\ShopController;
     <title>Shop - Cart</title>
 </head>
 <body>
-<?php require_once __DIR__ . './import/header.php'; ?>
+<?php require_once __DIR__ . '/import/header.php'; ?>
 <main class="pt-20">
     <section class="w-screen h-fit flex justify-center items-center">
         <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre panier</h1>

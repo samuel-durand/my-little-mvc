@@ -4,7 +4,7 @@ namespace App\Controller;
 
 class AdminController
 {
-    public  function index(): void
+    public function index(): void
     {
         require_once 'public/View/admin.php';
     }
@@ -19,5 +19,13 @@ class AdminController
             }
         }
         return false;
+    }
+
+    public function showUsers(): void
+    {
+        if ($this->isAdmin()) {
+            exit();
+        }
+
     }
 }

@@ -9,8 +9,8 @@
     <title>Shop - Home</title>
 </head>
 <body>
-    <?php require_once 'import/header.php';?>
-    <main>
+<?php require_once __DIR__ . '/import/header.php';?>
+<main>
         <section class="w-screen h-screen flex justify-center items-center">
             <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur notre site</h1>
         </section>
