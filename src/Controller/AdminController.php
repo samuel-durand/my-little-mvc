@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Model\AdminModel;
+
 class AdminController
 {
     public function index(): void
@@ -21,11 +23,10 @@ class AdminController
         return false;
     }
 
-    public function showUsers(): void
+    public function showProducts(): void
     {
-        if ($this->isAdmin()) {
-            exit();
-        }
-
+            $adminModel = new AdminModel();
+            $products = $adminModel->getProducts();
+        var_dump($products);
     }
 }
