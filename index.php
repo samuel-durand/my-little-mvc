@@ -33,6 +33,28 @@ $router->map('POST', '/register', function () use ($auth) {
     require_once 'public/View/register.php';
 }, 'register_submit');
 
+$router->map('GET', '/logout', function () use ($auth) {
+    $auth->logout();
+    header('Location: /my-little-mvc/');
+}, 'logout');
+
+$router->map('GET', '/profile', function () use ($auth) {
+    if ($auth->isLogged() === false) {
+        header('Location: /my-little-mvc/login');
+        exit();
+    }
+    require_once 'public/View/profile.php';
+}, 'profile');
+
+$router->map('POST', '/profile', function () use ($auth) {
+    if ($auth->isLogged() === false) {
+        header('Location: /my-little-mvc/login');
+        exit();
+    }
+    $message = $auth->update($_POST['email'], $_POST['password'], $_POST['fullname']);
+    require_once 'public/View/profile.php';
+}, 'profile_submit');
+
 $router->map('GET', '/shop', function () {
     header('Location: /my-little-mvc/shop/1');
     exit();
@@ -58,6 +80,11 @@ $router->map('GET', '/product/[i:id_product]', function ($id_product) {
 }, 'product');
 
 $router->map('POST', '/product/[i:id_product]', function ($id_product) {
+    $auth = new AuthenticationController();
+    if ($auth->isLogged() === false) {
+        header('Location: /my-little-mvc/login');
+        exit();
+    }
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($id_product, intval($_POST['quantity']), $user->getId());

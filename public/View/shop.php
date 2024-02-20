@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Shop - Page <?= $page ?></title>
+    <title>Shop - Page <?=$page?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<?php require_once __DIR__ . './import/header.php'; ?>
+<?php require_once __DIR__ . './import/header.php';?>
 <main>
     <div class="pt-20 w-full flex justify-center py-4">
         <h1 class="text-3xl">Products</h1>
@@ -17,7 +17,7 @@
             <div class="flex justify-around flex-wrap">
                 <?php foreach ($getProductPage as $product): ?>
                     <article class="w-1/4 h-1/4 p-4 border border rounded-lg border-b-3 m-2 bg-[#F8F8F8]">
-                        <?php $photos = $product->getPhotos(); ?>
+                        <?php $photos = $product->getPhotos();?>
                         <div class="flex flex-col items-center">
                             <img src="<?php echo $photos[0]; ?>" alt="<?php echo $product->getName(); ?>"
                                  class="w-full h-48 rounded-lg object-cover">
@@ -26,7 +26,7 @@
                                 <p class="text-2xl"><?php echo $product->getPrice(); ?> €</p>
                                 <p class="text-sm">Quantité: <?php echo $product->getQuantity(); ?></p>
                                 <button class="bg-red-100 rounded p-1">
-                                    <a href="/my-little-mvc/product.php?id_product=<?php echo $product->getId(); ?>">
+                                    <a href="/my-little-mvc/product/<?php echo $product->getId(); ?>">
                                         Voir le produit
                                     </a>
                                 </button>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </article>
-                <?php endforeach; ?>
+                <?php endforeach;?>
             </div>
             <div class="w-screen flex justify-around pt-2">
                 <a href="/my-little-mvc/shop/<?php echo $page - 1; ?>" class="bg-red-100 rounded p-2">

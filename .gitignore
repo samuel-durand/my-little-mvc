@@ -1,10 +1,1 @@
-.idea/php.xml
-.idea/dataSources.local.xml
-.idea/dataSources.xml
-.idea/php.xml
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44.xml
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44/storage_v2/_src_/schema/draft-shop.ol_Zqw.meta
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44/storage_v2/_src_/schema/information_schema.FNRwLQ.meta
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44/storage_v2/_src_/schema/mysql.osA4Bg.meta
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44/storage_v2/_src_/schema/performance_schema.kIw0nw.meta
-.idea/dataSources/122f0936-f005-4c3c-909a-1828a7ca6d44/storage_v2/_src_/schema/sys.zb4BAA.meta
+.idea/

@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controller;
-use App\Model\Product;
-use App\Model\Clothing;
-use App\Model\Electronic;
+
 use App\Model\Cart;
 use App\Model\CartProduct;
+use App\Model\Clothing;
+use App\Model\Electronic;
+use App\Model\Product;
+
 class ShopController
 {
     public function index(int $page): array
@@ -23,21 +25,17 @@ class ShopController
      * @param int $id The ID of the product to display.
      * @return Clothing|Electronic|Product|null The found product or null if not found or user is not logged in.
      */
-    public function showProduct(int $id) : Clothing|Electronic|Product|null
+    public function showProduct(int $id): Clothing | Electronic | Product | null
     {
-        $auth = new AuthenticationController();
-
-        if ($auth->isLogged()) {
-            $clothing = new Clothing();
-            $electronic = new Electronic();
-            $product = new Product();
-            if (($products = $clothing->findOneById($id)) !== false) {
-                return $products;
-            } elseif (($products = $electronic->findOneById($id)) !== false) {
-                return $products;
-            } elseif (($products = $product->findOneById($id)) !== false) {
-                return $products;
-            }
+        $clothing = new Clothing();
+        $electronic = new Electronic();
+        $product = new Product();
+        if (($products = $clothing->findOneById($id)) !== false) {
+            return $products;
+        } elseif (($products = $electronic->findOneById($id)) !== false) {
+            return $products;
+        } elseif (($products = $product->findOneById($id)) !== false) {
+            return $products;
         }
         return null;
     }
@@ -45,8 +43,14 @@ class ShopController
     {
         $product = new Product();
         $products = $product->findOneById($productId);
+        $auth = new AuthenticationController();
 
         $cartModel = new Cart();
+
+        if ($auth->isLogged() === false) {
+            header('Location: /my-little-mvc/login');
+            exit();
+        }
 
         if ($cartModel->findOneByUserId($user_id) === false) {
             $cartModel->setUserId($user_id);
@@ -111,7 +115,7 @@ class ShopController
      * @param int $product_id The ID of the product to remove from the cart.
      * @return array An associative array containing either a success message or an error message.
      */
-    public function removeProductFromCart(int $product_id) : array
+    public function removeProductFromCart(int $product_id): array
     {
         $errors = [];
         $cartProductModel = new CartProduct();
@@ -136,7 +140,7 @@ class ShopController
         }
         return $errors;
     }
-    public function updateProductInCart(int $product, int $quantity) : array
+    public function updateProductInCart(int $product, int $quantity): array
     {
         $errors = [];
         $cartProductModel = new CartProduct();
