@@ -1,21 +1,3 @@
-<?php
-require 'vendor/autoload.php';
-session_start();
-
-
-use App\Controller\AuthenticationController;
-
-$auth = new AuthenticationController();
-
-$message = [];
-if (isset($_POST['submit'])) {
-    $reg = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
-    $message = $reg;
-}
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -1,32 +1,3 @@
-<?php
-require_once 'vendor/autoload.php';
-session_start();
-
-use App\Controller\ShopController;
-
-
-/* get url params in get */
-
-$url_idProduct = intval($_GET['id_product']) ?? null;
-
-/* get product */
-if ($url_idProduct !== null) {
-    $shopController = new ShopController();
-    $products = $shopController->showProduct($url_idProduct);
-    if ($products === null) {
-        header('Location: /my-little-mvc/shop.php');
-    }
-};
-
-/* add product to cart */
-if (isset($_POST['submit'])) {
-    $user = $_SESSION['user'];
-    $cartController = new ShopController();
-    $cartController->addProductToCart($url_idProduct, intval($_POST['quantity']), $user->getId());
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,11 +6,10 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<?php require_once 'import/header.php'; ?>
-<?php if ($url_idProduct !== null): ?>
+<?php require_once __DIR__ . './import/header.php';?>
+<?php if ($id_product !== null): ?>
     <main class="h-screen w-screen pt-20">
-        <section>
-            <h1>Product</h1>
+        <section class="w-screen h-screen flex justify-center items-center">
             <div>
                 <h2><?php echo $products->getName(); ?></h2>
                 <p><?php echo $products->getDescription(); ?></p>
@@ -53,9 +23,11 @@ if (isset($_POST['submit'])) {
         </section>
     </main>
 <?php else: ?>
-    <body>
-    <h1>Product not found</h1>
-    </body>
-<?php endif; ?>
+    <main>
+        <section class="w-screen h-screen flex justify-center items-center">
+            <h1 class="text-6xl font-semibold text-[#7B41F9]">Aucun produit trouvé</h1>
+        </section>
+    </main>
+<?php endif;?>
 </html>
 

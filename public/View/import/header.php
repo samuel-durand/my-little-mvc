@@ -15,7 +15,7 @@ if (isset($_SESSION['products'])) {
 ?>
 
 
-<header class="fixed top-0 left-0 right-0 lg: h-16">
+<header class="fixed top-0 left-0 right-0 lg: h-16 bg-[#F8F8F8]">
     <nav class="flex items-center py-2 px-4 border-b border-[#E4DFD9] h-full">
         <div class="flex justify-between items-center w-full">
             <div id="containerLogo" class="p-2">
@@ -24,18 +24,18 @@ if (isset($_SESSION['products'])) {
             <div id="containerLink" class="h-full flex items-center">
                 <ul class="flex text-bold uppercase gap-x-2 font-medium items-center">
                     <li class="">
-                        <a href="/my-little-mvc/shop.php">
+                        <a href="/my-little-mvc/shop">
                             Accueil
                         </a>
                     </li>
                     <?php if ($authController->isLogged()) : ?>
                         <li class="">
-                            <a href="/my-little-mvc/profile.php">
+                            <a href="/my-little-mvc/profile">
                                 <?= $user->getFullname(); ?>
                             </a>
                         </li>
                         <li>
-                            <a href="/my-little-mvc/cart.php" class="flex items-center gap-x-0.5 ">
+                            <a href="/my-little-mvc/cart" class="flex items-center gap-x-0.5 ">
                                 <span class="rounded-full bg-[#F8F8F8] px-2 py-1">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24"
@@ -52,18 +52,18 @@ if (isset($_SESSION['products'])) {
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/logout.php">
+                            <a href="/my-little-mvc/logout">
                                 Déconnexion
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="">
-                            <a href="/my-little-mvc/login.php">
+                            <a href="/my-little-mvc/login">
                                 Connexion
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/register.php">
+                            <a href="/my-little-mvc/register">
                                 Inscription
                             </a>
                         </li>

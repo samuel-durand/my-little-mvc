@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<?php require_once 'import/header.php'; ?>
+<?php require_once '../import/header.php'; ?>
 <main>
     <article class="w-screen h-screen flex justify-center items-center">
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">

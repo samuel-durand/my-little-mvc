@@ -1,6 +1,4 @@
 <?php
-require_once 'vendor/autoload.php';
-session_start();
 
 use App\Controller\ShopController;
 
@@ -25,12 +23,12 @@ if (isset($_POST['update'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="public/scripts/cart.js"></script>
+    <link rel="stylesheet" href="../../style.css">
+    <script defer src="../scripts/cart.js"></script>
     <title>Shop - Cart</title>
 </head>
 <body>
-<?php require_once 'import/header.php'; ?>
+<?php require_once __DIR__ . './import/header.php'; ?>
 <main class="pt-20">
     <section class="w-screen h-fit flex justify-center items-center">
         <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre panier</h1>
