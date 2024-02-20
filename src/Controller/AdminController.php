@@ -25,8 +25,16 @@ class AdminController
 
     public function showProducts(): void
     {
-            $adminModel = new AdminModel();
-            $products = $adminModel->getProducts();
-        var_dump($products);
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+        $products = $adminModel->getProducts();
+        if (empty($products)) {
+            echo json_encode(['error' => 'Aucun produit trouvé']);
+        } else {
+            echo json_encode($products);
+        }
     }
 }
