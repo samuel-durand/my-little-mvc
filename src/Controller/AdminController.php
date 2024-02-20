@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\AdminModel;
+use App\Model\User;
 
 class AdminController
 {
@@ -47,9 +48,24 @@ class AdminController
         $adminModel = new AdminModel();
         $products = $adminModel->getUser();
         if (empty($products)) {
-            echo json_encode(['error' => 'Aucun produit trouvé']);
+            echo json_encode(['error' => 'Aucun user trouvé']);
         } else {
             echo json_encode($products);
+        }
+    }
+
+    public function deleteUserS(int $id): void
+    {
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+
+        if($adminModel->deleteUser($id)){
+            echo json_encode(['success' => 'User supprimé']);
+        } else {
+            echo json_encode(['error' => 'User non supprimé']);
         }
     }
 }

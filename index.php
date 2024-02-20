@@ -122,7 +122,6 @@ $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->index();
-        $adminController->showUsers();
     } else {
         header('Location: /my-little-mvc/');
     }
@@ -145,6 +144,13 @@ $router->map('GET', '/admin/users', function () {
         header('Location: /my-little-mvc/');
     }
 }, 'admin_users');
+
+$router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->deleteUserS($id);
+    }
+}, 'admin_delete_user');
 
 $match = $router->match();
 

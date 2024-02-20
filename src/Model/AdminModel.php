@@ -28,4 +28,11 @@ class AdminModel
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function deleteUser(int $id): bool
+    {
+        $query = $this->getPdo()->prepare('DELETE FROM user WHERE id = :id');
+        $sql = $query->execute(['id' => $id]);
+        return $sql;
+    }
 }
