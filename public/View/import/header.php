@@ -1,7 +1,9 @@
 <?php
 
 use App\Controller\AuthenticationController;
+use App\Controller\AdminController;
 
+$adminController = new AdminController();
 $authController = new AuthenticationController();
 
 $user = $_SESSION['user'] ?? null;
@@ -54,6 +56,13 @@ if (isset($_SESSION['products'])) {
                             <a href="/my-little-mvc/logout">
                                 Déconnexion
                             </a>
+                            <?php if ($adminController->isAdmin()): ?>
+                                <li class="">
+                                    <a href="/my-little-mvc/admin">
+                                        Admin
+                                    </a>
+                                </li>
+                            <?php endif;?>
                         </li>
                     <?php else: ?>
                         <li class="">

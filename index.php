@@ -120,7 +120,7 @@ $router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
 
 $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
-    if ($adminController->userAdmin()) {
+    if ($adminController->isAdmin()) {
         $adminController->index();
     } else {
         header('Location: /my-little-mvc/');

@@ -9,7 +9,7 @@ class AdminController
         require_once 'public/View/admin.php';
     }
 
-    public function userAdmin(): bool
+    public function isAdmin(): bool
     {
         if (isset($_SESSION['user'])) {
             foreach ($_SESSION['user']->getRole() as $role) {
