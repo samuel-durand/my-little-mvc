@@ -51,7 +51,7 @@ use App\Controller\ShopController;
                     ?>
                     <tr>
                         <td class="text-center p-2 border"> <?= $productDetail->getName() ?></td>
-                        <td class="text-center p-2"><?= $price ?></td>
+                        <td class="text-center p-2"><?= $price ?>€</td>
                         <td class="text-center p-2 border">
                             <form action="" method="post">
                                 <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
@@ -62,7 +62,7 @@ use App\Controller\ShopController;
                             </form>
                         </td>
                         <td class="text-center p-2 border">
-                            <?= $price * $quantity ?>
+                            <?= $price * $quantity ?>€
                         </td>
                         <td class="text-center porder p-2">
                             <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post">
