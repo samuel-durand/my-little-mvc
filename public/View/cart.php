@@ -40,6 +40,7 @@ use App\Controller\ShopController;
                     </thead>
                     <tbody>
                     <?php
+                    $idCart = $_SESSION['cart']->getId();
                     $total = 0;
                     $shopController = new ShopController();
                     foreach ($_SESSION['products'] as $product) {
@@ -53,11 +54,12 @@ use App\Controller\ShopController;
                         <td class="text-center p-2 border"> <?= $productDetail->getName() ?></td>
                         <td class="text-center p-2"><?= $price ?>€</td>
                         <td class="text-center p-2 border">
-                            <form action="" method="post">
+                            <form action="/my-little-mvc/cart/update/<?php echo $idProduct ?>/<?php echo $idCart ?>" method="post">
                                 <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
                                        class="p-2"
                                        value="<?php echo $quantity; ?>">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
+                                <input type="hidden" name="id_cart" value="<?php echo $idCart; ?>">
                                 <input type="submit" name="update" value="Update" class="p-2 text-white bg-green-400">
                             </form>
                         </td>

@@ -30,8 +30,9 @@
                                         Voir le produit
                                     </a>
                                 </button>
-                                <form action="" method="post">
+                                <form action="/my-little-mvc/product/<?php echo $product->getId() ?>" method="post">
                                     <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
+                                    <input type="hidden" name="quantity" value="1">
                                     <input type="submit" name="submit" value="Add" class="bg-red-300 rounded p-3">
                                 </form>
                             </div>

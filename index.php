@@ -107,7 +107,7 @@ $router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
     header('Location: /my-little-mvc/cart');
 }, 'cart_delete');
 
-$router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
+$router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_product, $id_cart) {
     $auth = new AuthenticationController();
     if ($auth->isLogged() === false) {
         header('Location: /my-little-mvc/login');
@@ -115,7 +115,7 @@ $router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
     $quantity = $_POST['quantity'];
     $shopController = new ShopController();
     $shopController->updateProductInCart($id_product, $quantity);
-    header('Location: /my-little-mvc/cart');
+    
 }, 'update_product');
 
 $router->map('GET', '/admin', function () {

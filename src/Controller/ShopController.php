@@ -146,6 +146,8 @@ class ShopController
         $cartProductModel = new CartProduct();
         $cartProduct = $cartProductModel->findOneById($product, $_SESSION['cart']->getId());
 
+        var_dump($cartProduct);
+
         if (!empty($cartProduct)) {
             $storedQuantity = $cartProduct->getQuantity();
             $cartProduct->setQuantity($quantity);
