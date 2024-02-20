@@ -128,6 +128,15 @@ $router->map('GET', '/admin', function () {
     }
 }, 'admin');
 
+$router->map('GET', '/admin/products', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showProducts();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin_products');
+
 $match = $router->match();
 
 if ($match) {
