@@ -1,3 +1,6 @@
+
+
+
 <DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,6 +25,14 @@
                     <button id="btnProduct" class="bg-[#7B41F9] text-white p-2 rounded-lg">Produits</button>
                 </article>
                 <div id="userList"></div>
+                <?php foreach ($adminContro as $user): ?>
+                    <div class="flex justify-center items-center gap-4">
+                        <p><?=$user->getEmail();?></p>
+                        <p><?=$user->getFullname();?></p>
+                        <p><?=$user->getRole();?></p>
+                        <?php endforeach;?>
+                    </div>
+
                 <div id="productList"></div>
             </div>
 

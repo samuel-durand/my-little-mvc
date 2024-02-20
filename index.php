@@ -122,6 +122,7 @@ $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->index();
+        $adminController->showUsers();
     } else {
         header('Location: /my-little-mvc/');
     }

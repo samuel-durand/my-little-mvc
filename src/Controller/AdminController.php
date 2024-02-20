@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Model\AdminModel;
 class AdminController
 {
     public function index(): void
@@ -26,6 +26,9 @@ class AdminController
         if ($this->isAdmin()) {
             exit();
         }
+
+        $adminModel = new AdminModel();
+        $users = $adminModel->findallusers();
 
     }
 }
