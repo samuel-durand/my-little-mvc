@@ -14,7 +14,6 @@ if (isset($_SESSION['products'])) {
 }
 ?>
 
-
 <header class="fixed top-0 left-0 right-0 lg: h-16 bg-[#F8F8F8]">
     <nav class="flex items-center py-2 px-4 border-b border-[#E4DFD9] h-full">
         <div class="flex justify-between items-center w-full">
@@ -28,10 +27,10 @@ if (isset($_SESSION['products'])) {
                             Accueil
                         </a>
                     </li>
-                    <?php if ($authController->isLogged()) : ?>
+                    <?php if ($authController->isLogged()): ?>
                         <li class="">
                             <a href="/my-little-mvc/profile">
-                                <?= $user->getFullname(); ?>
+                                <?=$user->getFullname();?>
                             </a>
                         </li>
                         <li>
@@ -67,7 +66,7 @@ if (isset($_SESSION['products'])) {
                                 Inscription
                             </a>
                         </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                 </ul>
             </div>
         </div>

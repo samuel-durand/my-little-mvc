@@ -2,18 +2,6 @@
 
 use App\Controller\ShopController;
 
-if (isset($_POST['remove'])) {
-    $idProduct = $_POST['id_product'];
-    $shopController = new ShopController();
-    $shopController->removeProductFromCart($idProduct);
-}
-
-if (isset($_POST['update'])) {
-    $idProduct = $_POST['id_product'];
-    $quantity = $_POST['quantity'];
-    $shopController = new ShopController();
-    $shopController->updateProductInCart($idProduct, $quantity);
-}
 ?>
 
 
@@ -77,7 +65,7 @@ if (isset($_POST['update'])) {
                             <?= $price * $quantity ?>
                         </td>
                         <td class="text-center porder p-2">
-                            <form action="" method="post">
+                            <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
                                 <input type="submit" name="remove" value="Supprimer" class="p-2 text-white bg-red-500">
                             </form>

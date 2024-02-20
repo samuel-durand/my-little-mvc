@@ -5,6 +5,7 @@ session_start();
 
 use App\Controller\AuthenticationController;
 use App\Controller\ShopController;
+use App\Controller\AdminController;
 
 $router = new AltoRouter();
 $auth = new AuthenticationController();
@@ -88,8 +89,43 @@ $router->map('POST', '/product/[i:id_product]', function ($id_product) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($id_product, intval($_POST['quantity']), $user->getId());
-    require_once 'public/View/product.php';
+    header('Location: /my-little-mvc/cart');
 }, 'product_submit');
+
+$router->map('GET', '/cart', function () {
+    require_once 'public/View/cart.php';
+}, 'cart');
+
+$router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
+    $auth = new AuthenticationController();
+    if ($auth->isLogged() === false) {
+        header('Location: /my-little-mvc/login');
+        exit();
+    }
+    $cartController = new ShopController();
+    $cartController->removeProductFromCart($id_product);
+    header('Location: /my-little-mvc/cart');
+}, 'cart_delete');
+
+$router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
+    $auth = new AuthenticationController();
+    if ($auth->isLogged() === false) {
+        header('Location: /my-little-mvc/login');
+    }
+    $quantity = $_POST['quantity'];
+    $shopController = new ShopController();
+    $shopController->updateProductInCart($id_product, $quantity);
+    header('Location: /my-little-mvc/cart');
+}, 'update_product');
+
+$router->map('GET', '/admin', function () {
+    $adminController = new AdminController();
+    if ($adminController->userAdmin()) {
+        $adminController->index();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin');
 
 $match = $router->match();
 
