@@ -93,6 +93,38 @@ class AdminController
         }
     }
 
+
+    public function showUserroute(): void
+    {
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+        $products = $adminModel->getUser();
+        if (empty($products)) {
+            echo json_encode(['error' => 'Aucun user trouvé']);
+        } else {
+            echo json_encode($products);
+        }
+    }
+
+
+    public function showUserById($id): void
+    {
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+        $products = $adminModel->getUserById($id);
+        if (empty($products)) {
+            echo json_encode(['error' => 'Aucun user trouvé']);
+        } else {
+            echo json_encode($products);
+        }
+    }
+
     public function deleteUserS(int $id): void
     {
         if ($this->isAdmin() === false) {

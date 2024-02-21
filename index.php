@@ -174,6 +174,25 @@ $router->map('POST', '/admin/users/edit/[i:id]', function ($id,) {
 }, 'admin_edit_user');
 
 
+$router->map('GET', '/admin/users/show/[i:id]', function ($id,) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showUserById($id);
+    }
+
+    var_dump($id);
+}, 'admin_show_user');
+
+$router->map('GET', '/admin/users/list/', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showUserroute();
+    }
+
+    var_dump($adminController);
+}, 'admin_list_user');
+
+
 
 $match = $router->match();
 

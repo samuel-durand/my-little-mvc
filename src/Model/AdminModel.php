@@ -66,5 +66,12 @@ class AdminModel
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getOneByEmail(string $email): array
+    {
+        $query = $this->getPdo()->prepare('SELECT * FROM user WHERE email = :email');
+        $query->execute(['email' => $email]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
 
