@@ -121,16 +121,14 @@ class ShopController
         $cartProductModel = new CartProduct();
         $cartProduct = $cartProductModel->findOneById($product_id, $_SESSION['cart']->getId());
 
-        var_dump($cartProduct);
-
         if (!empty($cartProduct)) {
             $cart = $_SESSION['cart'];
             $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
             $cart->update();
-            if ($cartProduct->delete()) {
+            if ($cartProduct->delete($cartProduct->getId())) {
                 $errors['success'] = 'Product removed';
                 unset($_SESSION['products']);
-                foreach ($cart->getCartProducts() as $product) {
+                foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
                 }
             } else {
