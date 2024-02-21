@@ -23,7 +23,6 @@ const getUsers = async () => {
 };
 
 const deleteUser = async (userId) => {
-  console.log(userId);
   const response = await fetch(`/my-little-mvc/admin/users/delete/${userId}`, {
     method: "POST",
   });
