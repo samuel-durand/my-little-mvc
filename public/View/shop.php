@@ -21,22 +21,20 @@
                         <div class="flex flex-col items-center">
                             <img src="<?php echo $photos[0]; ?>" alt="<?php echo $product->getName(); ?>"
                                  class="w-full h-48 rounded-lg object-cover">
-                            <div class="flex w-full justify-between">
-                                <div class="flex flex-col justify-between">
-                                    <h2 class="text-2xl"><?php echo $product->getName(); ?></h2>
-                                    <p class="text-2xl"><?php echo $product->getPrice(); ?> €</p>
-                                </div>
-                                <div class="flex flex-col justify-between gap-2">
-                                    <button class="bg-red-100 rounded p-1">
-                                        <a href="/my-little-mvc/product/<?php echo $product->getId(); ?>">
-                                            Voir le produit
-                                        </a>
-                                    </button>
-                                    <form action="" method="post">
-                                        <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
-                                        <input type="submit" name="submit" value="Ajouter au panier" class="bg-red-300 rounded p-3">
-                                    </form>
-                                </div>
+                            <div class="flex flex-col">
+                                <h2 class="text-xl"><?php echo $product->getName(); ?></h2>
+                                <p class="text-2xl"><?php echo $product->getPrice(); ?> €</p>
+                                <p class="text-sm">Quantité: <?php echo $product->getQuantity(); ?></p>
+                                <button class="bg-red-100 rounded p-1">
+                                    <a href="/my-little-mvc/product/<?php echo $product->getId(); ?>">
+                                        Voir le produit
+                                    </a>
+                                </button>
+                                <form action="/my-little-mvc/product/<?php echo $product->getId() ?>" method="post">
+                                    <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <input type="submit" name="submit" value="Add" class="bg-red-300 rounded p-3">
+                                </form>
                             </div>
                         </div>
                     </article>

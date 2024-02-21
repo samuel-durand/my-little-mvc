@@ -122,16 +122,17 @@ class ShopController
         $cartProduct = $cartProductModel->findOneById($product_id, $_SESSION['cart']->getId());
 
         if (!empty($cartProduct)) {
-            if ($cartProduct->delete($product_id)) {
-                $cart = $_SESSION['cart'];
-                $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
-                $cart->update();
-                $_SESSION['cart'] = $cart;
+            $cart = $_SESSION['cart'];
+            $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
+            $cart->update();
+            if ($cartProduct->delete($cartProduct->getId())) {
+                $errors['success'] = 'Product removed';
                 unset($_SESSION['products']);
-                foreach ($cart->findOneByUserId($_SESSION['user']->getId()) as $product) {
+                foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
+                    $msg = "Product removed from cart";
+                    json_encode($msg);
                 }
-                $errors['success'] = 'Product removed from cart';
             } else {
                 $errors['errors'] = 'An error occurred';
             }
@@ -156,7 +157,7 @@ class ShopController
                 $cart->update();
                 $_SESSION['cart'] = $cart;
                 unset($_SESSION['products']);
-                foreach ($cart->getCartProducts() as $product) {
+                foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
                 }
                 $errors['success'] = 'Product updated';
@@ -167,5 +168,20 @@ class ShopController
             $errors['errors'] = 'Product not found';
         }
         return $errors;
+    }
+
+    public function findPaginatedCart(int $page): array
+    {
+        $offset = ($page - 1) * 6;
+        for ($i = $offset; $i < $offset + 6; $i++) {
+            if (isset($_SESSION['products'][$i])) {
+                $products[] = $_SESSION['products'][$i];
+            }
+            else if (empty($products)) {
+                $products = [];
+            }
+        }
+
+        return $products;
     }
 }
