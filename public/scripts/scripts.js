@@ -1,6 +1,8 @@
 const productList = document.querySelector("#productList");
 const messageNotif = document.querySelector("#messageNotif");
 const containerFormEdit = document.querySelector("#containerFormEdit");
+const btnUser = document.querySelector("#btnUser");
+const btnProduct = document.querySelector("#btnProduct");
 
 const erraseMessage = () => {
   setTimeout(() => {
@@ -140,4 +142,9 @@ displayProducts = () => {
   });
 };
 
-displayProducts();
+if (btnProduct) {
+  btnProduct.addEventListener("click", () => {
+    productList.innerHTML = "";
+    displayProducts();
+  });
+}

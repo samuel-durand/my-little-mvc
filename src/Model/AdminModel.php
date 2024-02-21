@@ -7,6 +7,11 @@ use PDO;
 class AdminModel
 {
     public function __construct(
+        protected ?int $id = null,
+        protected ?string $name = null,
+        protected ?string $description = null,
+        protected ?int $price = null,
+        protected ?int $quantity = null,
         protected ?PDO $pdo = null
     ) {
     }
