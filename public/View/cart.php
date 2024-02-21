@@ -13,7 +13,7 @@ use App\Controller\ShopController;
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../style.css">
     <script defer src="../scripts/cart.js"></script>
-    <title>Shop - Cart</title>
+    <title>Shop - Cart <?=$page?></title>
 </head>
 <body>
 <?php require_once __DIR__ . '/import/header.php'; ?>
@@ -43,7 +43,7 @@ use App\Controller\ShopController;
                     $idCart = $_SESSION['cart']->getId();
                     $total = 0;
                     $shopController = new ShopController();
-                    foreach ($_SESSION['products'] as $product) {
+                    foreach ($getCartPage as $product) {
                     $idProduct = $product->getProductId();
                     $productDetail = $shopController->showProduct($idProduct);
                     $price = $productDetail->getPrice();
@@ -67,7 +67,7 @@ use App\Controller\ShopController;
                             <?= $price * $quantity ?>€
                         </td>
                         <td class="text-center porder p-2">
-                            <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post">
+                            <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post" id="delete-product-form">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
                                 <input type="submit" name="remove" value="Supprimer" class="p-2 text-white bg-red-500">
                             </form>
@@ -84,6 +84,18 @@ use App\Controller\ShopController;
 
         </section>
     <?php endif; ?>
+    <div class="w-screen flex justify-around pt-2">
+            <a href="/my-little-mvc/cart/<?php echo $page - 1; ?>" class="bg-red-100 rounded p-2">
+                Page précédente
+            </a>
+            <p><?php echo $page; ?></p>
+            <a href="/my-little-mvc/cart/<?php echo $page + 1; ?>" class="bg-red-100 rounded p-2">
+                Page suivante
+            </a>
+    </div>
+    <section class="w-screen h-fit flex justify-center items-center">
+        <a href="/my-little-mvc/shop/1" class="text-white bg-[#7B41F9] p-2 rounded-md">Retour à la boutique</a>
+    </section>
 </main>
 </body>
 </html>

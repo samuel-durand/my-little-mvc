@@ -130,6 +130,8 @@ class ShopController
                 unset($_SESSION['products']);
                 foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
+                    $msg = "Product removed from cart";
+                    json_encode($msg);
                 }
             } else {
                 $errors['errors'] = 'An error occurred';
@@ -166,5 +168,17 @@ class ShopController
             $errors['errors'] = 'Product not found';
         }
         return $errors;
+    }
+
+    public function findPaginatedCart(int $page): array
+    {
+        $offset = ($page - 1) * 6;
+        for ($i = $offset; $i < $offset + 6; $i++) {
+            if (isset($_SESSION['products'][$i])) {
+                $products[] = $_SESSION['products'][$i];
+            }
+        }
+
+        return $products;
     }
 }

@@ -118,6 +118,16 @@ $router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_pr
     header('Location: /my-little-mvc/cart');
 }, 'update_product');
 
+$router->map('GET', '/cart/[i:page]', function ($page) {
+    $shopController = new ShopController();
+    if ($page < 1 || empty($page)) {
+        $page = 1;
+    }
+    $getCartPage = $shopController->findPaginatedCart($page);
+    require_once 'public/View/cart.php';
+}, 'cart_default');
+
+
 $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
