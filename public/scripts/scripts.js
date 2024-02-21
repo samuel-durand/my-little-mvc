@@ -78,21 +78,19 @@ const editUser = async (userId) => {
 };
 
 edituser = (id, fullname, email) => {
-  console.log(fullname, email, id);
-
   containerFormEdit.innerHTML = "";
   containerFormEdit.innerHTML = `
         <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg">
         <div class="flex flex-wrap justify-between">
          
             <div class="flex flex-col gap-1">
-                <label for="fullname">Fullname</label>
-                <input  type="text" name="fullname" value="${fullname}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+                <label for="fullname">email</label>
+                <input  type="text" name="fullname" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
             </div>
             
             <div class="flex flex-col gap-1">
-                <label for="email">Email</label>
-                <input type="text" name="email" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+                <label for="email">fullname</label>
+                <input type="text" name="email" value="${fullname}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
             </div>
         </div>
         <div class="h-16">
