@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Model\AdminModel;
-use App\Model\User;
 
 class AdminController
 {
@@ -66,6 +65,22 @@ class AdminController
             echo json_encode(['success' => 'User supprimé']);
         } else {
             echo json_encode(['error' => 'User non supprimé']);
+        }
+    }
+
+    public function edituser(int $id, ): void
+    {
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+
+
+        if($adminModel->editUser($id,  $_POST['email'],  $_POST['fullname'])){
+            echo json_encode(['success' => 'User modifié']);
+        } else {
+            echo json_encode(['error' => 'User non modifié']);
         }
     }
 }
