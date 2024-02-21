@@ -53,10 +53,10 @@ const DisplayUsers = async () => {
 
   users.forEach((user) => {
     usersHTML += `<tr>
-                    <td class="p-1">${user.id}</td>
-                    <td class="p-1">${user.fullname}</td>
-                    <td class="p-1">${user.email}</td>
-                    <td class="p-1">
+                    <td class="text-center p-1">${user.id}</td>
+                    <td class="text-center p-1">${user.fullname}</td>
+                    <td class="text-center p-1">${user.email}</td>
+                    <td class="text-center p-1">
                       <button class="bg-green-200 rounded px-1" onclick="edituser('${user.id}', '${user.fullname}', '${user.email}')">Edit</button>
                       <button class="bg-red-200 rounded px-1" onclick="deleteUser('${user.id}')">Delete</button>
                     </td>
@@ -83,7 +83,7 @@ edituser = (id, fullname, email) => {
         <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg">
         <div class="flex flex-wrap justify-between">
          
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-1 ">
                 <label for="fullname">email</label>
                 <input  type="text" name="fullname" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
             </div>
@@ -230,11 +230,11 @@ displayProducts = () => {
       <tr class="${
         i % 2 === 0 ? "bg-gray-200" : ""
       } border-b border-gray-200 last:border-b-2 last:border-violet-500">
-          <td class="p-1">${data[i].name}</td>
-          <td class="p-1">${data[i].price} €</td>
-          <td class="p-1">${data[i].quantity}</td>
-          <td class="p-1">${data[i].description}</td>
-          <td class="p-1">
+          <td class="text-center p-1">${data[i].name}</td>
+          <td class="text-center p-1">${data[i].price} €</td>
+          <td class="text-center p-1">${data[i].quantity}</td>
+          <td class="text-center p-1">${data[i].description}</td>
+          <td class="text-center p-1">
           <button class="bg-green-200 rounded px-1" onclick="editProduct(${
             data[i].id
           }, '${data[i].name}', '${data[i].price}', ${data[i].quantity}, '${
