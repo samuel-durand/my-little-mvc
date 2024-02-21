@@ -104,7 +104,7 @@ $router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
     }
     $cartController = new ShopController();
     $cartController->removeProductFromCart($id_product);
-    header('Location: /my-little-mvc/cart');
+    // header('Location: /my-little-mvc/cart');
 }, 'cart_delete');
 
 $router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_product, $id_cart) {
@@ -115,7 +115,7 @@ $router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_pr
     $quantity = $_POST['quantity'];
     $shopController = new ShopController();
     $shopController->updateProductInCart($id_product, $quantity);
-    
+    header('Location: /my-little-mvc/cart');
 }, 'update_product');
 
 $router->map('GET', '/admin', function () {

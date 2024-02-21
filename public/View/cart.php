@@ -79,7 +79,7 @@ use App\Controller\ShopController;
                         ?>
                     </tbody>
                 </table>
-                <p>Total: <?php echo $total; ?></p>
+                <p>Total: <?php echo $total; ?>€</p>
             </div>
 
         </section>
