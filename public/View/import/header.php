@@ -1,7 +1,7 @@
 <?php
 
-use App\Controller\AuthenticationController;
 use App\Controller\AdminController;
+use App\Controller\AuthenticationController;
 
 $adminController = new AdminController();
 $authController = new AuthenticationController();
@@ -20,13 +20,15 @@ if (isset($_SESSION['products'])) {
     <nav class="flex items-center py-2 px-4 border-b border-[#E4DFD9] h-full">
         <div class="flex justify-between items-center w-full">
             <div id="containerLogo" class="p-2">
-                <h2 class="text-xl font-bold text-black">E-Shop</h2>
+                <a href='/my-little-mvc/'>
+                    <h2 class="text-xl font-bold text-black">E-Shop</h2>
+                </a>
             </div>
             <div id="containerLink" class="h-full flex items-center">
                 <ul class="flex text-bold uppercase gap-x-2 font-medium items-center">
                     <li class="">
                         <a href="/my-little-mvc/shop">
-                            Accueil
+                            Shop
                         </a>
                     </li>
                     <?php if ($authController->isLogged()): ?>
