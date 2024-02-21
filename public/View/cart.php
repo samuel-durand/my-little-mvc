@@ -89,6 +89,10 @@ use App\Controller\ShopController;
                 Page précédente
             </a>
             <p><?php echo $page; ?></p>
+            <?php if (!$getCartPage) {
+                $page = 1;
+            } 
+            ?>
             <a href="/my-little-mvc/cart/<?php echo $page + 1; ?>" class="bg-red-100 rounded p-2">
                 Page suivante
             </a>

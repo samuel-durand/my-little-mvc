@@ -177,6 +177,9 @@ class ShopController
             if (isset($_SESSION['products'][$i])) {
                 $products[] = $_SESSION['products'][$i];
             }
+            else if (empty($products)) {
+                $products = [];
+            }
         }
 
         return $products;

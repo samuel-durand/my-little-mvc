@@ -89,10 +89,11 @@ $router->map('POST', '/product/[i:id_product]', function ($id_product) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($id_product, intval($_POST['quantity']), $user->getId());
-    header('Location: /my-little-mvc/cart');
+    header('Location: /my-little-mvc/cart/1');
 }, 'product_submit');
 
 $router->map('GET', '/cart', function () {
+    header('Location: /my-little-mvc/cart/1');
     require_once 'public/View/cart.php';
 }, 'cart');
 
