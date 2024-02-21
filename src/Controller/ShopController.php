@@ -170,18 +170,17 @@ class ShopController
         return $errors;
     }
 
-    public function findPaginatedCart(int $page): array
-    {
+    public function findPaginatedCart(int $page): array {   
+
         $offset = ($page - 1) * 6;
+        $finalProducts = [];
         for ($i = $offset; $i < $offset + 6; $i++) {
             if (isset($_SESSION['products'][$i])) {
-                $products[] = $_SESSION['products'][$i];
-            }
-            else if (empty($products)) {
-                $products = [];
+                $finalProducts[] = $_SESSION['products'][$i];
             }
         }
 
-        return $products;
+        return $finalProducts;
     }
+    
 }

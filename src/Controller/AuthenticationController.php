@@ -98,6 +98,10 @@ class AuthenticationController
         }
     }
 
+    function orderCartProductsByDate($a, $b) {
+        return strcmp($a->getcreated_at()->format('Y:m:d-h:m:s'), $b->getcreated_at()->format('Y:m:d-h:m:s'));
+    }
+
     private function loginCart(): void
     {
         $cart = new Cart();
@@ -105,6 +109,10 @@ class AuthenticationController
             $_SESSION['cart'] = $cart->findOneByUserId($_SESSION['user']->getId());
             $cartProductModel = new CartProduct();
             $_SESSION['products'] = $cartProductModel->findAllByCartId($_SESSION['cart']->getId());
+
+            usort($_SESSION['products'], function($a, $b) {
+                return strcmp($a->getcreated_at()->format('Y-m-d H:i:s'), $b->getcreated_at()->format('Y-m-d H:i:s'));
+            });
         }
     }
     public function logout(): void

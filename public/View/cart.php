@@ -14,6 +14,7 @@ use App\Controller\ShopController;
     <link rel="stylesheet" href="../../style.css">
     <script defer src="../scripts/cart.js"></script>
     <title>Shop - Cart <?=$page?></title>
+    <?php var_dump($_SESSION['products']) ?>
 </head>
 <body>
 <?php require_once __DIR__ . '/import/header.php'; ?>
@@ -35,6 +36,7 @@ use App\Controller\ShopController;
                         <th class="text-center p-2">Prix</th>
                         <th class="text-center p-2">Quantité</th>
                         <th class="text-center p-2">Total</th>
+                        <th class="text-center p-2">Date d'ajout</th>
                         <th class="text-center p-2">Supprimer</th>
                     </tr>
                     </thead>
@@ -49,6 +51,7 @@ use App\Controller\ShopController;
                     $price = $productDetail->getPrice();
                     $quantity = $product->getQuantity();
                     $total += $price * $quantity;
+                    $created_at = $product->getcreated_at()->format('d-m-Y H:m:s');
                     ?>
                     <tr>
                         <td class="text-center p-2 border"> <?= $productDetail->getName() ?></td>
@@ -66,6 +69,7 @@ use App\Controller\ShopController;
                         <td class="text-center p-2 border">
                             <?= $price * $quantity ?>€
                         </td>
+                        <td><?php echo $created_at ?></td>
                         <td class="text-center porder p-2">
                             <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post" id="delete-product-form">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
