@@ -147,7 +147,7 @@ class CartProduct
         $query->execute();
         $result = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        if (count($result) === 1) {
+        if (count($result) > 0) {
             $cartProduct = new CartProduct();
             $cartProduct->hydrate($result[0]);
             return $cartProduct;

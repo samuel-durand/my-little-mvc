@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<?php require_once __DIR__ . './import/header.php';?>
+<?php require_once __DIR__ . '/import/header.php';?>
     <?php if ($id_product !== null): ?>
         <main class="h-screen w-screen">
             <section class="w-screen h-screen flex justify-center items-center">

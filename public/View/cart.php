@@ -13,10 +13,10 @@ use App\Controller\ShopController;
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../style.css">
     <script defer src="../scripts/cart.js"></script>
-    <title>Shop - Cart</title>
+    <title>Shop - Cart <?=$page?></title>
 </head>
 <body>
-<?php require_once __DIR__ . './import/header.php'; ?>
+<?php require_once __DIR__ . '/import/header.php'; ?>
 <main class="pt-20">
     <section class="w-screen h-fit flex justify-center items-center">
         <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre panier</h1>
@@ -40,9 +40,10 @@ use App\Controller\ShopController;
                     </thead>
                     <tbody>
                     <?php
+                    $idCart = $_SESSION['cart']->getId();
                     $total = 0;
                     $shopController = new ShopController();
-                    foreach ($_SESSION['products'] as $product) {
+                    foreach ($getCartPage as $product) {
                     $idProduct = $product->getProductId();
                     $productDetail = $shopController->showProduct($idProduct);
                     $price = $productDetail->getPrice();
@@ -51,21 +52,22 @@ use App\Controller\ShopController;
                     ?>
                     <tr>
                         <td class="text-center p-2 border"> <?= $productDetail->getName() ?></td>
-                        <td class="text-center p-2"><?= $price ?></td>
+                        <td class="text-center p-2"><?= $price ?>€</td>
                         <td class="text-center p-2 border">
-                            <form action="" method="post">
+                            <form action="/my-little-mvc/cart/update/<?php echo $idProduct ?>/<?php echo $idCart ?>" method="post">
                                 <input type="number" name="quantity" id="quantity" placeholder="quantity" min="1"
                                        class="p-2"
                                        value="<?php echo $quantity; ?>">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
+                                <input type="hidden" name="id_cart" value="<?php echo $idCart; ?>">
                                 <input type="submit" name="update" value="Update" class="p-2 text-white bg-green-400">
                             </form>
                         </td>
                         <td class="text-center p-2 border">
-                            <?= $price * $quantity ?>
+                            <?= $price * $quantity ?>€
                         </td>
                         <td class="text-center porder p-2">
-                            <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post">
+                            <form action="/my-little-mvc/cart/delete/<?php echo $idProduct; ?>" method="post" id="delete-product-form">
                                 <input type="hidden" name="id_product" value="<?php echo $idProduct; ?>">
                                 <input type="submit" name="remove" value="Supprimer" class="p-2 text-white bg-red-500">
                             </form>
@@ -77,11 +79,27 @@ use App\Controller\ShopController;
                         ?>
                     </tbody>
                 </table>
-                <p>Total: <?php echo $total; ?></p>
+                <p>Total: <?php echo $total; ?>€</p>
             </div>
 
         </section>
     <?php endif; ?>
+    <div class="w-screen flex justify-around pt-2">
+            <a href="/my-little-mvc/cart/<?php echo $page - 1; ?>" class="bg-red-100 rounded p-2">
+                Page précédente
+            </a>
+            <p><?php echo $page; ?></p>
+            <?php if (!$getCartPage) {
+                $page = 1;
+            } 
+            ?>
+            <a href="/my-little-mvc/cart/<?php echo $page + 1; ?>" class="bg-red-100 rounded p-2">
+                Page suivante
+            </a>
+    </div>
+    <section class="w-screen h-fit flex justify-center items-center">
+        <a href="/my-little-mvc/shop/1" class="text-white bg-[#7B41F9] p-2 rounded-md">Retour à la boutique</a>
+    </section>
 </main>
 </body>
 </html>

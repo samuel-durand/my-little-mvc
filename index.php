@@ -3,9 +3,9 @@
 require_once 'vendor/autoload.php';
 session_start();
 
+use App\Controller\AdminController;
 use App\Controller\AuthenticationController;
 use App\Controller\ShopController;
-use App\Controller\AdminController;
 
 $router = new AltoRouter();
 $auth = new AuthenticationController();
@@ -89,10 +89,11 @@ $router->map('POST', '/product/[i:id_product]', function ($id_product) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($id_product, intval($_POST['quantity']), $user->getId());
-    header('Location: /my-little-mvc/cart');
+    header('Location: /my-little-mvc/cart/1');
 }, 'product_submit');
 
 $router->map('GET', '/cart', function () {
+    header('Location: /my-little-mvc/cart/1');
     require_once 'public/View/cart.php';
 }, 'cart');
 
@@ -107,7 +108,7 @@ $router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
     header('Location: /my-little-mvc/cart');
 }, 'cart_delete');
 
-$router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
+$router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_product, $id_cart) {
     $auth = new AuthenticationController();
     if ($auth->isLogged() === false) {
         header('Location: /my-little-mvc/login');
@@ -118,6 +119,16 @@ $router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
     header('Location: /my-little-mvc/cart');
 }, 'update_product');
 
+$router->map('GET', '/cart/[i:page]', function ($page) {
+    $shopController = new ShopController();
+    if ($page < 1 || empty($page)) {
+        $page = 1;
+    }
+    $getCartPage = $shopController->findPaginatedCart($page);
+    require_once 'public/View/cart.php';
+}, 'cart_default');
+
+
 $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
@@ -126,6 +137,54 @@ $router->map('GET', '/admin', function () {
         header('Location: /my-little-mvc/');
     }
 }, 'admin');
+
+$router->map('GET', '/admin/products', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showProducts();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin_products');
+
+$router->map('POST', '/admin/products/delete/[i:id_product]', function ($id_product) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->deleteProduct($id_product);
+    }
+}, 'admin_products_delete');
+
+$router->map('POST', '/admin/product/edit/[i:id_product]', function ($id_product) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->updateProduct($id_product);
+    }
+}, 'admin_products_edit');
+
+$router->map('GET', '/admin/users', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showUser();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin_users');
+
+$router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->deleteUserS($id);
+    }
+}, 'admin_delete_user');
+
+$router->map('POST', '/admin/users/edit/[i:id]', function ($id,) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->updateUser($id);
+    }
+}, 'admin_edit_user');
+
+
 
 $match = $router->match();
 
