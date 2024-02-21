@@ -3,9 +3,9 @@
 require_once 'vendor/autoload.php';
 session_start();
 
+use App\Controller\AdminController;
 use App\Controller\AuthenticationController;
 use App\Controller\ShopController;
-use App\Controller\AdminController;
 
 $router = new AltoRouter();
 $auth = new AuthenticationController();
@@ -136,6 +136,20 @@ $router->map('GET', '/admin/products', function () {
     }
 }, 'admin_products');
 
+$router->map('POST', '/admin/products/delete/[i:id_product]', function ($id_product) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->deleteProduct($id_product);
+    }
+}, 'admin_products_delete');
+
+$router->map('POST', '/admin/product/edit/[i:id_product]', function ($id_product) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->updateProduct($id_product);
+    }
+}, 'admin_products_edit');
+
 $router->map('GET', '/admin/users', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
@@ -152,12 +166,11 @@ $router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
     }
 }, 'admin_delete_user');
 
-$router->map('POST', '/admin/users/edit/[i:id]', function ($id) {
+$router->map('POST', '/admin/users/edit/[i:id]', function ($id,) {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
-        $adminController->edituser($id);
+        $adminController->updateUser($id);
     }
-    var_dump($_POST);
 }, 'admin_edit_user');
 
 

@@ -38,6 +38,46 @@ class AdminController
         }
     }
 
+    public function deleteProduct(int $id): void
+    {
+        if (!$this->isAdmin()) {
+            echo json_encode(['error' => 'Vous n\'avez pas les droits']);
+        }
+        $adminModel = new AdminModel();
+        if (empty($adminModel->getOneById($id))) {
+            echo json_encode(['error' => 'Le produit n\'existe pas']);
+        } else {
+            if ($adminModel->deleteProduct($id)) {
+                echo json_encode(['success' => 'Le produit a bien été supprimé']);
+            } else {
+                echo json_encode(['error' => 'Le produit n\'a pas pu être supprimé']);
+
+            }
+        }
+    }
+
+    public function updateProduct(int $id): void
+    {
+        if (!$this->isAdmin()) {
+            echo json_encode(['error' => 'Vous n\'avez pas les droits']);
+        }
+        $adminModel = new AdminModel();
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+        $quantity = $_POST['quantity'];
+
+        if (empty($adminModel->getOneById($id))) {
+            echo json_encode(['error' => 'Le produit n\'existe pas']);
+        } else {
+            if ($adminModel->updateProduct($id, $name, $description, $price, $quantity)) {
+                echo json_encode(['success' => 'Le produit a bien été modifié']);
+            } else {
+                echo json_encode(['error' => 'Le produit n\'a pas pu être modifié']);
+            }
+        }
+    }
+
     public function showUser(): void
     {
         if ($this->isAdmin() === false) {
@@ -68,19 +108,24 @@ class AdminController
         }
     }
 
-    public function edituser(int $id, ): void
+    public function updateUser(int $id, ): void
     {
-        if ($this->isAdmin() === false) {
-            header('Location: /my-little-mvc/shop');
+        if (!$this->isAdmin()) {
+            echo json_encode(['error' => 'Vous n\'avez pas les droits']);
         }
-
         $adminModel = new AdminModel();
+        $fullname = $_POST['fullname'];
+        $email = $_POST['email'];
 
 
-        if($adminModel->editUser($id,  $_POST['email'],  $_POST['fullname'])){
-            echo json_encode(['success' => 'User modifié']);
+        if (empty($adminModel->getUserById($id))) {
+            echo json_encode(['error' => 'Le produit n\'existe pas']);
         } else {
-            echo json_encode(['error' => 'User non modifié']);
+            if ($adminModel->editUser($id, $fullname, $email,)) {
+                echo json_encode(['success' => 'Le produit a bien été modifié']);
+            } else {
+                echo json_encode(['error' => 'Le produit n\'a pas pu être modifié']);
+            }
         }
     }
 }
