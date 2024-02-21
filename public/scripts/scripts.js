@@ -1,4 +1,5 @@
 const productList = document.querySelector("#productList");
+const userList = document.querySelector("#userList");
 const messageNotif = document.querySelector("#messageNotif");
 const containerFormEdit = document.querySelector("#containerFormEdit");
 const btnUser = document.querySelector("#btnUser");
@@ -19,6 +20,115 @@ const getUsers = async () => {
   const response = await fetch("/my-little-mvc/admin/users");
   const data = await response.json();
   return data;
+};
+
+const deleteUser = async (userId) => {
+  console.log(userId);
+  const response = await fetch(`/my-little-mvc/admin/users/delete/${userId}`, {
+    method: "POST",
+  });
+  const data = await response.json();
+  if (data.error) {
+    messageNotif.innerHTML = data.error;
+    erraseMessage();
+  }
+  if (data.success) {
+    messageNotif.innerHTML = data.success;
+    erraseMessage();
+    DisplayUsers();
+  }
+};
+
+const DisplayUsers = async () => {
+  const users = await getUsers();
+  let usersHTML = `<table class="border-collapse w-min-400px w-full mx-6 text-sm shadow-md rounded-t-lg">
+    <thead class="bg-gradient-to-r from-fuchsia-500 to-violet-500">
+    <tr class="text-white">
+    <th class="text-center px-3 py-4">id</th>
+    <th class="text-center px-3 py-4">Name</th>
+    <th class="text-center px-3 py-4">Email</th>
+    <th class="text-center px-3 py-4">Actions</th>
+    </tr>
+    </thead>
+    `;
+
+  users.forEach((user) => {
+    usersHTML += `<tr>
+                    <td class="p-1">${user.id}</td>
+                    <td class="p-1">${user.fullname}</td>
+                    <td class="p-1">${user.email}</td>
+                    <td class="p-1">
+                      <button class="bg-green-200 rounded px-1" onclick="edituser('${user.id}', '${user.fullname}', '${user.email}')">Edit</button>
+                      <button class="bg-red-200 rounded px-1" onclick="deleteUser('${user.id}')">Delete</button>
+                    </td>
+                  </tr>`;
+  });
+
+  usersHTML += "</table>";
+  userList.innerHTML = usersHTML;
+};
+
+const editUser = async (userId) => {
+  console.log(userId);
+  const response = await fetch(`/my-little-mvc/admin/users/edit/${userId}`, {
+    method: "POST",
+  });
+  const data = await response.json();
+  /*if(data === "success"){*/
+  DisplayUsers();
+};
+
+edituser = (id, fullname, email) => {
+  console.log(fullname, email, id);
+
+  containerFormEdit.innerHTML = "";
+  containerFormEdit.innerHTML = `
+        <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg">
+        <div class="flex flex-wrap justify-between">
+         
+            <div class="flex flex-col gap-1">
+                <label for="fullname">Fullname</label>
+                <input  type="text" name="fullname" value="${fullname}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+            </div>
+            
+            <div class="flex flex-col gap-1">
+                <label for="email">Email</label>
+                <input type="text" name="email" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+            </div>
+        </div>
+        <div class="h-16">
+            <p id="messageNotifEdit" class="text-red-500"></p>
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="bg-green-400 p-2 rounded-lg">Editer</button>
+            <button type="button" class="bg-grey-400 p-2 rounded-lg" onclick="containerFormEdit.innerHTML = ''">Annuler</button>
+        </div>
+         </form>
+
+       `;
+  const formEditUser = document.querySelector("#formEditUser");
+  const messageNotifEdit = document.querySelector("#messageNotifEdit");
+  formEditUser.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(formEditUser);
+    const res = await fetch(`/my-little-mvc/admin/users/edit/${id}`, {
+      method: "POST",
+      body: formData,
+    });
+    console.log(res);
+    const data = await res.json();
+    messageNotifEdit.innerHTML = "";
+    if (data.error) {
+      messageNotifEdit.innerHTML = data.error;
+      erraseMessage();
+    }
+    if (data.success) {
+      messageNotifEdit.innerHTML = data.success;
+      erraseMessage();
+      DisplayUsers();
+      containerFormEdit.innerHTML = "";
+    }
+  });
 };
 
 getUsers().then((data) => {
@@ -142,9 +252,19 @@ displayProducts = () => {
   });
 };
 
+DisplayUsers();
+
 if (btnProduct) {
   btnProduct.addEventListener("click", () => {
     productList.innerHTML = "";
+    userList.innerHTML = "";
     displayProducts();
+  });
+}
+if (btnUser) {
+  btnUser.addEventListener("click", () => {
+    productList.innerHTML = "";
+    userList.innerHTML = "";
+    DisplayUsers();
   });
 }

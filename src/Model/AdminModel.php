@@ -45,9 +45,31 @@ class AdminModel
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function deleteUser(int $id): bool
+    {
+        $query = $this->getPdo()->prepare('DELETE FROM user WHERE id = :id');
+        $sql = $query->execute(['id' => $id]);
+        return $sql;
+    }
+
+    public function editUser(int $id, string $email, string $fullname ): bool
+    {
+        $query = $this->getPdo()->prepare('UPDATE user SET email = :email,  fullname = :fullname WHERE id = :id');
+        $sql = $query->execute(['id' => $id, 'email' => $email, 'fullname' => $fullname]);
+        return $sql;
+    }
     public function updateProduct(int $id, string $name, string $description, int $price, int $quantity): bool
     {
         $query = $this->getPdo()->prepare('UPDATE product SET name = :name, description = :description, price = :price, quantity = :quantity, updated_at = NOW() WHERE id = :id');
         return $query->execute(['id' => $id, 'name' => $name, 'description' => $description, 'price' => $price, 'quantity' => $quantity]);
     }
+
+    public function getUserById(int $id): array
+    {
+        $query = $this->getPdo()->prepare('SELECT * FROM user WHERE id = :id');
+        $query->execute(['id' => $id]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
+

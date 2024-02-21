@@ -1,3 +1,6 @@
+
+
+
 <DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,14 +29,15 @@
                 </div>
                 <div id="messageNotif" class="h-6"></div>
                 <div id="containerFormEdit"></div>
-                <div id="userList"></div>
+                <div id="formEditUser"></div>
+                <div class="w-full">
+                    <div id="userList" class="flex justify-center"></div>
+                </div>
                 <div class="w-full">
                     <div id="productList" class="flex justify-center"></div>
                 </div>
             </div>
-
         </section>
     </main>
-
 </body>
 </html>

@@ -159,6 +159,22 @@ $router->map('GET', '/admin/users', function () {
     }
 }, 'admin_users');
 
+$router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->deleteUserS($id);
+    }
+}, 'admin_delete_user');
+
+$router->map('POST', '/admin/users/edit/[i:id]', function ($id,) {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->updateUser($id);
+    }
+}, 'admin_edit_user');
+
+
+
 $match = $router->match();
 
 if ($match) {
