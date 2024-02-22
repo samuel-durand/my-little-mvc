@@ -7,21 +7,20 @@ class Renderer
     /**
      * Render a view with data
      *
-     * @param string $view The view file to render
      * @param array $data The data to pass to the view
      * @return void
      */
-    public function render(string $view, array $data = []): void
+    function processRoute(array $match): void
     {
-        extract($data);
-
-        ob_start();
-
-        require $view;
-
-        $content = ob_get_clean();
-
-        echo $content;
-
+        $content = '';
+        if (is_callable($match['target'])) {
+            call_user_func_array($match['target'], $match['params']);
+        } else {
+            $params = $match['params'];
+            ob_start();
+            require_once 'public/View/' . $match['name'] . '.php';
+            $content = ob_get_clean();
+        }
+        require 'public/View/elements/layout.php';
     }
 }

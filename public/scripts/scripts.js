@@ -68,13 +68,19 @@ const DisplayUsers = async () => {
 };
 
 const editUser = async (userId) => {
-  console.log(userId);
   const response = await fetch(`/my-little-mvc/admin/users/edit/${userId}`, {
     method: "POST",
   });
   const data = await response.json();
-  /*if(data === "success"){*/
-  DisplayUsers();
+  if (data.error) {
+    messageNotif.innerHTML = data.error;
+    erraseMessage();
+  }
+  if (data.success) {
+    messageNotif.innerHTML = data.success;
+    erraseMessage();
+    DisplayUsers();
+  }
 };
 
 edituser = (id, fullname, email) => {

@@ -1,10 +1,11 @@
 <?php
+use App\Controller\AdminController;
 
 require_once 'vendor/autoload.php';
 session_start();
 
-use App\Controller\AdminController;
 use App\Controller\AuthenticationController;
+use App\Controller\Renderer;
 use App\Controller\ShopController;
 
 $router = new AltoRouter();
@@ -175,17 +176,8 @@ $router->map('POST', '/admin/users/edit/[i:id]', function ($id, ) {
 $match = $router->match();
 
 if (is_array($match)) {
-    $content = '';
-    if (is_callable($match['target'])) {
-        call_user_func_array($match['target'], $match['params']);
-    } else {
-        $params = $match['params'];
-        ob_start();
-        require_once 'public/View/' . $match['name'] . '.php';
-        $content = ob_get_clean();
-    }
-    require 'public/View/elements/layout.php';
-
+    $render = new Renderer();
+    $render->processRoute($match);
 } else {
     require_once 'public/View/404.php';
 }
