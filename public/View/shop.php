@@ -4,16 +4,15 @@
     <title>Shop - Page <?=$page?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="https://cdn.tailwindcss.com"></>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 <?php require_once __DIR__ . '/import/header.php';?>
 <main>
     <div class="pt-20 w-full flex justify-center py-4">
-        <h1 class="text-3xl">Products</h1>
+        <h1 class="text-3xl">Produits</h1>
     </div>
-    <section class="flex justify-center pt-20">
+    <section class="flex justify-center pt-12">
         <div class="w-[80vw] h-full flex flex-col justify-center items-center p-2">
             <div class="flex justify-around flex-wrap">
                 <?php foreach ($getProductPage as $product): ?>
@@ -31,8 +30,9 @@
                                         Voir le produit
                                     </a>
                                 </button>
-                                <form action="" method="post">
+                                <form action="/my-little-mvc/product/<?php echo $product->getId() ?>" method="post">
                                     <input type="hidden" name="id_product" value="<?php echo $product->getId(); ?>">
+                                    <input type="hidden" name="quantity" value="1">
                                     <input type="submit" name="submit" value="Add" class="bg-red-300 rounded p-3">
                                 </form>
                             </div>
@@ -51,7 +51,6 @@
             </div>
         </div>
     </section>
-
 </main>
 </body>
 </html>

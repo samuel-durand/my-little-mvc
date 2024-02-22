@@ -1,6 +1,9 @@
 const productList = document.querySelector("#productList");
+const userList = document.querySelector("#userList");
 const messageNotif = document.querySelector("#messageNotif");
 const containerFormEdit = document.querySelector("#containerFormEdit");
+const btnUser = document.querySelector("#btnUser");
+const btnProduct = document.querySelector("#btnProduct");
 
 const erraseMessage = () => {
   setTimeout(() => {
@@ -20,60 +23,67 @@ const getUsers = async () => {
 };
 
 const deleteUser = async (userId) => {
-  console.log(userId);
-  const response = await fetch(`/my-little-mvc/admin/users/delete/${userId}`,{method:'POST'});
-    const data = await response.json();
-    /*if(data === "success"){*/
+  const response = await fetch(`/my-little-mvc/admin/users/delete/${userId}`, {
+    method: "POST",
+  });
+  const data = await response.json();
+  if (data.error) {
+    messageNotif.innerHTML = data.error;
+    erraseMessage();
+  }
+  if (data.success) {
+    messageNotif.innerHTML = data.success;
+    erraseMessage();
     DisplayUsers();
-    /*}*/
-}
-deleteUser();
-
-
+  }
+};
 
 const DisplayUsers = async () => {
   const users = await getUsers();
-  let usersHTML = "<table><tr><th>id</th><th>Name</th><th>Email</th><th>Actions</th></tr>";
+  let usersHTML = `<table class="border-collapse w-min-400px w-full mx-6 text-sm shadow-md rounded-t-lg">
+    <thead class="bg-gradient-to-r from-fuchsia-500 to-violet-500">
+    <tr class="text-white">
+    <th class="text-center px-3 py-4">id</th>
+    <th class="text-center px-3 py-4">Name</th>
+    <th class="text-center px-3 py-4">Email</th>
+    <th class="text-center px-3 py-4">Actions</th>
+    </tr>
+    </thead>
+    `;
 
-  users.forEach(user => {
+  users.forEach((user) => {
     usersHTML += `<tr>
-                    <td><input id="fullname-${user.id}"  value="${user.id}"></td>
-                    <td><input id="fullname-${user.id}" name="fullname" value="${user.fullname}"></td>
-                    <td><input id="email-${user.id}" name="email" value="${user.email}"></td>
-                    <td>
-                      <button onclick="edituser('${user.id}', '${user.email}', '${user.fullname}')">Edit</button>
-                      <button onclick="deleteUser('${user.id}')">Delete</button>
+                    <td class="text-center p-1">${user.id}</td>
+                    <td class="text-center p-1">${user.fullname}</td>
+                    <td class="text-center p-1">${user.email}</td>
+                    <td class="text-center p-1">
+                      <button class="bg-green-200 rounded px-1" onclick="edituser('${user.id}', '${user.fullname}', '${user.email}')">Edit</button>
+                      <button class="bg-red-200 rounded px-1" onclick="deleteUser('${user.id}')">Delete</button>
                     </td>
                   </tr>`;
   });
 
   usersHTML += "</table>";
-  document.getElementById("test").innerHTML = usersHTML;
-}
-
+  userList.innerHTML = usersHTML;
+};
 
 const editUser = async (userId) => {
   console.log(userId);
-  const response = await fetch(`/my-little-mvc/admin/users/edit/${userId}`,{method:'POST'});
+  const response = await fetch(`/my-little-mvc/admin/users/edit/${userId}`, {
+    method: "POST",
+  });
   const data = await response.json();
   /*if(data === "success"){*/
   DisplayUsers();
+};
 
-}
-
-edituser =  (id, email, fullname) => {
-
-  console.log(email, fullname, id);
-
+edituser = (id, fullname, email) => {
   containerFormEdit.innerHTML = "";
-    containerFormEdit.innerHTML =
-
-
-        `
+  containerFormEdit.innerHTML = `
         <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg">
         <div class="flex flex-wrap justify-between">
          
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-1 ">
                 <label for="fullname">email</label>
                 <input  type="text" name="fullname" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
             </div>
@@ -93,35 +103,30 @@ edituser =  (id, email, fullname) => {
          </form>
 
        `;
-    const formEditUser = document.querySelector("#formEditUser");
-    const messageNotifEdit = document.querySelector("#messageNotifEdit");
-    formEditUser.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const formData = new FormData(formEditUser);
-        const res = await fetch(`/my-little-mvc/admin/users/edit/${id}`, {
-            method: "POST",
-            body: formData,
-        });
-        console.log(res);
-        const data = await res.json();
-        messageNotifEdit.innerHTML = "";
-        if (data.error) {
-            messageNotifEdit.innerHTML = data.error;
-            erraseMessage();
-        }
-        if (data.success) {
-            messageNotifEdit.innerHTML = data.success;
-            erraseMessage();
-            DisplayUsers();
-            containerFormEdit.innerHTML = "";
-        }
+  const formEditUser = document.querySelector("#formEditUser");
+  const messageNotifEdit = document.querySelector("#messageNotifEdit");
+  formEditUser.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(formEditUser);
+    const res = await fetch(`/my-little-mvc/admin/users/edit/${id}`, {
+      method: "POST",
+      body: formData,
     });
-}
-
-
-
-
-DisplayUsers();
+    console.log(res);
+    const data = await res.json();
+    messageNotifEdit.innerHTML = "";
+    if (data.error) {
+      messageNotifEdit.innerHTML = data.error;
+      erraseMessage();
+    }
+    if (data.success) {
+      messageNotifEdit.innerHTML = data.success;
+      erraseMessage();
+      DisplayUsers();
+      containerFormEdit.innerHTML = "";
+    }
+  });
+};
 
 getUsers().then((data) => {
   console.log(data);
@@ -225,11 +230,11 @@ displayProducts = () => {
       <tr class="${
         i % 2 === 0 ? "bg-gray-200" : ""
       } border-b border-gray-200 last:border-b-2 last:border-violet-500">
-          <td class="p-1">${data[i].name}</td>
-          <td class="p-1">${data[i].price} €</td>
-          <td class="p-1">${data[i].quantity}</td>
-          <td class="p-1">${data[i].description}</td>
-          <td class="p-1">
+          <td class="text-center p-1">${data[i].name}</td>
+          <td class="text-center p-1">${data[i].price} €</td>
+          <td class="text-center p-1">${data[i].quantity}</td>
+          <td class="text-center p-1">${data[i].description}</td>
+          <td class="text-center p-1">
           <button class="bg-green-200 rounded px-1" onclick="editProduct(${
             data[i].id
           }, '${data[i].name}', '${data[i].price}', ${data[i].quantity}, '${
@@ -244,4 +249,19 @@ displayProducts = () => {
   });
 };
 
-/*displayProducts();*/
+DisplayUsers();
+
+if (btnProduct) {
+  btnProduct.addEventListener("click", () => {
+    productList.innerHTML = "";
+    userList.innerHTML = "";
+    displayProducts();
+  });
+}
+if (btnUser) {
+  btnUser.addEventListener("click", () => {
+    productList.innerHTML = "";
+    userList.innerHTML = "";
+    DisplayUsers();
+  });
+}

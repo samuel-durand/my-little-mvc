@@ -18,29 +18,26 @@
 <?php require_once __DIR__ . '/import/header.php';?>
 
     <main>
-        <section class="w-screen h-screen flex justify-center items-center">
+        <section class="w-screen h-screen flex justify-center items-strech pt-20">
             <div class="flex flex-col">
-                <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre espace administrateur</h1>
-                <article class="flex justify-center items-center gap-4">
-                    <button id="btnUser" class="bg-[#7B41F9] text-white p-2 rounded-lg">Utilisateurs</button>
-                    <button id="btnProduct" class="bg-[#7B41F9] text-white p-2 rounded-lg">Produits</button>
-                </article>
-                <div id="messageNotif"></div>
+                <div class="h-fit">
+                    <h1 class="text-6xl font-semibold text-[#7B41F9]">Bienvenue sur votre espace administrateur</h1>
+                    <article class="flex justify-center items-center gap-4 py-4">
+                        <button id="btnUser" class="bg-[#7B41F9] text-white p-2 rounded-lg">Utilisateurs</button>
+                        <button id="btnProduct" class="bg-[#7B41F9] text-white p-2 rounded-lg">Produits</button>
+                    </article>
+                </div>
+                <div id="messageNotif" class="h-6"></div>
                 <div id="containerFormEdit"></div>
                 <div id="formEditUser"></div>
-                <div id="userList"></div>
-                    <div id="test" class="flex justify-center items-center gap-4">
-
-                    </div>
-
-                <div id="productList"></div>
+                <div class="w-full">
+                    <div id="userList" class="flex justify-center"></div>
+                </div>
                 <div class="w-full">
                     <div id="productList" class="flex justify-center"></div>
                 </div>
             </div>
-
         </section>
     </main>
-
 </body>
 </html>

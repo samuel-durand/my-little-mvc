@@ -89,10 +89,11 @@ $router->map('POST', '/product/[i:id_product]', function ($id_product) {
     $user = $_SESSION['user'];
     $cartController = new ShopController();
     $cartController->addProductToCart($id_product, intval($_POST['quantity']), $user->getId());
-    header('Location: /my-little-mvc/cart');
+    header('Location: /my-little-mvc/cart/1');
 }, 'product_submit');
 
 $router->map('GET', '/cart', function () {
+    header('Location: /my-little-mvc/cart/1');
     require_once 'public/View/cart.php';
 }, 'cart');
 
@@ -107,7 +108,7 @@ $router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
     header('Location: /my-little-mvc/cart');
 }, 'cart_delete');
 
-$router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
+$router->map('POST', '/cart/update/[i:id_product]/[i:id_cart]', function ($id_product, $id_cart) {
     $auth = new AuthenticationController();
     if ($auth->isLogged() === false) {
         header('Location: /my-little-mvc/login');
@@ -117,6 +118,16 @@ $router->map('POST', '/cart/update/[i:id_product]', function ($id_product) {
     $shopController->updateProductInCart($id_product, $quantity);
     header('Location: /my-little-mvc/cart');
 }, 'update_product');
+
+$router->map('GET', '/cart/[i:page]', function ($page) {
+    $shopController = new ShopController();
+    if ($page < 1 || empty($page)) {
+        $page = 1;
+    }
+    $getCartPage = $shopController->findPaginatedCart($page);
+    require_once 'public/View/cart.php';
+}, 'cart_default');
+
 
 $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
