@@ -72,7 +72,7 @@ class ShopController
             $cart->update();
             // store cart object in session
             $_SESSION['cart'] = $cart;
-            $_SESSION['products'][] = $cartProductModel;
+            array_unshift($_SESSION['products'], $cartProductModel);
         } else {
             $foundProduct = null;
             foreach ($_SESSION['products'] as $cartProduct) {
@@ -101,7 +101,7 @@ class ShopController
                 $cart = $_SESSION['cart'];
                 $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
                 $cart->update();
-                $_SESSION['products'][] = $cartProductModel;
+                array_unshift($_SESSION['products'], $cartProductModel);
             }
         }
     }
@@ -172,7 +172,6 @@ class ShopController
 
     public function findPaginatedCart(int $page): array {   
 
-        var_dump($_SESSION['products']);
         $offset = ($page - 1) * 6;
         $finalProducts = [];
         for ($i = $offset; $i < $offset + 6; $i++) {
