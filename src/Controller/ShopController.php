@@ -172,6 +172,7 @@ class ShopController
 
     public function findPaginatedCart(int $page): array {   
 
+        var_dump($_SESSION['products']);
         $offset = ($page - 1) * 6;
         $finalProducts = [];
         for ($i = $offset; $i < $offset + 6; $i++) {

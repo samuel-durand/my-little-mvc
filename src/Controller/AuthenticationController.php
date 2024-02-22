@@ -98,21 +98,24 @@ class AuthenticationController
         }
     }
 
-    function orderCartProductsByDate($a, $b) {
-        return strcmp($a->getcreated_at()->format('Y:m:d-h:m:s'), $b->getcreated_at()->format('Y:m:d-h:m:s'));
-    }
+    function compare_weights($a, $b) { 
+        if($a->getcreated_at() == $b->getcreated_at()) {
+            return 0;
+        } 
+        return ($a->getcreated_at() < $b->getcreated_at()) ? -1 : 1;
+    } 
 
-    private function loginCart(): void
+    private function loginCart(): array
     {
         $cart = new Cart();
         if ($cart->findOneByUserId($_SESSION['user']->getId()) !== false) {
             $_SESSION['cart'] = $cart->findOneByUserId($_SESSION['user']->getId());
             $cartProductModel = new CartProduct();
             $_SESSION['products'] = $cartProductModel->findAllByCartId($_SESSION['cart']->getId());
+            
+            usort($_SESSION['products'], array($this, 'compare_weights'));
 
-            usort($_SESSION['products'], function($a, $b) {
-                return strcmp($a->getcreated_at()->format('Y-m-d H:i:s'), $b->getcreated_at()->format('Y-m-d H:i:s'));
-            });
+            return $_SESSION['products'];
         }
     }
     public function logout(): void

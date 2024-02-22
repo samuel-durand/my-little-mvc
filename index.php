@@ -128,7 +128,6 @@ $router->map('GET', '/cart/[i:page]', function ($page) {
     require_once 'public/View/cart.php';
 }, 'cart_default');
 
-
 $router->map('GET', '/admin', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
