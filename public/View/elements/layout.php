@@ -16,6 +16,19 @@ if (isset($_SESSION['products'])) {
 }
 ?>
 
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="<?=$pageDescription ?? ''?>">
+    <?=$javascript ?? ''?>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>E-shop <?=$pageTitle ?? 'E-shop'?></title>
+</head>
+<body>
 <header class="fixed top-0 left-0 right-0 lg: h-16 bg-[#F8F8F8]">
     <nav class="flex items-center py-2 px-4 border-b border-[#E4DFD9] h-full">
         <div class="flex justify-between items-center w-full">
@@ -55,16 +68,16 @@ if (isset($_SESSION['products'])) {
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/logout">
-                                Déconnexion
-                            </a>
-                            <?php if ($adminController->isAdmin()): ?>
-                                <li class="">
-                                    <a href="/my-little-mvc/admin">
-                                        Admin
-                                    </a>
-                                </li>
-                            <?php endif;?>
+                        <a href="/my-little-mvc/logout">
+                            Déconnexion
+                        </a>
+                        <?php if ($adminController->isAdmin()): ?>
+                            <li class="">
+                                <a href="/my-little-mvc/admin">
+                                    Admin
+                                </a>
+                            </li>
+                        <?php endif;?>
                         </li>
                     <?php else: ?>
                         <li class="">
@@ -83,3 +96,6 @@ if (isset($_SESSION['products'])) {
         </div>
     </nav>
 </header>
+<?=$content?>
+</body>
+</html>

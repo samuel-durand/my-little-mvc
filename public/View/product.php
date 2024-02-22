@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Shop - Product</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<?php require_once __DIR__ . '/import/header.php';?>
+<?php
+$pageTitle = 'Produits';
+$pageDescription = 'Découvrez nos produits';
+?>
     <?php if ($id_product !== null): ?>
         <main class="h-screen w-screen">
             <section class="w-screen h-screen flex justify-center items-center">
@@ -35,5 +30,5 @@
             </section>
         </main>
     <?php endif;?>
-</html>
+
 

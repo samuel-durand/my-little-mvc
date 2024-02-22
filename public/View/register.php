@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Shop - Register</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-<?php require_once __DIR__ . '/import/header.php';?>
+<?php
+$pageTitle = 'Inscription';
+$pageDescription = 'Rejoignez-nous et profitez de nos offres';
+?>
 <main class="">
     <article class="w-screen h-screen flex justify-center items-center">
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">
@@ -49,5 +43,3 @@
         </section>
     </article>
 </main>
-</body>
-</html>

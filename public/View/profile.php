@@ -1,15 +1,8 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Shop - Profil</title>
-</head>
-<body>
-<?php require_once __DIR__ . '/import/header.php';?>
+<?php
+$pageTitle = 'Profil';
+$pageDescription = 'Modifier votre profil';
+?>
+
 <main class="w-screen h-screen flex justify-center items-center">
         <?php if (!empty($user)): ?>
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">
@@ -45,5 +38,4 @@
         </section>
         <?php endif;?>
 </main>
-</body>
-</html>
+

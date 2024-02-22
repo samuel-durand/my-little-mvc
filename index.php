@@ -12,22 +12,16 @@ $auth = new AuthenticationController();
 
 $router->setBasePath('/my-little-mvc');
 
-$router->map('GET', '/', function () {
-    require 'public/View/home.php';
-});
+$router->map('GET', '/', null, 'home');
 
-$router->map('GET', '/login', function () {
-    require 'public/View/login.php';
-}, 'login');
+$router->map('GET', '/login', null, 'login');
 
 $router->map('POST', '/login', function () use ($auth) {
     $message = $auth->login($_POST['email'], $_POST['password']);
     require_once 'public/View/login.php';
 }, 'login_submit');
 
-$router->map('GET', '/register', function () {
-    require 'public/View/register.php';
-}, 'register');
+$router->map('GET', '/register', null, 'register');
 
 $router->map('POST', '/register', function () use ($auth) {
     $message = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
@@ -39,13 +33,12 @@ $router->map('GET', '/logout', function () use ($auth) {
     header('Location: /my-little-mvc/');
 }, 'logout');
 
-$router->map('GET', '/profile', function () use ($auth) {
+$router->map('GET', '/profile', target: function () use ($auth) {
     if ($auth->isLogged() === false) {
         header('Location: /my-little-mvc/login');
         exit();
     }
-    require_once 'public/View/profile.php';
-}, 'profile');
+}, name: 'profile');
 
 $router->map('POST', '/profile', function () use ($auth) {
     if ($auth->isLogged() === false) {
@@ -76,8 +69,6 @@ $router->map('GET', '/product/[i:id_product]', function ($id_product) {
     if ($products === null) {
         header('Location: /my-little-mvc/shop');
     }
-    require_once 'public/View/product.php';
-
 }, 'product');
 
 $router->map('POST', '/product/[i:id_product]', function ($id_product) {
@@ -94,7 +85,6 @@ $router->map('POST', '/product/[i:id_product]', function ($id_product) {
 
 $router->map('GET', '/cart', function () {
     header('Location: /my-little-mvc/cart/1');
-    require_once 'public/View/cart.php';
 }, 'cart');
 
 $router->map('POST', '/cart/delete/[i:id_product]', function ($id_product) {
@@ -128,20 +118,13 @@ $router->map('GET', '/cart/[i:page]', function ($page) {
     require_once 'public/View/cart.php';
 }, 'cart_default');
 
-
-$router->map('GET', '/admin', function () {
-    $adminController = new AdminController();
-    if ($adminController->isAdmin()) {
-        $adminController->index();
-    } else {
-        header('Location: /my-little-mvc/');
-    }
-}, 'admin');
+$router->map('GET', '/admin', null, 'admin');
 
 $router->map('GET', '/admin/products', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->showProducts();
+        exit();
     } else {
         header('Location: /my-little-mvc/');
     }
@@ -152,6 +135,7 @@ $router->map('POST', '/admin/products/delete/[i:id_product]', function ($id_prod
     if ($adminController->isAdmin()) {
         $adminController->deleteProduct($id_product);
     }
+    exit();
 }, 'admin_products_delete');
 
 $router->map('POST', '/admin/product/edit/[i:id_product]', function ($id_product) {
@@ -159,12 +143,14 @@ $router->map('POST', '/admin/product/edit/[i:id_product]', function ($id_product
     if ($adminController->isAdmin()) {
         $adminController->updateProduct($id_product);
     }
+    exit();
 }, 'admin_products_edit');
 
 $router->map('GET', '/admin/users', function () {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->showUser();
+        exit();
     } else {
         header('Location: /my-little-mvc/');
     }
@@ -175,21 +161,31 @@ $router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
     if ($adminController->isAdmin()) {
         $adminController->deleteUserS($id);
     }
+    exit();
 }, 'admin_delete_user');
 
-$router->map('POST', '/admin/users/edit/[i:id]', function ($id,) {
+$router->map('POST', '/admin/users/edit/[i:id]', function ($id, ) {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->updateUser($id);
     }
+    exit();
 }, 'admin_edit_user');
-
-
 
 $match = $router->match();
 
-if ($match) {
-    call_user_func_array($match['target'], $match['params']);
+if (is_array($match)) {
+    $content = '';
+    if (is_callable($match['target'])) {
+        call_user_func_array($match['target'], $match['params']);
+    } else {
+        $params = $match['params'];
+        ob_start();
+        require_once 'public/View/' . $match['name'] . '.php';
+        $content = ob_get_clean();
+    }
+    require 'public/View/elements/layout.php';
+
 } else {
     require_once 'public/View/404.php';
 }

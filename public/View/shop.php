@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Shop - Page <?=$page?></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-<?php require_once __DIR__ . '/import/header.php';?>
+<?php
+$pageTitle = 'Shop';
+$pageDescription = 'Achetez des produits';
+?>
 <main>
     <div class="pt-20 w-full flex justify-center py-4">
         <h1 class="text-3xl">Produits</h1>
@@ -52,5 +46,3 @@
         </div>
     </section>
 </main>
-</body>
-</html>
