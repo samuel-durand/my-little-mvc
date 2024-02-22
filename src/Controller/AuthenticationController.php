@@ -102,7 +102,7 @@ class AuthenticationController
         if($a->getcreated_at() == $b->getcreated_at()) {
             return 0;
         } 
-        return ($a->getcreated_at() < $b->getcreated_at()) ? -1 : 1;
+        return ($b->getcreated_at() < $a->getcreated_at()) ? -1 : 1;
     } 
 
     private function loginCart(): array
