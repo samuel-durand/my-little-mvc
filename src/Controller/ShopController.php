@@ -72,6 +72,9 @@ class ShopController
             $cart->update();
             // store cart object in session
             $_SESSION['cart'] = $cart;
+            if (!isset($_SESSION['products'])) {
+                $_SESSION['products'] = [];
+            }
             array_unshift($_SESSION['products'], $cartProductModel);
         } else {
             $foundProduct = null;
@@ -101,6 +104,9 @@ class ShopController
                 $cart = $_SESSION['cart'];
                 $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
                 $cart->update();
+                if (!isset($_SESSION['products'])) {
+                    $_SESSION['products'] = [];
+                }
                 array_unshift($_SESSION['products'], $cartProductModel);
             }
         }
