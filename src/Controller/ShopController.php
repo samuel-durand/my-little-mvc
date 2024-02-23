@@ -72,7 +72,10 @@ class ShopController
             $cart->update();
             // store cart object in session
             $_SESSION['cart'] = $cart;
-            $_SESSION['products'][] = $cartProductModel;
+            if (!isset($_SESSION['products'])) {
+                $_SESSION['products'] = [];
+            }
+            array_unshift($_SESSION['products'], $cartProductModel);
         } else {
             $foundProduct = null;
             foreach ($_SESSION['products'] as $cartProduct) {
@@ -101,7 +104,10 @@ class ShopController
                 $cart = $_SESSION['cart'];
                 $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
                 $cart->update();
-                $_SESSION['products'][] = $cartProductModel;
+                if (!isset($_SESSION['products'])) {
+                    $_SESSION['products'] = [];
+                }
+                array_unshift($_SESSION['products'], $cartProductModel);
             }
         }
     }
@@ -170,18 +176,17 @@ class ShopController
         return $errors;
     }
 
-    public function findPaginatedCart(int $page): array
-    {
+    public function findPaginatedCart(int $page): array {   
+
         $offset = ($page - 1) * 6;
+        $finalProducts = [];
         for ($i = $offset; $i < $offset + 6; $i++) {
             if (isset($_SESSION['products'][$i])) {
-                $products[] = $_SESSION['products'][$i];
-            }
-            else if (empty($products)) {
-                $products = [];
+                $finalProducts[] = $_SESSION['products'][$i];
             }
         }
 
-        return $products;
+        return $finalProducts;
     }
+    
 }

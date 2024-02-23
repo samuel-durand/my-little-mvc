@@ -98,6 +98,14 @@ class AuthenticationController
         }
     }
 
+    function compare_weights($a, $b): int
+    {
+        if($a->getcreated_at() == $b->getcreated_at()) {
+            return 0;
+        } 
+        return ($b->getcreated_at() < $a->getcreated_at()) ? -1 : 1;
+    } 
+
     private function loginCart(): void
     {
         $cart = new Cart();
@@ -105,6 +113,9 @@ class AuthenticationController
             $_SESSION['cart'] = $cart->findOneByUserId($_SESSION['user']->getId());
             $cartProductModel = new CartProduct();
             $_SESSION['products'] = $cartProductModel->findAllByCartId($_SESSION['cart']->getId());
+            
+            usort($_SESSION['products'], array($this, 'compare_weights'));
+
         }
     }
     public function logout(): void
