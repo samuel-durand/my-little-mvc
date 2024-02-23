@@ -101,14 +101,14 @@ class AdminController
 
         $adminModel = new AdminModel();
 
-        if($adminModel->deleteUser($id)){
+        if ($adminModel->deleteUser($id)) {
             echo json_encode(['success' => 'User supprimé']);
         } else {
             echo json_encode(['error' => 'User non supprimé']);
         }
     }
 
-    public function updateUser(int $id ): void
+    public function updateUser(int $id): void
     {
         if (!$this->isAdmin()) {
             echo json_encode(['error' => 'Vous n\'avez pas les droits']);
@@ -117,15 +117,28 @@ class AdminController
         $fullname = $_POST['fullname'];
         $email = $_POST['email'];
 
-
         if (empty($adminModel->getUserById($id))) {
             echo json_encode(['error' => 'L\'user n\'existe pas']);
         } else {
-            if ($adminModel->editUser($id, $fullname, $email,)) {
+            if ($adminModel->editUser($id, $fullname, $email, )) {
                 echo json_encode(['success' => 'L\'user a bien été modifié']);
             } else {
                 echo json_encode(['error' => 'L\'user n\'a pas pu être modifié']);
             }
+        }
+    }
+    public function showOrders(): void
+    {
+        if ($this->isAdmin() === false) {
+            header('Location: /my-little-mvc/shop');
+        }
+
+        $adminModel = new AdminModel();
+        //$orders = $adminModel->getOrders();
+        if (empty($orders)) {
+            echo json_encode(['error' => 'Aucune commande trouvée']);
+        } else {
+            echo json_encode($orders);
         }
     }
 }

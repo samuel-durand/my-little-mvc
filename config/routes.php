@@ -157,10 +157,20 @@ $router->map('POST', '/admin/users/delete/[i:id]', function ($id) {
     exit();
 }, 'admin_delete_user');
 
-$router->map('POST', '/admin/users/edit/[i:id]', function ($id, ) {
+$router->map('POST', '/admin/users/edit/[i:id]', function ($id) {
     $adminController = new AdminController();
     if ($adminController->isAdmin()) {
         $adminController->updateUser($id);
     }
     exit();
 }, 'admin_edit_user');
+
+$router->map('GET', '/admin/orders', function () {
+    $adminController = new AdminController();
+    if ($adminController->isAdmin()) {
+        $adminController->showOrders();
+        exit();
+    } else {
+        header('Location: /my-little-mvc/');
+    }
+}, 'admin_orders');
