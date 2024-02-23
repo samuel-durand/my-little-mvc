@@ -97,5 +97,19 @@ if (isset($_SESSION['products'])) {
     </nav>
 </header>
 <?=$content?>
+<footer class="mt-20 bg-[#F8F8F8] h-16">
+    <div class="flex justify-center items-center h-full">
+        <div class="flex flex-col items-center">
+        <div>
+           <p class="text-[#525866]">© 2024 - E-Shop</p>
+        </div>
+        <div class="flex items-center">
+            <p class="text-[#525866] mx-1">Made by</p>
+            <p class="text-[#525866] font-semibold">Rabaou Ibrahim, Samuel Durand and Jules Jean-Louis</p>
+        </div>
+        </div>
+
+    </div>
+</footer>
 </body>
 </html>

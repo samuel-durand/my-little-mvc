@@ -1,6 +1,14 @@
 <?php
 $pageTitle = 'Profil';
 $pageDescription = 'Modifier votre profil';
+
+use App\Controller\AuthenticationController;
+$auth = new AuthenticationController();
+$user = $_SESSION['user'] ?? null;
+if ($auth->isLogged() === false) {
+    header('Location: /my-little-mvc/login');
+    exit();
+}
 ?>
 
 <main class="w-screen h-screen flex justify-center items-center">

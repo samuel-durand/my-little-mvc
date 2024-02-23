@@ -26,12 +26,7 @@ $router->map('GET', '/logout', function () use ($auth) {
     header('Location: /my-little-mvc/');
 }, 'logout');
 
-$router->map('GET', '/profile', target: function () use ($auth) {
-    if ($auth->isLogged() === false) {
-        header('Location: /my-little-mvc/login');
-        exit();
-    }
-}, name: 'profile');
+$router->map('GET', '/profile', null, 'profile');
 
 $router->map('POST', '/profile', function () use ($auth) {
     if ($auth->isLogged() === false) {
