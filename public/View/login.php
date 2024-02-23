@@ -1,32 +1,7 @@
 <?php
-require_once 'vendor/autoload.php';
-session_start();
-
-
-
-use App\Controller\AuthenticationController;
-
-$auth = new AuthenticationController();
-
-$message = [];
-if (isset($_POST['submit'])) {
-    $reg = $auth->login($_POST['email'], $_POST['password']);
-    $message = $reg;
-}
-
-
-
+$pageTitle = 'Connexion';
+$pageDescription = 'Connectez-vous pour profiter de nos offres';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Shop - Login</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-<?php require_once 'import/header.php'; ?>
 <main>
     <article class="w-screen h-screen flex justify-center items-center">
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">
@@ -37,7 +12,7 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
             <div class="w-1/2 h-full">
-                <form action="" method="post" class="flex flex-col justify-around h-full px-4">
+                <form action="/my-little-mvc/login" method="post" class="flex flex-col justify-around h-full px-4">
                     <div class="flex flex-col items-start gap-y-1">
                         <label for="email" class="font-semibold text-xl">Email</label>
                         <input type="email" name="email" id="email" placeholder="email" class="p-2 w-full rounded border border-[#7B41F9]">
@@ -53,7 +28,7 @@ if (isset($_POST['submit'])) {
                         <?php echo $message['errors'] ?? ''; ?>
                     </div>
                     <div class="text-center">
-                        <p>Vous n'avez pas de compte ? <a href="/my-little-mvc/register.php" class="text-[#7B41F9]">Inscrivez-vous</a></p>
+                        <p>Vous n'avez pas de compte ? <a href="/my-little-mvc/register" class="text-[#7B41F9]">Inscrivez-vous</a></p>
                     </div>
                     <input type="submit" value="Connexion" name="submit" class="p-2 w-full bg-[#7B41F9] text-white text-xl rounded">
                 </form>
@@ -61,5 +36,3 @@ if (isset($_POST['submit'])) {
         </section>
     </article>
 </main>
-</body>
-</html>

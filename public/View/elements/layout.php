@@ -1,7 +1,9 @@
 <?php
 
+use App\Controller\AdminController;
 use App\Controller\AuthenticationController;
 
+$adminController = new AdminController();
 $authController = new AuthenticationController();
 
 $user = $_SESSION['user'] ?? null;
@@ -14,28 +16,42 @@ if (isset($_SESSION['products'])) {
 }
 ?>
 
-
-<header class="fixed top-0 left-0 right-0 lg: h-16">
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="<?=$pageDescription ?? ''?>">
+    <?=$javascript ?? ''?>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>E-shop <?=$pageTitle ?? 'E-shop'?></title>
+</head>
+<body>
+<header class="fixed top-0 left-0 right-0 lg: h-16 bg-[#F8F8F8]">
     <nav class="flex items-center py-2 px-4 border-b border-[#E4DFD9] h-full">
         <div class="flex justify-between items-center w-full">
             <div id="containerLogo" class="p-2">
-                <h2 class="text-xl font-bold text-black">E-Shop</h2>
+                <a href='/my-little-mvc/'>
+                    <h2 class="text-xl font-bold text-black">E-Shop</h2>
+                </a>
             </div>
             <div id="containerLink" class="h-full flex items-center">
                 <ul class="flex text-bold uppercase gap-x-2 font-medium items-center">
                     <li class="">
-                        <a href="/my-little-mvc/shop.php">
-                            Accueil
+                        <a href="/my-little-mvc/shop">
+                            Shop
                         </a>
                     </li>
-                    <?php if ($authController->isLogged()) : ?>
+                    <?php if ($authController->isLogged()): ?>
                         <li class="">
-                            <a href="/my-little-mvc/profile.php">
-                                <?= $user->getFullname(); ?>
+                            <a href="/my-little-mvc/profile">
+                                <?=$user->getFullname();?>
                             </a>
                         </li>
                         <li>
-                            <a href="/my-little-mvc/cart.php" class="flex items-center gap-x-0.5 ">
+                            <a href="/my-little-mvc/cart" class="flex items-center gap-x-0.5 ">
                                 <span class="rounded-full bg-[#F8F8F8] px-2 py-1">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24"
@@ -52,24 +68,34 @@ if (isset($_SESSION['products'])) {
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/logout.php">
-                                Déconnexion
-                            </a>
+                        <a href="/my-little-mvc/logout">
+                            Déconnexion
+                        </a>
+                        <?php if ($adminController->isAdmin()): ?>
+                            <li class="">
+                                <a href="/my-little-mvc/admin">
+                                    Admin
+                                </a>
+                            </li>
+                        <?php endif;?>
                         </li>
                     <?php else: ?>
                         <li class="">
-                            <a href="/my-little-mvc/login.php">
+                            <a href="/my-little-mvc/login">
                                 Connexion
                             </a>
                         </li>
                         <li class="">
-                            <a href="/my-little-mvc/register.php">
+                            <a href="/my-little-mvc/register">
                                 Inscription
                             </a>
                         </li>
-                    <?php endif; ?>
+                    <?php endif;?>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+<?=$content?>
+</body>
+</html>

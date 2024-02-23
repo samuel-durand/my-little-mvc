@@ -87,7 +87,7 @@ class AuthenticationController
                     $_SESSION['user'] = $users;
                     $this->loginCart();
                     $errors['success'] = 'Vous êtes connecté';
-                    header('Location: /my-little-mvc/shop.php');
+                    header('Location: /my-little-mvc/shop');
                 } else {
                     $errors['errors'] = 'Les identifiants sont incorrects.';
                 }
@@ -98,6 +98,14 @@ class AuthenticationController
         }
     }
 
+    function compare_weights($a, $b): int
+    {
+        if($a->getcreated_at() == $b->getcreated_at()) {
+            return 0;
+        } 
+        return ($b->getcreated_at() < $a->getcreated_at()) ? -1 : 1;
+    } 
+
     private function loginCart(): void
     {
         $cart = new Cart();
@@ -105,12 +113,15 @@ class AuthenticationController
             $_SESSION['cart'] = $cart->findOneByUserId($_SESSION['user']->getId());
             $cartProductModel = new CartProduct();
             $_SESSION['products'] = $cartProductModel->findAllByCartId($_SESSION['cart']->getId());
+            
+            usort($_SESSION['products'], array($this, 'compare_weights'));
+
         }
     }
     public function logout(): void
     {
         session_destroy();
-        header('Location: /my-little-mvc/shop.php');
+        header('Location: /my-little-mvc/shop');
     }
 
     public function isLogged(): bool

@@ -1,31 +1,7 @@
 <?php
-require 'vendor/autoload.php';
-session_start();
-
-
-use App\Controller\AuthenticationController;
-
-$auth = new AuthenticationController();
-
-$message = [];
-if (isset($_POST['submit'])) {
-    $reg = $auth->register($_POST['email'], $_POST['password'], $_POST['fullname']);
-    $message = $reg;
-}
-
-
+$pageTitle = 'Inscription';
+$pageDescription = 'Rejoignez-nous et profitez de nos offres';
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <title>Shop - Register</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-<?php require_once 'import/header.php'; ?>
 <main class="">
     <article class="w-screen h-screen flex justify-center items-center">
         <section class="flex justify-between h-1/2 w-4/6 rounded-lg bg-[#F6F6F6]">
@@ -67,5 +43,3 @@ if (isset($_POST['submit'])) {
         </section>
     </article>
 </main>
-</body>
-</html>

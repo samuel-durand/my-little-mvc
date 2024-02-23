@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controller;
-use App\Model\Product;
-use App\Model\Clothing;
-use App\Model\Electronic;
+
 use App\Model\Cart;
 use App\Model\CartProduct;
+use App\Model\Clothing;
+use App\Model\Electronic;
+use App\Model\Product;
+
 class ShopController
 {
     public function index(int $page): array
@@ -23,21 +25,17 @@ class ShopController
      * @param int $id The ID of the product to display.
      * @return Clothing|Electronic|Product|null The found product or null if not found or user is not logged in.
      */
-    public function showProduct(int $id) : Clothing|Electronic|Product|null
+    public function showProduct(int $id): Clothing | Electronic | Product | null
     {
-        $auth = new AuthenticationController();
-
-        if ($auth->isLogged()) {
-            $clothing = new Clothing();
-            $electronic = new Electronic();
-            $product = new Product();
-            if (($products = $clothing->findOneById($id)) !== false) {
-                return $products;
-            } elseif (($products = $electronic->findOneById($id)) !== false) {
-                return $products;
-            } elseif (($products = $product->findOneById($id)) !== false) {
-                return $products;
-            }
+        $clothing = new Clothing();
+        $electronic = new Electronic();
+        $product = new Product();
+        if (($products = $clothing->findOneById($id)) !== false) {
+            return $products;
+        } elseif (($products = $electronic->findOneById($id)) !== false) {
+            return $products;
+        } elseif (($products = $product->findOneById($id)) !== false) {
+            return $products;
         }
         return null;
     }
@@ -45,8 +43,14 @@ class ShopController
     {
         $product = new Product();
         $products = $product->findOneById($productId);
+        $auth = new AuthenticationController();
 
         $cartModel = new Cart();
+
+        if ($auth->isLogged() === false) {
+            header('Location: /my-little-mvc/login');
+            exit();
+        }
 
         if ($cartModel->findOneByUserId($user_id) === false) {
             $cartModel->setUserId($user_id);
@@ -68,7 +72,10 @@ class ShopController
             $cart->update();
             // store cart object in session
             $_SESSION['cart'] = $cart;
-            $_SESSION['products'][] = $cartProductModel;
+            if (!isset($_SESSION['products'])) {
+                $_SESSION['products'] = [];
+            }
+            array_unshift($_SESSION['products'], $cartProductModel);
         } else {
             $foundProduct = null;
             foreach ($_SESSION['products'] as $cartProduct) {
@@ -97,7 +104,10 @@ class ShopController
                 $cart = $_SESSION['cart'];
                 $cart->setTotal($cart->getTotal() + ($quantity * $products->getPrice()));
                 $cart->update();
-                $_SESSION['products'][] = $cartProductModel;
+                if (!isset($_SESSION['products'])) {
+                    $_SESSION['products'] = [];
+                }
+                array_unshift($_SESSION['products'], $cartProductModel);
             }
         }
     }
@@ -111,23 +121,24 @@ class ShopController
      * @param int $product_id The ID of the product to remove from the cart.
      * @return array An associative array containing either a success message or an error message.
      */
-    public function removeProductFromCart(int $product_id) : array
+    public function removeProductFromCart(int $product_id): array
     {
         $errors = [];
         $cartProductModel = new CartProduct();
         $cartProduct = $cartProductModel->findOneById($product_id, $_SESSION['cart']->getId());
 
         if (!empty($cartProduct)) {
-            if ($cartProduct->delete($product_id)) {
-                $cart = $_SESSION['cart'];
-                $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
-                $cart->update();
-                $_SESSION['cart'] = $cart;
+            $cart = $_SESSION['cart'];
+            $cart->setTotal($cart->getTotal() - ($cartProduct->getQuantity() * $cartProduct->getPrice()));
+            $cart->update();
+            if ($cartProduct->delete($cartProduct->getId())) {
+                $errors['success'] = 'Product removed';
                 unset($_SESSION['products']);
-                foreach ($cart->findOneByUserId($_SESSION['user']->getId()) as $product) {
+                foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
+                    $msg = "Product removed from cart";
+                    json_encode($msg);
                 }
-                $errors['success'] = 'Product removed from cart';
             } else {
                 $errors['errors'] = 'An error occurred';
             }
@@ -136,7 +147,7 @@ class ShopController
         }
         return $errors;
     }
-    public function updateProductInCart(int $product, int $quantity) : array
+    public function updateProductInCart(int $product, int $quantity): array
     {
         $errors = [];
         $cartProductModel = new CartProduct();
@@ -152,7 +163,7 @@ class ShopController
                 $cart->update();
                 $_SESSION['cart'] = $cart;
                 unset($_SESSION['products']);
-                foreach ($cart->getCartProducts() as $product) {
+                foreach ($cartProductModel->findAll($_SESSION['cart']->getId()) as $product) {
                     $_SESSION['products'][] = $product;
                 }
                 $errors['success'] = 'Product updated';
@@ -164,4 +175,18 @@ class ShopController
         }
         return $errors;
     }
+
+    public function findPaginatedCart(int $page): array {   
+
+        $offset = ($page - 1) * 6;
+        $finalProducts = [];
+        for ($i = $offset; $i < $offset + 6; $i++) {
+            if (isset($_SESSION['products'][$i])) {
+                $finalProducts[] = $_SESSION['products'][$i];
+            }
+        }
+
+        return $finalProducts;
+    }
+    
 }
