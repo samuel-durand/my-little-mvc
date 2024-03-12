@@ -195,12 +195,14 @@ $router->map('GET', '/admin/users/show/[i:id]', function ($id,) {
 }, 'admin_show_user');
 
 $router->map('GET', '/admin/users/list/', function () {
+
     $adminController = new AdminController();
+
     if ($adminController->isAdmin()) {
         $adminController->showUserroute();
     }
 
-    var_dump($adminController);
+   /* var_dump($adminController);*/
 }, 'admin_list_user');
 
 

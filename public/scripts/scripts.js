@@ -80,29 +80,24 @@ const editUser = async (userId) => {
 edituser = (id, fullname, email) => {
   containerFormEdit.innerHTML = "";
   containerFormEdit.innerHTML = `
-        <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg">
-        <div class="flex flex-wrap justify-between">
-         
-            <div class="flex flex-col gap-1 ">
-                <label for="fullname">email</label>
-                <input  type="text" name="fullname" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
-            </div>
-            
-            <div class="flex flex-col gap-1">
-                <label for="email">fullname</label>
-                <input type="text" name="email" value="${fullname}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
-            </div>
-        </div>
-        <div class="h-16">
-            <p id="messageNotifEdit" class="text-red-500"></p>
-        </div>
-        <div class="flex gap-2">
-            <button type="submit" class="bg-green-400 p-2 rounded-lg">Editer</button>
-            <button type="button" class="bg-grey-400 p-2 rounded-lg" onclick="containerFormEdit.innerHTML = ''">Annuler</button>
-        </div>
-         </form>
-
-       `;
+  <form method="POST" id="formEditUser" action="/my-little-mvc/admin/users/edit/${id}" class="bg-[#F2F2F3] p-2 rounded-lg" style="display: flex; flex-direction: column;">
+    <div class="flex flex-col gap-1">
+      <label for="fullname">Email</label>
+      <input type="text" name="fullname" value="${email}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="email">Fullname</label>
+      <input type="text" name="email" value="${fullname}" class="p-1 rounded-lg bg-[#F2F2F3] border border-black">
+    </div>
+    <div class="h-16">
+      <p id="messageNotifEdit" class="text-red-500"></p>
+    </div>
+    <div class="flex gap-2">
+      <button type="submit" class="bg-green-400 p-2 rounded-lg">Edit</button>
+      <button type="button" class="bg-grey-400 p-2 rounded-lg" onclick="containerFormEdit.innerHTML = ''">Annuler</button>
+    </div>
+  </form>
+`;
   const formEditUser = document.querySelector("#formEditUser");
   const messageNotifEdit = document.querySelector("#messageNotifEdit");
   formEditUser.addEventListener("submit", async (e) => {

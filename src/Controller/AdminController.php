@@ -101,11 +101,11 @@ class AdminController
         }
 
         $adminModel = new AdminModel();
-        $products = $adminModel->getUser();
-        if (empty($products)) {
+        $user = $adminModel->getUser();
+        if (empty($user)) {
             echo json_encode(['error' => 'Aucun user trouvé']);
         } else {
-            echo json_encode($products);
+            echo json_encode($user);
         }
     }
 
